@@ -11,6 +11,7 @@ void generateFilledPositions(int(&filledPositions)[30], const int filledCells);
 void populateInitialCells(int(&tableArray)[3][3][3][3], const int filledCells, int filledPositions[]);
 bool isItRepeated(std::string scope, int scopeSpecifier, double value, int(&tableArray)[3][3][3][3]);
 void receiveInput(int(&tableArray)[3][3][3][3], int position, int value, std::string& messages);
+bool checkSelectedPosition(int selectedPosition, int filledPositions[], int filledCells);
 
 #define fps 5000
 
@@ -70,49 +71,96 @@ int main(int argc, char* argv[]) {
             if (SDL_KEYDOWN == event.type) {
                 switch (event.key.keysym.sym) {
                 case SDLK_1: std::cout << "the number pressed is: 1";
-                     position = ((cursor.y - 30) / gridSize)*9 + (cursor.x - 30) / gridSize;
-                     receiveInput(tableArray, position, 1, messages);
+                    position = ((cursor.y - 30) / gridSize) * 9 + (cursor.x - 30) / gridSize;
+                    if (checkSelectedPosition(position, filledPositions, filledCells)) {
+     
+                        receiveInput(tableArray, position, 1, messages);
+                    }
+                    else {
+                        messages = "Cell not Available!";
+                    }
+                    
                      std::cout << "the position calculated: " << position;
                      break;
                 case SDLK_2: std::cout << "the number pressed is: 2";
                     position = ((cursor.y - 30) / gridSize) * 9 + (cursor.x - 30) / gridSize;
+                    if (checkSelectedPosition(position, filledPositions, filledCells)) {
                     receiveInput(tableArray, position, 2, messages);
-                    std::cout << "the position calculated: " << position;
+                    }
+                    else {
+                        messages = "Cell not Available!";
+                    }
+   
                     break;
                 case SDLK_3: std::cout << "the number pressed is: 3";
                     position = ((cursor.y - 30) / gridSize) * 9 + (cursor.x - 30) / gridSize;
+                    if (checkSelectedPosition(position, filledPositions, filledCells)) {
                     receiveInput(tableArray, position, 3, messages);
-                    std::cout << "the position calculated: " << position;
+                    }
+                    else {
+                        messages = "Cell not Available!";
+                    }
+                    
                     break;
                 case SDLK_4: std::cout << "the number pressed is: 4";
                     position = ((cursor.y - 30) / gridSize) * 9 + (cursor.x - 30) / gridSize;
+                    if (checkSelectedPosition(position, filledPositions, filledCells)) {
                     receiveInput(tableArray, position, 4, messages);
-                    std::cout << "the position calculated: " << position;
+                    }
+                    else {
+                        messages = "Cell not Available!";
+                    }
+                    
                     break;
                 case SDLK_5: std::cout << "the number pressed is: 5";
                     position = ((cursor.y - 30) / gridSize) * 9 + (cursor.x - 30) / gridSize;
+                    if (checkSelectedPosition(position, filledPositions, filledCells)) {
                     receiveInput(tableArray, position, 5, messages);
-                    std::cout << "the position calculated: " << position;
+                    }
+                    else {
+                        messages = "Cell not Available!";
+                    }
+                    
                     break;
                 case SDLK_6: std::cout << "the number pressed is: 6";
                     position = ((cursor.y - 30) / gridSize) * 9 + (cursor.x - 30) / gridSize;
+                    if (checkSelectedPosition(position, filledPositions, filledCells)) {
                     receiveInput(tableArray, position, 6, messages);
-                    std::cout << "the position calculated: " << position;
+                    }
+                    else {
+                        messages = "Cell not Available!";
+                    }
+                   
                     break;
                 case SDLK_7: std::cout << "the number pressed is: 7";
                     position = ((cursor.y - 30) / gridSize) * 9 + (cursor.x - 30) / gridSize;
+                    if (checkSelectedPosition(position, filledPositions, filledCells)) {
                     receiveInput(tableArray, position, 7, messages);
-                    std::cout << "the position calculated: " << position;
+                    }
+                    else {
+                        messages = "Cell not Available!";
+                    }
+                    
                     break;
                 case SDLK_8: std::cout << "the number pressed is: 8";
                     position = ((cursor.y - 30) / gridSize) * 9 + (cursor.x - 30) / gridSize;
+                    if (checkSelectedPosition(position, filledPositions, filledCells)) {
                     receiveInput(tableArray, position, 8, messages);
-                    std::cout << "the position calculated: " << position;
+                    }
+                    else {
+                        messages = "Cell not Available!";
+                    }
+                   
                     break;
                 case SDLK_9: std::cout << "the number pressed is: 9";
                     position = ((cursor.y - 30) / gridSize) * 9 + (cursor.x - 30) / gridSize;
+                    if (checkSelectedPosition(position, filledPositions, filledCells)) {
                     receiveInput(tableArray, position, 9, messages);
-                    std::cout << "the position calculated: " << position;
+                    }
+                    else {
+                        messages = "Cell not Available!";
+                    }
+                   
                     break;
                 case SDLK_LEFT:
                     cursor.x-=gridSize;
@@ -358,4 +406,13 @@ void receiveInput(int(&tableArray)[3][3][3][3], int position, int value, std::st
         messages = "";
     }
     std::cout << "received! " <<i<<j<<l<<k<<std::endl;
+}
+
+bool checkSelectedPosition(int selectedPosition, int filledPositions[], int filledCells) {
+    for (int i = 0; i < filledCells; i++) {
+        if (filledPositions[i] == selectedPosition) {
+            return false;
+        }
+    }
+    return true;
 }
