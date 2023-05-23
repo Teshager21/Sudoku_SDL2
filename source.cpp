@@ -12,7 +12,7 @@ void populateInitialCells(int(&tableArray)[3][3][3][3], const int filledCells, i
 bool isItRepeated(std::string scope, int scopeSpecifier, double value, int(&tableArray)[3][3][3][3]);
 void receiveInput(int(&tableArray)[3][3][3][3], int position, int value, std::string& messages);
 
-#define fps 20
+#define fps 5000
 
 int main(int argc, char* argv[]) {
     int tableArray[3][3][3][3];
@@ -52,6 +52,8 @@ int main(int argc, char* argv[]) {
     bool running = true;
     int gridSize = 50;
     SDL_Rect cursor{ 20 + gridSize,20 + gridSize,gridSize,gridSize };
+    SDL_Rect cursor2 { cursor.x + 1,cursor.y + 1,cursor.w - 2,cursor.h - 2 };
+    SDL_Rect cursor3 { cursor.x + 2,cursor.y + 2,cursor.w - 4,cursor.h - 4 };
 
     while (running) {
         
@@ -85,15 +87,23 @@ int main(int argc, char* argv[]) {
                     break;
                 case SDLK_LEFT:
                     cursor.x-=gridSize;
+                    cursor2.x += gridSize;
+                    cursor3.x += gridSize;
                     break;
                 case SDLK_RIGHT: 
                     cursor.x += gridSize;
+                    cursor2.x += gridSize;
+                    cursor3.x += gridSize;
                     break;
                 case SDLK_UP: 
                     cursor.y -= gridSize;
+                    cursor2.y -= gridSize;
+                    cursor3.y -= gridSize;
                     break;
                 case SDLK_DOWN:
                     cursor.y += gridSize;
+                    cursor2.y += gridSize;
+                    cursor3.y += gridSize;
                     break;
                 }
             }
@@ -109,11 +119,21 @@ int main(int argc, char* argv[]) {
      
         for (int i = 0; i <= 9; i++) {
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-           SDL_RenderDrawLine(renderer, 20+gridSize, 20 + gridSize * (i + 1), 20+gridSize*10, 20 + gridSize * ((i + 1)));
+            if ((i == 0 || i==9) || (i + 3) % 3 == 0) {
+               // SDL_RenderDrawLine(renderer, 20 + gridSize, 20 + gridSize * (i + 1), 20 + gridSize * 10, 20 + gridSize * ((i + 1)));
+                SDL_RenderDrawLine(renderer, 21 + gridSize, 21 + gridSize * (i + 1), 19 + gridSize * 10, 19 + gridSize * ((i + 1)));
+                SDL_RenderDrawLine(renderer, 22 + gridSize, 22 + gridSize * (i + 1), 18 + gridSize * 10, 18 + gridSize * ((i + 1)));
+            }
+            SDL_RenderDrawLine(renderer, 20 + gridSize, 20 + gridSize * (i + 1), 20 + gridSize * 10, 20 + gridSize * ((i + 1)));
+          
         }
 
        //draw horizontal lines
        for (int i = 0; i <= 9; i++) {
+           if (i == 0 || i == 9 ||(i+3)%3==0) {
+               SDL_RenderDrawLine(renderer, 21 + gridSize * (i + 1), 21 + gridSize, 19 + gridSize * (i + 1), 19 + gridSize * 10);
+               SDL_RenderDrawLine(renderer, 22 + gridSize * (i + 1), 22 + gridSize, 18 + gridSize * (i + 1), 18 + gridSize * 10);
+           }
           SDL_RenderDrawLine(renderer, 20 + gridSize * (i + 1), 20+gridSize, 20 + gridSize * (i + 1), 20+gridSize*10);  
         }
 
@@ -142,9 +162,7 @@ int main(int argc, char* argv[]) {
                         std::cout << "one instance";
                     }
                         SDL_Surface* surface = TTF_RenderText_Solid(font, text, black);
-         
-                    //std::cout << text << std::endl;
-                    //SDL_Surface* surface = TTF_RenderText_Solid(font, text, black);
+          
                     //create texture from the surface
                     col = 3 * i + k;
                     row = 3 * j + l;
@@ -152,7 +170,22 @@ int main(int argc, char* argv[]) {
                     SDL_Rect rect = { 20 + gridSize * (col+1) + hIndent , 20 + gridSize * (row+1) + vIndent , surface->w,surface->h };
                    
                     SDL_RenderCopy(renderer, texture, NULL, &rect);
-                    SDL_RenderCopy(renderer, texture, NULL, &cursor);
+                    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+                    SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
+                    SDL_RenderDrawRect(renderer, &cursor);
+                    SDL_RenderDrawRect(renderer, &cursor2);
+                    SDL_RenderDrawRect(renderer, &cursor3);
+                    SDL_RenderPresent(renderer);
+                    //SDL_RenderClear(renderer);
+                    
+
+                    SDL_SetRenderDrawColor(renderer, 255, 255, 255,SDL_ALPHA_TRANSPARENT);
+                    SDL_RenderFillRect(renderer, &cursor);
+                    SDL_RenderPresent(renderer);
+                    //SDL_RenderCopy(renderer, texture, NULL, &cursor);
+                    //SDL_RenderFillRect(renderer, &cursor);
+                   SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+
                     
 
                 }
