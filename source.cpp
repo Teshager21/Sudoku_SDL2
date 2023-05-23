@@ -1,11 +1,25 @@
 #include<iostream>
+#include<string>
 #include<SDL.h>
 #include<SDL_ttf.h>
 int capFrameRate(Uint32 starting_tick);
+int generateNumberofFilledCells();
 
 #define fps 60
 
 int main(int argc, char* argv[]) {
+    int tableArray[3][3][3][3];
+//initialize the table array
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            for (int k = 0; k < 3; k++) {
+                for (int l = 0; l < 3; l++) {
+                    tableArray[i][j][k][l] = 0;
+                }
+            }
+
+        }
+    }
     SDL_Init(SDL_INIT_EVERYTHING);
     TTF_Init();
     SDL_Window* window = NULL;
@@ -13,6 +27,7 @@ int main(int argc, char* argv[]) {
     if (window == NULL) {
         std::cout << "window not created! " << SDL_GetError();
     }
+    std::cout << generateNumberofFilledCells();
 
     SDL_Surface* screen = NULL;
     SDL_Renderer* renderer = NULL;
@@ -65,10 +80,21 @@ int main(int argc, char* argv[]) {
 
     //Render the texture screen
     //create a rectangle
-    for ( int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-            SDL_Rect rect = { 50 + gridSize * (i + 1) + (gridSize - surface->w) * 0.5 , 50 + gridSize*(j+1) + (gridSize - surface->h) * 0.5 , surface->w,surface->h};
-            SDL_RenderCopy(renderer, texture, NULL, &rect);
+    for ( int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            for (int k = 0; k < 3; k++) {
+                for (int l = 0; l < 3; l++) {
+                    char text[10];
+                    sprintf_s(text, "%d", tableArray[i][j][k][l]);
+                    SDL_Surface* surface = TTF_RenderText_Solid(font, text, black);
+                    //create texture from the surface
+                    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+                    SDL_Rect rect = { 50 + gridSize * (i + 1) + (gridSize - surface->w) * 0.5 , 50 + gridSize * (j + 1) + (gridSize - surface->h) * 0.5 , surface->w,surface->h };
+                    SDL_RenderCopy(renderer, texture, NULL, &rect);
+
+                }
+            }
+            
         }
         
         
@@ -100,6 +126,32 @@ int capFrameRate(Uint32 starting_tick) {
         SDL_Delay(1000 / fps - (SDL_GetTicks() - starting_tick));
     }
     return 0;
+
+}
+
+int generateNumberofFilledCells() {
+    srand(time(NULL));
+    int filledCells = rand() % 11 + 30;
+    return filledCells;
+}
+
+
+void generateFilledPositions(int(&filledPositions)[], const int filledCells) {
+    srand(time(NULL));
+
+    for (int i = 0; i < filledCells; i++) {
+
+        int randPos = rand() % 81;
+        //check if the value already exists and repeat the loop step and try again if it does
+        int* begin = filledPositions;
+        int* end = filledPositions + filledCells / sizeof(int);
+        auto ptr = std::find(begin, end, randPos);
+        if (ptr != end) {
+            i = i - 1;
+            continue;
+        }
+        filledPositions[i] = randPos;
+    }
 
 }
 
