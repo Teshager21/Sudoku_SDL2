@@ -4,6 +4,7 @@
 #include<SDL_ttf.h>
 int capFrameRate(Uint32 starting_tick);
 int generateNumberofFilledCells();
+void generateFilledPositions(int(&filledPositions)[], const int filledCells);
 
 #define fps 60
 
@@ -20,6 +21,10 @@ int main(int argc, char* argv[]) {
 
         }
     }
+    const int filledCells=generateNumberofFilledCells();
+    int filledPositions[filledCells];
+    generateFilledPositions(filledPositions, filledCells);
+
     SDL_Init(SDL_INIT_EVERYTHING);
     TTF_Init();
     SDL_Window* window = NULL;
@@ -27,7 +32,7 @@ int main(int argc, char* argv[]) {
     if (window == NULL) {
         std::cout << "window not created! " << SDL_GetError();
     }
-    std::cout << generateNumberofFilledCells();
+   
 
     SDL_Surface* screen = NULL;
     SDL_Renderer* renderer = NULL;
@@ -80,16 +85,21 @@ int main(int argc, char* argv[]) {
 
     //Render the texture screen
     //create a rectangle
+    int hIndent = (gridSize - surface->w)*0.5;
+    int vIndent = (gridSize - surface->h) * 0.5;
+    int col = 0, row = 0;
     for ( int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            for (int k = 0; k < 3; k++) {
+        for (int k = 0; k < 3; k++) {
+            for (int j = 0; j < 3; j++) {
                 for (int l = 0; l < 3; l++) {
                     char text[10];
                     sprintf_s(text, "%d", tableArray[i][j][k][l]);
                     SDL_Surface* surface = TTF_RenderText_Solid(font, text, black);
                     //create texture from the surface
+                    col = 3 * i + k;
+                    row = 3 * j + l;
                     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-                    SDL_Rect rect = { 50 + gridSize * (i + 1) + (gridSize - surface->w) * 0.5 , 50 + gridSize * (j + 1) + (gridSize - surface->h) * 0.5 , surface->w,surface->h };
+                    SDL_Rect rect = { 50 + gridSize * (col+1) + hIndent , 50 + gridSize * (row+1) + vIndent , surface->w,surface->h };
                     SDL_RenderCopy(renderer, texture, NULL, &rect);
 
                 }
