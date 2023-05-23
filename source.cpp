@@ -16,6 +16,7 @@ void receiveInput(int(&tableArray)[3][3][3][3], int position, int value, std::st
 
 int main(int argc, char* argv[]) {
     int tableArray[3][3][3][3];
+    std::string messages="";
 //initialize the table array
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
@@ -34,7 +35,7 @@ int main(int argc, char* argv[]) {
     SDL_Init(SDL_INIT_EVERYTHING);
     TTF_Init();
     SDL_Window* window = NULL;
-    window = SDL_CreateWindow("SUDOKU", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 600, 600, SDL_WINDOW_RESIZABLE);
+    window = SDL_CreateWindow("SUDOKU", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 700, 700, SDL_WINDOW_RESIZABLE);
     if (window == NULL) {
         std::cout << "window not created! " << SDL_GetError();
     }
@@ -50,7 +51,7 @@ int main(int argc, char* argv[]) {
     Uint32 starting_tick;
     SDL_Event event;
     bool running = true;
-    int gridSize = 50;
+    int gridSize = 60;
     SDL_Rect cursor{ 20 + gridSize,20 + gridSize,gridSize,gridSize };
     SDL_Rect cursor2 { cursor.x + 1,cursor.y + 1,cursor.w - 2,cursor.h - 2 };
     SDL_Rect cursor3 { cursor.x + 2,cursor.y + 2,cursor.w - 4,cursor.h - 4 };
@@ -63,27 +64,55 @@ int main(int argc, char* argv[]) {
                 running = false;
                 break;
             }
+            int position = 0;
            
             
             if (SDL_KEYDOWN == event.type) {
                 switch (event.key.keysym.sym) {
                 case SDLK_1: std::cout << "the number pressed is: 1";
-                    break;
+                     position = ((cursor.y - 30) / gridSize)*9 + (cursor.x - 30) / gridSize;
+                     receiveInput(tableArray, position, 1, messages);
+                     std::cout << "the position calculated: " << position;
+                     break;
                 case SDLK_2: std::cout << "the number pressed is: 2";
+                    position = ((cursor.y - 30) / gridSize) * 9 + (cursor.x - 30) / gridSize;
+                    receiveInput(tableArray, position, 2, messages);
+                    std::cout << "the position calculated: " << position;
                     break;
                 case SDLK_3: std::cout << "the number pressed is: 3";
+                    position = ((cursor.y - 30) / gridSize) * 9 + (cursor.x - 30) / gridSize;
+                    receiveInput(tableArray, position, 3, messages);
+                    std::cout << "the position calculated: " << position;
                     break;
                 case SDLK_4: std::cout << "the number pressed is: 4";
+                    position = ((cursor.y - 30) / gridSize) * 9 + (cursor.x - 30) / gridSize;
+                    receiveInput(tableArray, position, 4, messages);
+                    std::cout << "the position calculated: " << position;
                     break;
                 case SDLK_5: std::cout << "the number pressed is: 5";
+                    position = ((cursor.y - 30) / gridSize) * 9 + (cursor.x - 30) / gridSize;
+                    receiveInput(tableArray, position, 5, messages);
+                    std::cout << "the position calculated: " << position;
                     break;
                 case SDLK_6: std::cout << "the number pressed is: 6";
+                    position = ((cursor.y - 30) / gridSize) * 9 + (cursor.x - 30) / gridSize;
+                    receiveInput(tableArray, position, 6, messages);
+                    std::cout << "the position calculated: " << position;
                     break;
                 case SDLK_7: std::cout << "the number pressed is: 7";
+                    position = ((cursor.y - 30) / gridSize) * 9 + (cursor.x - 30) / gridSize;
+                    receiveInput(tableArray, position, 7, messages);
+                    std::cout << "the position calculated: " << position;
                     break;
                 case SDLK_8: std::cout << "the number pressed is: 8";
+                    position = ((cursor.y - 30) / gridSize) * 9 + (cursor.x - 30) / gridSize;
+                    receiveInput(tableArray, position, 8, messages);
+                    std::cout << "the position calculated: " << position;
                     break;
                 case SDLK_9: std::cout << "the number pressed is: 9";
+                    position = ((cursor.y - 30) / gridSize) * 9 + (cursor.x - 30) / gridSize;
+                    receiveInput(tableArray, position, 9, messages);
+                    std::cout << "the position calculated: " << position;
                     break;
                 case SDLK_LEFT:
                     cursor.x-=gridSize;
@@ -109,7 +138,7 @@ int main(int argc, char* argv[]) {
             }
         }
 
-        capFrameRate(starting_tick);
+        //capFrameRate(starting_tick);
         SDL_UpdateWindowSurface(window);
 
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
@@ -120,7 +149,6 @@ int main(int argc, char* argv[]) {
         for (int i = 0; i <= 9; i++) {
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
             if ((i == 0 || i==9) || (i + 3) % 3 == 0) {
-               // SDL_RenderDrawLine(renderer, 20 + gridSize, 20 + gridSize * (i + 1), 20 + gridSize * 10, 20 + gridSize * ((i + 1)));
                 SDL_RenderDrawLine(renderer, 21 + gridSize, 21 + gridSize * (i + 1), 19 + gridSize * 10, 19 + gridSize * ((i + 1)));
                 SDL_RenderDrawLine(renderer, 22 + gridSize, 22 + gridSize * (i + 1), 18 + gridSize * 10, 18 + gridSize * ((i + 1)));
             }
@@ -138,7 +166,7 @@ int main(int argc, char* argv[]) {
         }
 
      
-    TTF_Font* font = TTF_OpenFont("C:\\Windows\\Fonts\\arial.ttf", 24);
+    TTF_Font* font = TTF_OpenFont("C:\\Windows\\Fonts\\arial.ttf", 28);
     SDL_Color black = { 0,0,255,SDL_ALPHA_OPAQUE };
     //create surface containing text
 
@@ -162,29 +190,29 @@ int main(int argc, char* argv[]) {
                         std::cout << "one instance";
                     }
                         SDL_Surface* surface = TTF_RenderText_Solid(font, text, black);
+                        SDL_Surface* messageSurface = TTF_RenderText_Solid(font, messages.c_str(), black);
           
                     //create texture from the surface
                     col = 3 * i + k;
                     row = 3 * j + l;
                     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+                    SDL_Texture* messageTexture = SDL_CreateTextureFromSurface(renderer, messageSurface);
                     SDL_Rect rect = { 20 + gridSize * (col+1) + hIndent , 20 + gridSize * (row+1) + vIndent , surface->w,surface->h };
-                   
+                    SDL_Rect messageRect = { 80,40,550,30 };
                     SDL_RenderCopy(renderer, texture, NULL, &rect);
+                    SDL_RenderCopy(renderer, messageTexture, NULL, &messageRect);
                     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
                     SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
                     SDL_RenderDrawRect(renderer, &cursor);
                     SDL_RenderDrawRect(renderer, &cursor2);
                     SDL_RenderDrawRect(renderer, &cursor3);
+                    SDL_RenderDrawRect(renderer, &messageRect);
                     SDL_RenderPresent(renderer);
-                    //SDL_RenderClear(renderer);
                     
-
                     SDL_SetRenderDrawColor(renderer, 255, 255, 255,SDL_ALPHA_TRANSPARENT);
                     SDL_RenderFillRect(renderer, &cursor);
                     SDL_RenderPresent(renderer);
-                    //SDL_RenderCopy(renderer, texture, NULL, &cursor);
-                    //SDL_RenderFillRect(renderer, &cursor);
-                   SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+                    SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
 
                     
 
@@ -196,12 +224,16 @@ int main(int argc, char* argv[]) {
         
     }
     //a cursor square
-    SDL_Rect cursor { 30,30,50,50 };
+    //SDL_RenderPresent(renderer);
+    Uint32 frameTime = SDL_GetTicks() - starting_tick;
+    Uint32 frameDelay=1000/60;
+
+    //if (frameDelay > frameTime) {
+       // SDL_Delay(frameDelay - frameTime);
+    //}
     SDL_FreeSurface(surface);
     SDL_DestroyTexture(texture);
     TTF_CloseFont(font);
-
-    SDL_RenderPresent(renderer);
 
 }
 
@@ -322,7 +354,8 @@ void receiveInput(int(&tableArray)[3][3][3][3], int position, int value, std::st
         messages = "Repetition, please use another value!";
     }
     else {
-        tableArray[i][j][k][l] = value;
+        tableArray[i][j][l][k] = value;
         messages = "";
     }
+    std::cout << "received! " <<i<<j<<l<<k<<std::endl;
 }
