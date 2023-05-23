@@ -1,8 +1,8 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(517,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (Project2.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   source.cpp
-C:\Users\PC\source\repos\Project2\source.cpp(116,17): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\PC\source\repos\Project2\source.cpp(117,17): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\PC\source\repos\Project2\source.cpp(180,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\PC\source\repos\Project2\source.cpp(187,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\PC\source\repos\Project2\source.cpp(208,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\PC\source\repos\Project2\source.cpp(130,17): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\PC\source\repos\Project2\source.cpp(131,17): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\PC\source\repos\Project2\source.cpp(194,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\PC\source\repos\Project2\source.cpp(201,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\PC\source\repos\Project2\source.cpp(222,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   Project2.vcxproj -> C:\Users\PC\source\repos\Project2\x64\Debug\SUDOKU_SDL2.exe

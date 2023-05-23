@@ -50,6 +50,9 @@ int main(int argc, char* argv[]) {
     Uint32 starting_tick;
     SDL_Event event;
     bool running = true;
+    int gridSize = 50;
+    SDL_Rect cursor{ 20 + gridSize,20 + gridSize,gridSize,gridSize };
+
     while (running) {
         
         starting_tick = SDL_GetTicks();
@@ -58,8 +61,9 @@ int main(int argc, char* argv[]) {
                 running = false;
                 break;
             }
+           
+            
             if (SDL_KEYDOWN == event.type) {
-                std::cout << "key pressed down! "<<event.key.keysym.sym;
                 switch (event.key.keysym.sym) {
                 case SDLK_1: std::cout << "the number pressed is: 1";
                     break;
@@ -79,7 +83,17 @@ int main(int argc, char* argv[]) {
                     break;
                 case SDLK_9: std::cout << "the number pressed is: 9";
                     break;
-                case SDLK_LEFT: std::cout << "the number pressed is: LEFT";
+                case SDLK_LEFT:
+                    cursor.x-=gridSize;
+                    break;
+                case SDLK_RIGHT: 
+                    cursor.x += gridSize;
+                    break;
+                case SDLK_UP: 
+                    cursor.y -= gridSize;
+                    break;
+                case SDLK_DOWN:
+                    cursor.y += gridSize;
                     break;
                 }
             }
@@ -92,7 +106,7 @@ int main(int argc, char* argv[]) {
         SDL_RenderClear(renderer);
       
         //draw vertical lines
-        int gridSize = 50;
+     
         for (int i = 0; i <= 9; i++) {
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
            SDL_RenderDrawLine(renderer, 20+gridSize, 20 + gridSize * (i + 1), 20+gridSize*10, 20 + gridSize * ((i + 1)));
@@ -136,7 +150,7 @@ int main(int argc, char* argv[]) {
                     row = 3 * j + l;
                     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
                     SDL_Rect rect = { 20 + gridSize * (col+1) + hIndent , 20 + gridSize * (row+1) + vIndent , surface->w,surface->h };
-                    SDL_Rect cursor{ 20+gridSize,20+gridSize,gridSize,gridSize };
+                   
                     SDL_RenderCopy(renderer, texture, NULL, &rect);
                     SDL_RenderCopy(renderer, texture, NULL, &cursor);
                     
