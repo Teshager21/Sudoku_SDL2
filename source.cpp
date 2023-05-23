@@ -5,6 +5,9 @@
 int capFrameRate(Uint32 starting_tick);
 int generateNumberofFilledCells();
 void generateFilledPositions(int(&filledPositions)[], const int filledCells);
+void populateInitialCells(int(&tableArray)[3][3][3][3], const int filledCells, int filledPositions[]);
+bool isItRepeated(std::string scope, int scopeSpecifier, double value, int(&tableArray)[3][3][3][3]);
+
 
 #define fps 60
 
@@ -24,6 +27,7 @@ int main(int argc, char* argv[]) {
     const int filledCells=generateNumberofFilledCells();
     int filledPositions[filledCells];
     generateFilledPositions(filledPositions, filledCells);
+    populateInitialCells(tableArray, filledCells, filledPositions);
 
     SDL_Init(SDL_INIT_EVERYTHING);
     TTF_Init();
@@ -165,3 +169,52 @@ void generateFilledPositions(int(&filledPositions)[], const int filledCells) {
 
 }
 
+void populateInitialCells(int(&tableArray)[3][3][3][3], const int filledCells, int filledPositions[]) {
+    srand(time(NULL));
+    int* start = filledPositions;
+    int* finish = filledPositions + filledCells * sizeof(int);
+    int pos = 0;
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            for (int k = 0; k < 3; k++) {
+                for (int l = 0; l < 3; l++) {
+                    pos = 27 * i + 9 * k + 3 * j + l;
+                    auto exists = std::find(start, finish, pos);
+                    for (int a = 0; a < filledCells; a++) {
+                        if (filledPositions[a] == pos) {
+                            int fill;
+                            do {
+                                fill = rand() % 9 + 1;
+                            } while (isItRepeated("row", i * 3 + k, fill, tableArray) || isItRepeated("col", j * 3 + l, fill, tableArray) || isItRepeated("block", i * 3 + j, fill, tableArray));
+
+                            tableArray[i][j][k][l] = fill;
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+}
+
+bool isItRepeated(std::string scope, int scopeSpecifier, double value, int(&tableArray)[3][3][3][3]) {
+    std::string rowElem;
+    if (scope == "row") {
+        for (int i = 0; i < 3; i++) {
+            for (int k = 0; k < 3; k++) {
+                for (int j = 0; j < 3; j++) {
+                    for (int l = 0; l < 3; l++) {
+
+                        if (i * 3 + k == scopeSpecifier) {
+                            rowElem = rowElem + "[" + std::to_string(scopeSpecifier) + "]" + ", " + std::to_string(tableArray[i][j][k][l]) + "(" + std::to_string(i) + std::to_string(j) + std::to_string(k) + std::to_string(l) + ")";
+                            if (value == tableArray[i][j][k][l]) {
+                                return true;
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+    }
