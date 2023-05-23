@@ -2,14 +2,17 @@
 #include<string>
 #include<SDL.h>
 #include<SDL_ttf.h>
+#include<ctime>
+#include<cstdlib>
+
 int capFrameRate(Uint32 starting_tick);
 int generateNumberofFilledCells();
-void generateFilledPositions(int(&filledPositions)[], const int filledCells);
+void generateFilledPositions(int(&filledPositions)[30], const int filledCells);
 void populateInitialCells(int(&tableArray)[3][3][3][3], const int filledCells, int filledPositions[]);
 bool isItRepeated(std::string scope, int scopeSpecifier, double value, int(&tableArray)[3][3][3][3]);
 
 
-#define fps 60
+#define fps 20
 
 int main(int argc, char* argv[]) {
     int tableArray[3][3][3][3];
@@ -24,11 +27,10 @@ int main(int argc, char* argv[]) {
 
         }
     }
-    const int filledCells=generateNumberofFilledCells();
+    const int filledCells = 30;//generateNumberofFilledCells();
     int filledPositions[filledCells];
     generateFilledPositions(filledPositions, filledCells);
     populateInitialCells(tableArray, filledCells, filledPositions);
-
     SDL_Init(SDL_INIT_EVERYTHING);
     TTF_Init();
     SDL_Window* window = NULL;
@@ -36,7 +38,7 @@ int main(int argc, char* argv[]) {
     if (window == NULL) {
         std::cout << "window not created! " << SDL_GetError();
     }
-   
+    
 
     SDL_Surface* screen = NULL;
     SDL_Renderer* renderer = NULL;
@@ -49,6 +51,7 @@ int main(int argc, char* argv[]) {
     SDL_Event event;
     bool running = true;
     while (running) {
+        
         starting_tick = SDL_GetTicks();
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
@@ -62,6 +65,7 @@ int main(int argc, char* argv[]) {
 
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
         SDL_RenderClear(renderer);
+      
         //Render grid
         //draw vertical lines
         int gridSize = 30;
@@ -73,12 +77,9 @@ int main(int argc, char* argv[]) {
     //draw horizontal lines
        for (int i = 0; i <= 9; i++) {
           SDL_RenderDrawLine(renderer, 50 + gridSize * (i + 1), 50+gridSize, 50 + gridSize * (i + 1), 50+gridSize*10);  
-           //cell values
         }
 
-       //char text[10];
-       //int number = 42;
-       //sprintf_s(text, "%d",number);
+     
     TTF_Font* font = TTF_OpenFont("C:\\Windows\\Fonts\\arial.ttf", 20);
     SDL_Color black = { 0,0,0,SDL_ALPHA_OPAQUE };
     //create surface containing text
@@ -92,19 +93,28 @@ int main(int argc, char* argv[]) {
     int hIndent = (gridSize - surface->w)*0.5;
     int vIndent = (gridSize - surface->h) * 0.5;
     int col = 0, row = 0;
+   
     for ( int i = 0; i < 3; i++) {
         for (int k = 0; k < 3; k++) {
             for (int j = 0; j < 3; j++) {
                 for (int l = 0; l < 3; l++) {
                     char text[10];
                     sprintf_s(text, "%d", tableArray[i][j][k][l]);
-                    SDL_Surface* surface = TTF_RenderText_Solid(font, text, black);
+                    //sprintf_s(test, "%d", 0);
+                    if (text == "0") {
+                        std::cout << "one instance";
+                    }
+                        SDL_Surface* surface = TTF_RenderText_Solid(font, text, black);
+         
+                    //std::cout << text << std::endl;
+                    //SDL_Surface* surface = TTF_RenderText_Solid(font, text, black);
                     //create texture from the surface
                     col = 3 * i + k;
                     row = 3 * j + l;
                     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
                     SDL_Rect rect = { 50 + gridSize * (col+1) + hIndent , 50 + gridSize * (row+1) + vIndent , surface->w,surface->h };
                     SDL_RenderCopy(renderer, texture, NULL, &rect);
+                    
 
                 }
             }
@@ -113,10 +123,6 @@ int main(int argc, char* argv[]) {
         
         
     }
-    //SDL_Rect rect = { 50+gridSize+(gridSize-surface->w)*0.5 , 50 +gridSize + (gridSize - surface->h) * 0.5 , surface->w,surface->h};
-
-   
-
     SDL_FreeSurface(surface);
     SDL_DestroyTexture(texture);
     TTF_CloseFont(font);
@@ -150,7 +156,7 @@ int generateNumberofFilledCells() {
 }
 
 
-void generateFilledPositions(int(&filledPositions)[], const int filledCells) {
+void generateFilledPositions(int(&filledPositions)[30], const int filledCells) {
     srand(time(NULL));
 
     for (int i = 0; i < filledCells; i++) {
@@ -165,7 +171,9 @@ void generateFilledPositions(int(&filledPositions)[], const int filledCells) {
             continue;
         }
         filledPositions[i] = randPos;
+        //std::cout << filledPositions[i] << ", "<<std::endl;
     }
+    
 
 }
 
@@ -218,3 +226,5 @@ bool isItRepeated(std::string scope, int scopeSpecifier, double value, int(&tabl
             }
         }
     }
+    return false;
+}
