@@ -3,6 +3,6 @@
 C:\Users\PC\source\repos\Project2\source.cpp(226,17): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
 C:\Users\PC\source\repos\Project2\source.cpp(227,17): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
 C:\Users\PC\source\repos\Project2\source.cpp(307,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\PC\source\repos\Project2\source.cpp(314,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\PC\source\repos\Project2\source.cpp(335,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\PC\source\repos\Project2\source.cpp(313,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\PC\source\repos\Project2\source.cpp(334,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   Project2.vcxproj -> C:\Users\PC\source\repos\Project2\x64\Debug\SUDOKU_SDL2.exe

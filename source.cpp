@@ -197,8 +197,8 @@ int main(int argc, char* argv[]) {
         for (int i = 0; i <= 9; i++) {
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
             if ((i == 0 || i==9) || (i + 3) % 3 == 0) {
-                SDL_RenderDrawLine(renderer, 21 + gridSize, 21 + gridSize * (i + 1), 19 + gridSize * 10, 19 + gridSize * ((i + 1)));
-                SDL_RenderDrawLine(renderer, 22 + gridSize, 22 + gridSize * (i + 1), 18 + gridSize * 10, 18 + gridSize * ((i + 1)));
+                SDL_RenderDrawLine(renderer, 21 + gridSize, 21 + gridSize * (i + 1), 21 + gridSize * 10, 21 + gridSize * ((i + 1)));
+                SDL_RenderDrawLine(renderer, 22 + gridSize, 22 + gridSize * (i + 1), 22 + gridSize * 10, 22 + gridSize * ((i + 1)));
             }
             SDL_RenderDrawLine(renderer, 20 + gridSize, 20 + gridSize * (i + 1), 20 + gridSize * 10, 20 + gridSize * ((i + 1)));
           
@@ -207,8 +207,8 @@ int main(int argc, char* argv[]) {
        //draw horizontal lines
        for (int i = 0; i <= 9; i++) {
            if (i == 0 || i == 9 ||(i+3)%3==0) {
-               SDL_RenderDrawLine(renderer, 21 + gridSize * (i + 1), 21 + gridSize, 19 + gridSize * (i + 1), 19 + gridSize * 10);
-               SDL_RenderDrawLine(renderer, 22 + gridSize * (i + 1), 22 + gridSize, 18 + gridSize * (i + 1), 18 + gridSize * 10);
+               SDL_RenderDrawLine(renderer, 21 + gridSize * (i + 1), 21 + gridSize, 21 + gridSize * (i + 1), 21 + gridSize * 10);
+               SDL_RenderDrawLine(renderer, 22 + gridSize * (i + 1), 22 + gridSize, 22 + gridSize * (i + 1), 22 + gridSize * 10);
            }
           SDL_RenderDrawLine(renderer, 20 + gridSize * (i + 1), 20+gridSize, 20 + gridSize * (i + 1), 20+gridSize*10);  
         }
@@ -309,7 +309,6 @@ int generateNumberofFilledCells() {
     return filledCells;
 }
 
-
 void generateFilledPositions(int(&filledPositions)[30], const int filledCells) {
     srand(time(NULL));
 
@@ -397,15 +396,29 @@ void receiveInput(int(&tableArray)[3][3][3][3], int position, int value, std::st
         i = 2;
         k = (position - 54) / 9;
     }
-    j = (position - 27 * i - 9 * k - 1) / 3;
+    j = (position - 27 * i - 9 * k ) / 3;
     if (isItRepeated("row", i * 3 + k, value, tableArray) || isItRepeated("col", j * 3 + l, value, tableArray) || isItRepeated("block", i * 3 + j, value, tableArray)) {
         messages = "Repetition, please use another value!";
     }
     else {
-        tableArray[i][j][l][k] = value;
+        tableArray[j][i][l][k] = value;
         messages = "";
     }
-    std::cout << "received! " <<i<<j<<l<<k<<std::endl;
+    std::cout <<std::endl<< "received! " <<i<<j<<k<<l<<", position is: "<<position<<" value at the position: "<<tableArray[i][j][k][l] <<std::endl;
+    std::cout << "filled values are: ";
+    for (int i = 0; i < 3; i++) {
+        for (int k = 0; k < 3; k++) {
+            for (int j = 0; j < 3; j++) {
+                for (int l = 0; l < 3; l++) {
+
+                    std::cout<< tableArray[j][i][l][k]<<", ";
+
+                }
+            }
+            std::cout << std::endl;
+        }
+    }
+
 }
 
 bool checkSelectedPosition(int selectedPosition, int filledPositions[], int filledCells) {
