@@ -5,6 +5,11 @@
 #include<ctime>
 #include<cstdlib>
 
+#define fps 60
+#define SCREEN_WIDTH 700
+#define SCREEN_HEIGHT 700
+
+
 int capFrameRate(Uint32 starting_tick);
 int generateNumberofFilledCells();
 void generateFilledPositions(int(&filledPositions)[30], const int filledCells);
@@ -12,11 +17,12 @@ void populateInitialCells(int(&tableArray)[3][3][3][3], const int filledCells, i
 bool isItRepeated(std::string scope, int scopeSpecifier, double value, int(&tableArray)[3][3][3][3]);
 void receiveInput(int(&tableArray)[3][3][3][3], int position, int value, std::string& messages);
 bool checkSelectedPosition(int selectedPosition, int filledPositions[], int filledCells);
+bool isgameWon(int tableArray[3][3][3][3]);
 
-#define fps 5000
+
 
 int main(int argc, char* argv[]) {
-    int tableArray[3][3][3][3];
+    int tableArray[3][3][3][3];//(((0,0,0), (0, 0, 0), (0, 0, 0)), ((0, 0, 0), (0, 0, 0), (0, 0, 0)), ((0, 0, 0), (0, 0, 0), (0, 0, 0)));
     std::string messages="";
 //initialize the table array
     for (int i = 0; i < 3; i++) {
@@ -32,11 +38,17 @@ int main(int argc, char* argv[]) {
     const int filledCells = 30;//generateNumberofFilledCells();
     int filledPositions[filledCells];
     generateFilledPositions(filledPositions, filledCells);
+    std::cout << "list of filled position: ";
+    for (int i = 0; i < filledCells; i++) {
+        std::cout << filledPositions[i] << ", ";
+    }
+    std::cout << std::endl;
+
     populateInitialCells(tableArray, filledCells, filledPositions);
     SDL_Init(SDL_INIT_EVERYTHING);
     TTF_Init();
     SDL_Window* window = NULL;
-    window = SDL_CreateWindow("SUDOKU", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 700, 700, SDL_WINDOW_RESIZABLE);
+    window = SDL_CreateWindow("SUDOKU", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT,0);
     if (window == NULL) {
         std::cout << "window not created! " << SDL_GetError();
     }
@@ -44,7 +56,7 @@ int main(int argc, char* argv[]) {
 
     SDL_Surface* screen = NULL;
     SDL_Renderer* renderer = NULL;
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
     screen = SDL_GetWindowSurface(window);
     Uint32 white = SDL_MapRGB(screen->format, 255, 255, 255);
     SDL_FillRect(screen, NULL, white);
@@ -57,7 +69,10 @@ int main(int argc, char* argv[]) {
     SDL_Rect cursor2 { cursor.x + 1,cursor.y + 1,cursor.w - 2,cursor.h - 2 };
     SDL_Rect cursor3 { cursor.x + 2,cursor.y + 2,cursor.w - 4,cursor.h - 4 };
 
+ 
+
     while (running) {
+        SDL_GL_SetSwapInterval(1);
         
         starting_tick = SDL_GetTicks();
         while (SDL_PollEvent(&event)) {
@@ -164,8 +179,8 @@ int main(int argc, char* argv[]) {
                     break;
                 case SDLK_LEFT:
                     cursor.x-=gridSize;
-                    cursor2.x += gridSize;
-                    cursor3.x += gridSize;
+                    cursor2.x -= gridSize;
+                    cursor3.x -= gridSize;
                     break;
                 case SDLK_RIGHT: 
                     cursor.x += gridSize;
@@ -186,99 +201,123 @@ int main(int argc, char* argv[]) {
             }
         }
 
-        //capFrameRate(starting_tick);
-        SDL_UpdateWindowSurface(window);
-
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
         SDL_RenderClear(renderer);
       
-        //draw vertical lines
+        //draw horizontal lines
      
         for (int i = 0; i <= 9; i++) {
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
             if ((i == 0 || i==9) || (i + 3) % 3 == 0) {
                 SDL_RenderDrawLine(renderer, 21 + gridSize, 21 + gridSize * (i + 1), 21 + gridSize * 10, 21 + gridSize * ((i + 1)));
                 SDL_RenderDrawLine(renderer, 22 + gridSize, 22 + gridSize * (i + 1), 22 + gridSize * 10, 22 + gridSize * ((i + 1)));
+                SDL_RenderDrawLine(renderer, 20 + gridSize, 20 + gridSize * (i + 1), 20 + gridSize * 10, 20 + gridSize * ((i + 1)));
             }
-            SDL_RenderDrawLine(renderer, 20 + gridSize, 20 + gridSize * (i + 1), 20 + gridSize * 10, 20 + gridSize * ((i + 1)));
-          
+            else {
+                SDL_SetRenderDrawColor(renderer, 200, 200, 200, 120);
+                SDL_RenderDrawLine(renderer, 20 + gridSize, 18 + gridSize * (i + 1), 20 + gridSize * 10, 18 + gridSize * ((i + 1)));
+            }
         }
-
-       //draw horizontal lines
+       //draw vertical lines
        for (int i = 0; i <= 9; i++) {
+           SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
            if (i == 0 || i == 9 ||(i+3)%3==0) {
+               
                SDL_RenderDrawLine(renderer, 21 + gridSize * (i + 1), 21 + gridSize, 21 + gridSize * (i + 1), 21 + gridSize * 10);
                SDL_RenderDrawLine(renderer, 22 + gridSize * (i + 1), 22 + gridSize, 22 + gridSize * (i + 1), 22 + gridSize * 10);
+               SDL_RenderDrawLine(renderer, 20 + gridSize * (i + 1), 20 + gridSize, 20 + gridSize * (i + 1), 20 + gridSize * 10);
            }
-          SDL_RenderDrawLine(renderer, 20 + gridSize * (i + 1), 20+gridSize, 20 + gridSize * (i + 1), 20+gridSize*10);  
+           else {
+               SDL_SetRenderDrawColor(renderer, 200, 200, 200, 120);
+               SDL_RenderDrawLine(renderer, 16 + gridSize * (i + 1), 20 + gridSize, 16 + gridSize * (i + 1), 20 + gridSize * 10);
+           }
+            
         }
 
      
-    TTF_Font* font = TTF_OpenFont("C:\\Windows\\Fonts\\arial.ttf", 28);
-    SDL_Color black = { 0,0,255,SDL_ALPHA_OPAQUE };
+    //TTF_Font* font = TTF_OpenFont("C:\\Windows\\Fonts\\arial.ttf", 28);
+    TTF_Font* font = TTF_OpenFont("C:\\Users\\PC\\Downloads\\Roboto-black.ttf", 28);
+    TTF_Font* messageFont= TTF_OpenFont("C:\\Windows\\Fonts\\arial.ttf", 14);
+    SDL_Color black = { 0,0,0,SDL_ALPHA_OPAQUE };
+    SDL_Color red= { 255,0,0,SDL_ALPHA_OPAQUE };
+    SDL_Color blue = { 0,0,255,SDL_ALPHA_OPAQUE };
+    SDL_Color white = { 255,255,255,SDL_ALPHA_OPAQUE };
     //create surface containing text
 
-    SDL_Surface* surface = TTF_RenderText_Solid(font, "4", black);
+    SDL_Surface* surface=nullptr;
     //create texture from the surface
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_Texture* texture= nullptr;
+
 
     //create a rectangle
-    int hIndent = (gridSize - surface->w)*0.5;
-    int vIndent = (gridSize - surface->h) * 0.5;
+
     int col = 0, row = 0;
-   
+    //numbers and texts
     for ( int i = 0; i < 3; i++) {
         for (int k = 0; k < 3; k++) {
             for (int j = 0; j < 3; j++) {
                 for (int l = 0; l < 3; l++) {
                     char text[10];
                     sprintf_s(text, "%d", tableArray[i][j][k][l]);
-                    //sprintf_s(test, "%d", 0);
-                    if (text == "0") {
-                        std::cout << "one instance";
+                    if (tableArray[i][j][k][l] == 0) {
+                        SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
+                       // tableArray[i][j][k][l] = "";
+
                     }
-                        SDL_Surface* surface = TTF_RenderText_Solid(font, text, black);
-                        SDL_Surface* messageSurface = TTF_RenderText_Solid(font, messages.c_str(), black);
+                    //sprintf_s(test, "%d", 0);
+                     surface = TTF_RenderText_Solid(font, text, black);
+                     SDL_Surface* messageSurface = TTF_RenderText_Solid(messageFont, messages.c_str(), red);
+
+                    int hIndent = (gridSize - surface->w) * 0.5;
+                    int vIndent = (gridSize - surface->h) * 0.5;
+                    
+                       
+                        
           
                     //create texture from the surface
                     col = 3 * i + k;
                     row = 3 * j + l;
                     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-                    SDL_Texture* messageTexture = SDL_CreateTextureFromSurface(renderer, messageSurface);
+                    SDL_Texture* msgTexture = SDL_CreateTextureFromSurface(renderer, messageSurface);
                     SDL_Rect rect = { 20 + gridSize * (col+1) + hIndent , 20 + gridSize * (row+1) + vIndent , surface->w,surface->h };
                     SDL_Rect messageRect = { 80,40,550,30 };
                     SDL_RenderCopy(renderer, texture, NULL, &rect);
-                    SDL_RenderCopy(renderer, messageTexture, NULL, &messageRect);
+
+                    SDL_RenderCopy(renderer,msgTexture, NULL, &messageRect);
                     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
                     SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
                     SDL_RenderDrawRect(renderer, &cursor);
                     SDL_RenderDrawRect(renderer, &cursor2);
                     SDL_RenderDrawRect(renderer, &cursor3);
+                    SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
                     SDL_RenderDrawRect(renderer, &messageRect);
-                    SDL_RenderPresent(renderer);
+                    //SDL_RenderPresent(renderer);
                     
                     SDL_SetRenderDrawColor(renderer, 255, 255, 255,SDL_ALPHA_TRANSPARENT);
                     SDL_RenderFillRect(renderer, &cursor);
-                    SDL_RenderPresent(renderer);
+                    //SDL_RenderPresent(renderer);
                     SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
 
-                    
+                    SDL_RenderPresent(renderer);
+                   
 
                 }
+                
             }
+           
             
         }
+       
         
         
     }
     //a cursor square
-    //SDL_RenderPresent(renderer);
+   
     Uint32 frameTime = SDL_GetTicks() - starting_tick;
-    Uint32 frameDelay=1000/60;
-
-    //if (frameDelay > frameTime) {
-       // SDL_Delay(frameDelay - frameTime);
-    //}
+    Uint32 frameDelay=1000/fps;
+    if (frameDelay > frameTime) {
+        SDL_Delay(frameDelay - frameTime);
+    }
     SDL_FreeSurface(surface);
     SDL_DestroyTexture(texture);
     TTF_CloseFont(font);
@@ -348,7 +387,7 @@ void populateInitialCells(int(&tableArray)[3][3][3][3], const int filledCells, i
                                 fill = rand() % 9 + 1;
                             } while (isItRepeated("row", i * 3 + k, fill, tableArray) || isItRepeated("col", j * 3 + l, fill, tableArray) || isItRepeated("block", i * 3 + j, fill, tableArray));
 
-                            tableArray[i][j][k][l] = fill;
+                            tableArray[j][i][l][k] = fill;
                         }
                     }
 
@@ -356,6 +395,7 @@ void populateInitialCells(int(&tableArray)[3][3][3][3], const int filledCells, i
             }
         }
     }
+
 
 }
 
@@ -379,8 +419,46 @@ bool isItRepeated(std::string scope, int scopeSpecifier, double value, int(&tabl
             }
         }
     }
+
+    if (scope == "col") {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                for (int k = 0; k < 3; k++) {
+                    for (int l = 0; l < 3; l++) {
+
+                        if (j * 3 + l == scopeSpecifier) {
+                            if (value == tableArray[i][j][k][l]) {
+                                return true;
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+    if (scope == "block") {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                for (int k = 0; k < 3; k++) {
+                    for (int l = 0; l < 3; l++) {
+
+                        if (i * 3 + j == scopeSpecifier) {
+                            if (value == tableArray[i][j][k][l]) {
+                                return true;
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+    }
     return false;
 }
+
+
 void receiveInput(int(&tableArray)[3][3][3][3], int position, int value, std::string& messages) {
     int i, j, k, l;
     l = position % 3;
@@ -425,6 +503,22 @@ bool checkSelectedPosition(int selectedPosition, int filledPositions[], int fill
     for (int i = 0; i < filledCells; i++) {
         if (filledPositions[i] == selectedPosition) {
             return false;
+        }
+    }
+    return true;
+}
+
+bool isgameWon(int tableArray[3][3][3][3]) {
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            for (int k = 0; k < 3; k++) {
+                for (int l = 0; l < 3; l++) {
+                    if (tableArray[i][j][k][l] == 0) {
+                        return false;
+                    }
+                }
+            }
+
         }
     }
     return true;
