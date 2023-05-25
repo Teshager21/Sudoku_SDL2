@@ -236,7 +236,7 @@ int main(int argc, char* argv[]) {
 
      
     //TTF_Font* font = TTF_OpenFont("C:\\Windows\\Fonts\\arial.ttf", 28);
-    TTF_Font* font = TTF_OpenFont("C:\\Users\\PC\\Downloads\\Roboto-black.ttf", 28);
+    TTF_Font* font = TTF_OpenFont("C:\\Users\\PC\\Downloads\\Roboto-BoldItalic.ttf", 28);
     TTF_Font* messageFont= TTF_OpenFont("C:\\Windows\\Fonts\\arial.ttf", 14);
     SDL_Color black = { 0,0,0,SDL_ALPHA_OPAQUE };
     SDL_Color red= { 255,0,0,SDL_ALPHA_OPAQUE };
@@ -258,14 +258,17 @@ int main(int argc, char* argv[]) {
             for (int j = 0; j < 3; j++) {
                 for (int l = 0; l < 3; l++) {
                     char text[10];
+                    char test[10];
                     sprintf_s(text, "%d", tableArray[i][j][k][l]);
-                    if (tableArray[i][j][k][l] == 0) {
-                        SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
-                       // tableArray[i][j][k][l] = "";
+                    sprintf_s(test, "%d", 0);
+                    if (tableArray[i][j][k][l] ==0) {
+                        surface = TTF_RenderText_Solid(font, text, { 255,255,255,0 });
 
                     }
-                    //sprintf_s(test, "%d", 0);
-                     surface = TTF_RenderText_Solid(font, text, black);
+                    else {
+                        surface = TTF_RenderText_Solid(font, text, { 0,124,70 });
+                    }
+                    
                      SDL_Surface* messageSurface = TTF_RenderText_Solid(messageFont, messages.c_str(), red);
 
                     int hIndent = (gridSize - surface->w) * 0.5;
