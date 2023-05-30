@@ -133,6 +133,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="controller.cpp" />
+    <ClCompile Include="model.cpp" />
     <ClCompile Include="source.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
@@ -140,6 +142,8 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="controller.h" />
+    <ClInclude Include="model.h" />
     <ClInclude Include="window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
