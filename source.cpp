@@ -3,35 +3,38 @@
 #include<SDL.h>
 #include<SDL_ttf.h>
 #include<ctime>
-#include<cstdlib>
+#include<cstdlib>  
 
 #define fps 60
 #define SCREEN_WIDTH 700
 #define SCREEN_HEIGHT 700
+#define cellSize 60
 
 
 int capFrameRate(Uint32 starting_tick);
 int generateNumberofFilledCells();
 void generateFilledPositions(int(&filledPositions)[30], const int filledCells);
-void populateInitialCells(int(&tableArray)[3][3][3][3], const int filledCells, int filledPositions[]);
+void populateInitialCells(int(&tableArray)[3][3][3][3], const int filledCells, int filledPositions[30]);
 bool isItRepeated(std::string scope, int scopeSpecifier, double value, int(&tableArray)[3][3][3][3]);
 void receiveInput(int(&tableArray)[3][3][3][3], int position, int value, std::string& messages);
 bool checkSelectedPosition(int selectedPosition, int filledPositions[], int filledCells);
 bool isgameWon(int tableArray[3][3][3][3]);
-int drawGrid(SDL_Renderer* renderer,int gridSize);
-
-
+int drawGrid(SDL_Renderer* renderer);
+void handleKeyEvents(int selectedValue, int (&cursorPos)[2], int filledCells, int(&filledPositions)[30], int(&tableArray)[3][3][3][3], std::string messages);
+void handleCursorKeys(SDL_Event& event, int (&cursorPos)[2]);
+void handleKeyboardEvents(SDL_Event& event, int (&cursorPos)[2], int filledCells, int(&filledPositions)[30], int(&tableArray)[3][3][3][3], std::string messages);
+void drawCursor(int(&cursorPos)[2], SDL_Renderer& renderer);
 
 int main(int argc, char* argv[]) {
     int tableArray[3][3][3][3]{{{0,0,0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}};
     std::string messages="";
 
     const int filledCells = 30;
-    int filledPositions[filledCells];
+    int filledPositions[30];
     generateFilledPositions(filledPositions, filledCells);
     std::cout << "list of filled position: ";
     for (int i = 0; i < filledCells; i++) {
-        std::cout << filledPositions[i] << ", ";
+       // std::cout << filledPositions[i] << ", ";
     }
     std::cout << std::endl;
 
@@ -41,7 +44,7 @@ int main(int argc, char* argv[]) {
         for (int k = 0; k < 3; k++) {
             for (int j = 0; j < 3; j++) {
                 for (int l = 0; l < 3; l++) {
-                    std::cout<<tableArray[i][j][k][l]<<"["<<i<<j<<k<<l<<"]" << "[" << 27 * i + 9 * k + 3 * j + l << "], ";
+                    //std::cout<<tableArray[i][j][k][l]<<"["<<i<<j<<k<<l<<"]" << "[" << 27 * i + 9 * k + 3 * j + l << "], ";
                 }
             }
 
@@ -59,7 +62,7 @@ int main(int argc, char* argv[]) {
 
     SDL_Surface* screen = NULL;
     SDL_Renderer* renderer = NULL;
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     screen = SDL_GetWindowSurface(window);
     Uint32 white = SDL_MapRGB(screen->format, 255, 255, 255);
     SDL_FillRect(screen, NULL, white);
@@ -67,10 +70,9 @@ int main(int argc, char* argv[]) {
     Uint32 starting_tick;
     SDL_Event event;
     bool running = true;
-    int gridSize = 60;
-    SDL_Rect cursor{ 20 + gridSize,20 + gridSize,gridSize,gridSize };
-    SDL_Rect cursor2 { cursor.x + 1,cursor.y + 1,cursor.w - 2,cursor.h - 2 };
-    SDL_Rect cursor3 { cursor.x + 2,cursor.y + 2,cursor.w - 4,cursor.h - 4 };
+    int cursorPos[2] = { 20 + cellSize,20 + cellSize };
+   
+   
 
  
 
@@ -83,131 +85,16 @@ int main(int argc, char* argv[]) {
                 running = false;
                 break;
             }
-            int position = 0;
-           
-            
-            if (SDL_KEYDOWN == event.type) {
-                switch (event.key.keysym.sym) {
-                case SDLK_1: std::cout << "the number pressed is: 1";
-                    position = ((cursor.y - 30) / gridSize) * 9 + (cursor.x - 30) / gridSize;
-                    if (checkSelectedPosition(position, filledPositions, filledCells)) {
-     
-                        receiveInput(tableArray, position, 1, messages);
-                    }
-                    else {
-                        messages = "Cell not Available! "+ std::to_string(position);
-                    }
-                    
-                     std::cout << "the position calculated: " << position;
-                     break;
-                case SDLK_2: std::cout << "the number pressed is: 2";
-                    position = ((cursor.y - 30) / gridSize) * 9 + (cursor.x - 30) / gridSize;
-                    if (checkSelectedPosition(position, filledPositions, filledCells)) {
-                    receiveInput(tableArray, position, 2, messages);
-                    }
-                    else {
-                        messages = "Cell not Available!";
-                    }
-   
-                    break;
-                case SDLK_3: std::cout << "the number pressed is: 3";
-                    position = ((cursor.y - 30) / gridSize) * 9 + (cursor.x - 30) / gridSize;
-                    if (checkSelectedPosition(position, filledPositions, filledCells)) {
-                    receiveInput(tableArray, position, 3, messages);
-                    }
-                    else {
-                        messages = "Cell not Available!";
-                    }
-                    
-                    break;
-                case SDLK_4: std::cout << "the number pressed is: 4";
-                    position = ((cursor.y - 30) / gridSize) * 9 + (cursor.x - 30) / gridSize;
-                    if (checkSelectedPosition(position, filledPositions, filledCells)) {
-                    receiveInput(tableArray, position, 4, messages);
-                    }
-                    else {
-                        messages = "Cell not Available!";
-                    }
-                    
-                    break;
-                case SDLK_5: std::cout << "the number pressed is: 5";
-                    position = ((cursor.y - 30) / gridSize) * 9 + (cursor.x - 30) / gridSize;
-                    if (checkSelectedPosition(position, filledPositions, filledCells)) {
-                    receiveInput(tableArray, position, 5, messages);
-                    }
-                    else {
-                        messages = "Cell not Available!";
-                    }
-                    
-                    break;
-                case SDLK_6: std::cout << "the number pressed is: 6";
-                    position = ((cursor.y - 30) / gridSize) * 9 + (cursor.x - 30) / gridSize;
-                    if (checkSelectedPosition(position, filledPositions, filledCells)) {
-                    receiveInput(tableArray, position, 6, messages);
-                    }
-                    else {
-                        messages = "Cell not Available!";
-                    }
-                   
-                    break;
-                case SDLK_7: std::cout << "the number pressed is: 7";
-                    position = ((cursor.y - 30) / gridSize) * 9 + (cursor.x - 30) / gridSize;
-                    if (checkSelectedPosition(position, filledPositions, filledCells)) {
-                    receiveInput(tableArray, position, 7, messages);
-                    }
-                    else {
-                        messages = "Cell not Available!";
-                    }
-                    
-                    break;
-                case SDLK_8: std::cout << "the number pressed is: 8";
-                    position = ((cursor.y - 30) / gridSize) * 9 + (cursor.x - 30) / gridSize;
-                    if (checkSelectedPosition(position, filledPositions, filledCells)) {
-                    receiveInput(tableArray, position, 8, messages);
-                    }
-                    else {
-                        messages = "Cell not Available!";
-                    }
-                   
-                    break;
-                case SDLK_9: std::cout << "the number pressed is: 9";
-                    position = ((cursor.y - 30) / gridSize) * 9 + (cursor.x - 30) / gridSize;
-                    if (checkSelectedPosition(position, filledPositions, filledCells)) {
-                    receiveInput(tableArray, position, 9, messages);
-                    }
-                    else {
-                        messages = "Cell not Available!";
-                    }
-                   
-                    break;
-                case SDLK_LEFT:
-                    cursor.x-=gridSize;
-                    cursor2.x -= gridSize;
-                    cursor3.x -= gridSize;
-                    break;
-                case SDLK_RIGHT: 
-                    cursor.x += gridSize;
-                    cursor2.x += gridSize;
-                    cursor3.x += gridSize;
-                    break;
-                case SDLK_UP: 
-                    cursor.y -= gridSize;
-                    cursor2.y -= gridSize;
-                    cursor3.y -= gridSize;
-                    break;
-                case SDLK_DOWN:
-                    cursor.y += gridSize;
-                    cursor2.y += gridSize;
-                    cursor3.y += gridSize;
-                    break;
-                }
-            }
-        }
 
+            int position = 0;
+
+
+            handleKeyboardEvents(event, cursorPos, filledCells, filledPositions, tableArray, messages);
+        }
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
         SDL_RenderClear(renderer);
       
-        drawGrid(renderer, gridSize);
+        drawGrid(renderer);
 
      
     //TTF_Font* font = TTF_OpenFont("C:\\Windows\\Fonts\\arial.ttf", 28);
@@ -215,12 +102,9 @@ int main(int argc, char* argv[]) {
     TTF_Font* messageFont = TTF_OpenFont("C:\\Users\\PC\\Downloads\\Roboto-Regular.ttf", 24);
     //TTF_Font* messageFont= TTF_OpenFont("C:\\Windows\\Fonts\\arial.ttf", 15);
     SDL_Color black = { 0,0,0,SDL_ALPHA_OPAQUE };
-    SDL_Color red= { 255,0,0,SDL_ALPHA_OPAQUE };
+    SDL_Color red = { 255,0,0,SDL_ALPHA_OPAQUE };
     SDL_Color blue = { 0,0,255,SDL_ALPHA_OPAQUE };
     SDL_Color white = { 255,255,255,SDL_ALPHA_OPAQUE };
-    //create surface containing text
-
-  
 
     SDL_Surface* surface=nullptr;
     //create texture from the surface
@@ -254,34 +138,29 @@ int main(int argc, char* argv[]) {
                     
                      SDL_Surface* messageSurface = TTF_RenderText_Solid(messageFont, messages.c_str(), red);
 
-                    int hIndent = (gridSize - surface->w) * 0.5;
-                    int vIndent = (gridSize - surface->h) * 0.5;
-                    
-                       
-                        
+                    int hIndent = (cellSize - surface->w) * 0.5;
+                    int vIndent = (cellSize - surface->h) * 0.5;    
           
-                    //create texture from the surface
+                    //create texture from the surfaces
                     col = 3 * i + k;
                     row = 3 * j + l;
                     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
                     SDL_Texture* msgTexture = SDL_CreateTextureFromSurface(renderer, messageSurface);
-                    SDL_Rect rect = { 20 + gridSize * (col+1) + hIndent , 20 + gridSize * (row+1) + vIndent , surface->w,surface->h };
+                    SDL_Rect rect = { 20 + cellSize * (col+1) + hIndent , 20 + cellSize * (row+1) + vIndent , surface->w,surface->h };
                     SDL_Rect messageRect = { 80,40,200,19 };
                     SDL_RenderCopy(renderer, texture, NULL, &rect);
 
                     SDL_RenderCopy(renderer,msgTexture, NULL, &messageRect);
-                    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-                    SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
-                    SDL_RenderDrawRect(renderer, &cursor);
-                    SDL_RenderDrawRect(renderer, &cursor2);
-                    SDL_RenderDrawRect(renderer, &cursor3);
+
+                    //render the cursor
+                    drawCursor(cursorPos, *renderer);
+
+
                     SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
                     SDL_RenderDrawRect(renderer, &messageRect);
                     //SDL_RenderPresent(renderer);
                     
-                    SDL_SetRenderDrawColor(renderer, 255, 255, 255,SDL_ALPHA_TRANSPARENT);
-                    SDL_RenderFillRect(renderer, &cursor);
-                    //SDL_RenderPresent(renderer);
+                    SDL_SetRenderDrawColor(renderer, 255, 255, 255,SDL_ALPHA_TRANSPARENT); 
                     SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
 
                     SDL_RenderPresent(renderer);
@@ -317,7 +196,14 @@ int main(int argc, char* argv[]) {
 
 }
 
-
+bool isElementofArray(int (&arr)[30], int value) {
+    for(int i = 0; i < sizeof(arr); i++) {
+        if (arr[i] == value) {
+            return true;
+       }
+    }
+    return false;
+}
 
 int capFrameRate(Uint32 starting_tick) {
 
@@ -340,34 +226,31 @@ void generateFilledPositions(int(&filledPositions)[30], const int filledCells) {
     for (int i = 0; i < filledCells; i++) {
 
         int randPos = rand() % 81;
-        //check if the value already exists and repeat the loop step and try again if it does
-        int* begin = filledPositions;
-        int* end = filledPositions + filledCells / sizeof(int);
-        auto ptr = std::find(begin, end, randPos);
-        if (ptr != end) {
+        if (isElementofArray(filledPositions,randPos)) {
             i = i - 1;
             continue;
         }
         filledPositions[i] = randPos;
-        //std::cout << filledPositions[i] << ", "<<std::endl;
+        //std::cout<<"Generated Position: " << i << ": " << filledPositions[i] << ", " << std::endl;
     }
     
 
 }
 
-void populateInitialCells(int(&tableArray)[3][3][3][3], const int filledCells, int filledPositions[]) {
+void populateInitialCells(int(&tableArray)[3][3][3][3], const int filledCells, int filledPositions[30]) {
     srand(time(NULL));
-    int* start = filledPositions;
-    int* finish = filledPositions + filledCells * sizeof(int);
+    //int* start = filledPositions;
+    //int* finish = filledPositions + filledCells * sizeof(int);
     int pos = 0;
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             for (int k = 0; k < 3; k++) {
                 for (int l = 0; l < 3; l++) {
                     pos = 27 * i + 9 * k + 3 * j + l;
-                    auto exists = std::find(start, finish, pos);
+                    //auto exists = std::find(start, finish, pos);
                     for (int a = 0; a < filledCells; a++) {
-                        if (filledPositions[a] == pos) {
+                       if (filledPositions[a] == pos) {
+                         // if (isElementofArray(filledPositions, pos)) {
                             int fill;
                             do {
                                 fill = rand() % 9 + 1;
@@ -510,19 +393,19 @@ bool isgameWon(int tableArray[3][3][3][3]) {
     return true;
 }
 
-int drawGrid(SDL_Renderer* renderer, int gridSize) {
+int drawGrid(SDL_Renderer* renderer) {
     //draw horizontal lines
 
     for (int i = 0; i <= 9; i++) {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
         if ((i == 0 || i == 9) || (i + 3) % 3 == 0) {
-            SDL_RenderDrawLine(renderer, 21 + gridSize, 21 + gridSize * (i + 1), 21 + gridSize * 10, 21 + gridSize * ((i + 1)));
-            SDL_RenderDrawLine(renderer, 22 + gridSize, 22 + gridSize * (i + 1), 22 + gridSize * 10, 22 + gridSize * ((i + 1)));
-            SDL_RenderDrawLine(renderer, 20 + gridSize, 20 + gridSize * (i + 1), 20 + gridSize * 10, 20 + gridSize * ((i + 1)));
+            SDL_RenderDrawLine(renderer, 21 + cellSize, 21 + cellSize * (i + 1), 21 + cellSize * 10, 21 + cellSize * ((i + 1)));
+            SDL_RenderDrawLine(renderer, 22 + cellSize, 22 + cellSize * (i + 1), 22 + cellSize * 10, 22 + cellSize * ((i + 1)));
+            SDL_RenderDrawLine(renderer, 20 + cellSize, 20 + cellSize * (i + 1), 20 + cellSize * 10, 20 + cellSize * ((i + 1)));
         }
         else {
             SDL_SetRenderDrawColor(renderer, 200, 200, 200, 120);
-            SDL_RenderDrawLine(renderer, 20 + gridSize, 18 + gridSize * (i + 1), 20 + gridSize * 10, 18 + gridSize * ((i + 1)));
+            SDL_RenderDrawLine(renderer, 20 + cellSize, 18 + cellSize * (i + 1), 20 + cellSize * 10, 18 + cellSize * ((i + 1)));
         }
     }
     //draw vertical lines
@@ -530,15 +413,134 @@ int drawGrid(SDL_Renderer* renderer, int gridSize) {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
         if (i == 0 || i == 9 || (i + 3) % 3 == 0) {
 
-            SDL_RenderDrawLine(renderer, 21 + gridSize * (i + 1), 21 + gridSize, 21 + gridSize * (i + 1), 21 + gridSize * 10);
-            SDL_RenderDrawLine(renderer, 22 + gridSize * (i + 1), 22 + gridSize, 22 + gridSize * (i + 1), 22 + gridSize * 10);
-            SDL_RenderDrawLine(renderer, 20 + gridSize * (i + 1), 20 + gridSize, 20 + gridSize * (i + 1), 20 + gridSize * 10);
+            SDL_RenderDrawLine(renderer, 21 + cellSize * (i + 1), 21 + cellSize, 21 + cellSize * (i + 1), 21 + cellSize * 10);
+            SDL_RenderDrawLine(renderer, 22 + cellSize * (i + 1), 22 + cellSize, 22 + cellSize * (i + 1), 22 + cellSize * 10);
+            SDL_RenderDrawLine(renderer, 20 + cellSize * (i + 1), 20 + cellSize, 20 + cellSize * (i + 1), 20 + cellSize * 10);
         }
         else {
             SDL_SetRenderDrawColor(renderer, 200, 200, 200, 120);
-            SDL_RenderDrawLine(renderer, 16 + gridSize * (i + 1), 20 + gridSize, 16 + gridSize * (i + 1), 20 + gridSize * 10);
+            SDL_RenderDrawLine(renderer, 16 + cellSize * (i + 1), 20 + cellSize, 16 + cellSize * (i + 1), 20 + cellSize * 10);
         }
 
     }
     return 0;
+}
+
+void handleKeyEvents(int selectedValue,int (&cursorPos)[2], int filledCells, int(&filledPositions)[30], int(&tableArray)[3][3][3][3], std::string messages) {
+    int position = ((cursorPos[1] - 30) / cellSize) * 9 + (cursorPos[0] - 30) / cellSize;
+    if (checkSelectedPosition(position, filledPositions, filledCells)) {
+
+        receiveInput(tableArray, position, selectedValue, messages);
+    }
+    else {
+        messages = "Cell not Available! " + std::to_string(position);
+    }
+
+    std::cout << "the position calculated: " << position;
+
+}
+
+void handleCursorKeys(SDL_Event& event,int (&cursorPos)[2]) {
+    switch (event.key.keysym.sym) {
+    case SDLK_LEFT:
+        cursorPos[0] -= cellSize;
+        //cursor2.x -= cellSize;
+        //cursor3.x -= cellSize;
+        break;
+    case SDLK_RIGHT:
+        cursorPos[0] += cellSize;
+        //cursor2.x += cellSize;
+        //cursor3.x += cellSize;
+        break;
+    case SDLK_UP:
+        cursorPos[1] -= cellSize;
+        //cursor2.y -= cellSize;
+        //cursor3.y -= cellSize;
+        break;
+    case SDLK_DOWN:
+        cursorPos[1] += cellSize;
+        //cursorPos[1] += cellSize;
+        //cursorPos[1] += cellSize;
+        break;
+
+    }
+}
+void handleKeyboardEvents(SDL_Event& event,int (&cursorPos)[2], int filledCells, int(&filledPositions)[30], int(&tableArray)[3][3][3][3], std::string messages) {
+    if (SDL_KEYDOWN == event.type) {
+        switch (event.key.keysym.sym) {
+        case SDLK_1: std::cout << "the number pressed is: 1";
+            handleKeyEvents(1, cursorPos, filledCells, filledPositions, tableArray, messages);
+            break;
+        case SDLK_2: std::cout << "the number pressed is: 2";
+            handleKeyEvents(2, cursorPos, filledCells, filledPositions, tableArray, messages);
+
+            break;
+        case SDLK_3: std::cout << "the number pressed is: 3";
+            handleKeyEvents(3, cursorPos, filledCells, filledPositions, tableArray, messages);
+
+            break;
+        case SDLK_4: std::cout << "the number pressed is: 4";
+            handleKeyEvents(4, cursorPos, filledCells, filledPositions, tableArray, messages);
+
+            break;
+        case SDLK_5: std::cout << "the number pressed is: 5";
+
+            handleKeyEvents(5, cursorPos, filledCells, filledPositions, tableArray, messages);
+            break;
+        case SDLK_6: std::cout << "the number pressed is: 6";
+            handleKeyEvents(6, cursorPos, filledCells, filledPositions, tableArray, messages);
+
+            break;
+        case SDLK_7: std::cout << "the number pressed is: 7";
+            handleKeyEvents(7, cursorPos, filledCells, filledPositions, tableArray, messages);
+
+            break;
+        case SDLK_8: std::cout << "the number pressed is: 8";
+            handleKeyEvents(8, cursorPos, filledCells, filledPositions, tableArray, messages);
+
+            break;
+        case SDLK_9: std::cout << "the number pressed is: 9";
+            handleKeyEvents(9, cursorPos, filledCells, filledPositions, tableArray, messages);
+
+            break;
+        case SDLK_LEFT:
+            handleCursorKeys(event, cursorPos);
+            break;
+        case SDLK_RIGHT:
+            handleCursorKeys(event, cursorPos);
+            break;
+        case SDLK_UP:
+            handleCursorKeys(event, cursorPos);
+            break;
+        case SDLK_DOWN:
+            handleCursorKeys(event, cursorPos);
+            break;
+        }
+    }
+}
+
+void displayMessage(SDL_Renderer& renderer,std::string messages) {
+    SDL_Color red = { 255,0,0,SDL_ALPHA_OPAQUE };
+    SDL_Rect messageRect = { 80,40,200,19 };
+    TTF_Font* messageFont = TTF_OpenFont("C:\\Users\\PC\\Downloads\\Roboto-Regular.ttf", 24);
+    SDL_Surface* messageSurface = TTF_RenderText_Solid(messageFont, messages.c_str(), red);
+    SDL_Texture* msgTexture = SDL_CreateTextureFromSurface(&renderer, messageSurface);
+}
+
+void drawCursor(int (&cursorPos)[2],SDL_Renderer& renderer) {
+    SDL_Rect cursor{ cursorPos[0],cursorPos[1],cellSize,cellSize };
+    SDL_Rect cursor2{ cursorPos[0] + 1,cursorPos[1] + 1,cellSize - 2,cellSize - 2 };
+    SDL_Rect cursor3{ cursorPos[0] + 2,cursorPos[1] + 2,cellSize - 4,cellSize - 4 };
+
+    SDL_SetRenderDrawBlendMode(&renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(&renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
+    SDL_RenderDrawRect(&renderer, &cursor);
+    SDL_RenderDrawRect(&renderer, &cursor2);
+    SDL_RenderDrawRect(&renderer, &cursor3);
+
+    SDL_SetRenderDrawColor(&renderer, 255, 255, 255, SDL_ALPHA_TRANSPARENT);
+    SDL_RenderFillRect(&renderer, &cursor);
+    SDL_RenderFillRect(&renderer, &cursor2);
+    SDL_RenderFillRect(&renderer, &cursor3);
+
 }
