@@ -5,6 +5,7 @@
 #include<ctime>
 #include<cstdlib>  
 #include"window.h"
+#include "model.h"
 
 
 #define fps 60
@@ -28,6 +29,7 @@ void handleKeyboardEvents(SDL_Event& event, int (&cursorPos)[2], int filledCells
 void drawCursor(int(&cursorPos)[2], SDL_Renderer& renderer);
 void displayMessage(SDL_Renderer& renderer, std::string messages);
 void pollEvents(SDL_Event& event, bool& running, int(&cursorPos)[2], int filledCells, int(&filledPositions)[30], int(&tableArray)[3][3][3][3], std::string messages);
+void renderTable(int(&tableArray)[3][3][3][3], SDL_Renderer& renderer, int(&cursorPos)[2], int filledCells, int(&filledPositions)[30]);
 
 
 int main(int argc, char* argv[]) {
@@ -37,20 +39,26 @@ int main(int argc, char* argv[]) {
     SDL_Renderer& renderer = window.getRenderer();
     const int filledCells = 30;
     int filledPositions[30];
+    Model model;
+    //00
+    model.generateFilledPositions();
     generateFilledPositions(filledPositions, filledCells);
-    std::cout << "list of filled position: ";
-    for (int i = 0; i < filledCells; i++) {
-       // std::cout << filledPositions[i] << ", ";
-    }
-    std::cout << std::endl;
+    //std::cout << "list of filled position: ";
+    //for (int i = 0; i < filledCells; i++) {
+        //std::cout << filledPositions[i] << ", ";
+    //}
+    //std::cout << std::endl;
 
     populateInitialCells(tableArray, filledCells, filledPositions);
+    model.populateInitialCells();
+    int (*tArray)[3][3][3] = model.getArray();
      
     for (int i = 0; i < 3; i++) {
         for (int k = 0; k < 3; k++) {
             for (int j = 0; j < 3; j++) {
                 for (int l = 0; l < 3; l++) {
-                    //std::cout<<tableArray[i][j][k][l]<<"["<<i<<j<<k<<l<<"]" << "[" << 27 * i + 9 * k + 3 * j + l << "], ";
+                    //std::cout << tableArray[i][j][k][l] << "[" << i << j << k << l << "]" << "[" << 27 * i + 9 * k + 3 * j + l << "], ";
+                    std::cout<<&tArray[i][j][k][l]<<"["<<i<<j<<k<<l<<"]" << "[" << 27 * i + 9 * k + 3 * j + l << "], ";
                 }
             }
 
@@ -77,65 +85,9 @@ int main(int argc, char* argv[]) {
     SDL_Color blue = { 0,0,255,SDL_ALPHA_OPAQUE };
     SDL_Color white = { 255,255,255,SDL_ALPHA_OPAQUE };
 
-    SDL_Surface* surface=nullptr;
-    //create texture from the surface
-    SDL_Texture* texture= nullptr;
-
-    //create a rectangle
-
-    int col = 0, row = 0;
-    //numbers and texts
-    for ( int i = 0; i < 3; i++) {
-        for (int k = 0; k < 3; k++) {
-            for (int j = 0; j < 3; j++) {
-                for (int l = 0; l < 3; l++) {
-                    char text[10];
-                    char test[10];
-                    sprintf_s(text, "%d", tableArray[i][j][k][l]);
-                    sprintf_s(test, "%d", 0);
-                    if (tableArray[i][j][k][l] ==0) {
-                        surface = TTF_RenderText_Solid(font, text, { 255,255,255,0 });
-
-                    } else {
-                        int pos = 27*i + 9*j + 3*k + l;
-                        if (checkSelectedPosition(pos, filledPositions, filledCells)) {
-                            surface = TTF_RenderText_Solid(font, text, { 0,124,70 });
-                        }else {
-                            surface = TTF_RenderText_Solid(font, text, { 0,0,200 });
-                        }
-                    }
-
-                    int hIndent = (cellSize - surface->w) * 0.5;
-                    int vIndent = (cellSize - surface->h) * 0.5;    
-          
-                    //create texture from the surfaces
-                    col = 3 * i + k;
-                    row = 3 * j + l;
-                    SDL_Texture* texture = SDL_CreateTextureFromSurface(&renderer, surface);
-                    SDL_Rect rect = { 20 + cellSize * (col+1) + hIndent , 20 + cellSize * (row+1) + vIndent , surface->w,surface->h };
-                    SDL_RenderCopy(&renderer, texture, NULL, &rect);
-
-                    //render the cursor
-                    drawCursor(cursorPos, renderer);
-
-                    //display message
-                    displayMessage(renderer, messages);
-
-                    SDL_SetRenderDrawColor(&renderer, 255, 255, 255,SDL_ALPHA_TRANSPARENT); 
-                    SDL_SetRenderDrawColor(&renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-                    SDL_RenderPresent(&renderer);   
-
-                }
-                
-            }
-           
-            
-        }
-       
-        
-        
-    }
-    //a cursor square
+    renderTable(tableArray, renderer, cursorPos, filledCells, filledPositions);
+    
+    displayMessage(renderer, messages);
    
     Uint32 frameTime = SDL_GetTicks() - starting_tick;
     Uint32 frameDelay=1000/fps;
@@ -145,15 +97,11 @@ int main(int argc, char* argv[]) {
     }
 
     //clearing
-    SDL_FreeSurface(surface);
+    /*SDL_FreeSurface(surface);
     SDL_DestroyTexture(texture);
-    TTF_CloseFont(font);
+    TTF_CloseFont(font);*/
 
 }
-
-    //SDL_DestroyWindow(window);
-   // TTF_Quit();
-    //SDL_Quit();
     return 0;
 
 }
@@ -184,7 +132,7 @@ int generateNumberofFilledCells() {
 
 void generateFilledPositions(int(&filledPositions)[30], const int filledCells) {
     srand(time(NULL));
-
+    std::cout << "the old generation: " << filledCells << " size of filled pos: " << sizeof(filledPositions) << std::endl;
     for (int i = 0; i < filledCells; i++) {
 
         int randPos = rand() % 81;
@@ -520,5 +468,59 @@ void pollEvents(SDL_Event& event,bool& running,int (&cursorPos)[2],int filledCel
 
         int position = 0;
         handleKeyboardEvents(event, cursorPos, filledCells, filledPositions, tableArray, messages);
+    }
+}
+
+void renderTable(int(&tableArray)[3][3][3][3], SDL_Renderer& renderer, int(&cursorPos)[2], int filledCells, int(&filledPositions)[30]) {
+    TTF_Font* font = TTF_OpenFont("C:\\Users\\PC\\Downloads\\Roboto-BoldItalic.ttf", 28);
+    SDL_Surface* surface = nullptr;
+    //create texture from the surface
+    SDL_Texture* texture = nullptr;
+    int col = 0, row = 0;
+    for (int i = 0; i < 3; i++) {
+        for (int k = 0; k < 3; k++) {
+            for (int j = 0; j < 3; j++) {
+                for (int l = 0; l < 3; l++) {
+                    char text[10];
+                    char test[10];
+                    sprintf_s(text, "%d", tableArray[i][j][k][l]);
+                    sprintf_s(test, "%d", 0);
+                    if (tableArray[i][j][k][l] == 0) {
+                        surface = TTF_RenderText_Solid(font, text, { 255,255,255,0 });
+
+                    }
+                    else {
+                        int pos = 27 * i + 9 * j + 3 * k + l;
+                        if (checkSelectedPosition(pos, filledPositions, filledCells)) {
+                            surface = TTF_RenderText_Solid(font, text, { 0,124,70 });
+                        }
+                        else {
+                            surface = TTF_RenderText_Solid(font, text, { 0,0,200 });
+                        }
+                    }
+
+                    int hIndent = (cellSize - surface->w) * 0.5;
+                    int vIndent = (cellSize - surface->h) * 0.5;
+
+                    //create texture from the surfaces
+                    col = 3 * i + k;
+                    row = 3 * j + l;
+                    SDL_Texture* texture = SDL_CreateTextureFromSurface(&renderer, surface);
+                    SDL_Rect rect = { 20 + cellSize * (col + 1) + hIndent , 20 + cellSize * (row + 1) + vIndent , surface->w,surface->h };
+                    SDL_RenderCopy(&renderer, texture, NULL, &rect);
+
+                    //render the cursor
+                    drawCursor(cursorPos, renderer);
+
+                    SDL_SetRenderDrawColor(&renderer, 255, 255, 255, SDL_ALPHA_TRANSPARENT);
+                    SDL_SetRenderDrawColor(&renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+                    SDL_RenderPresent(&renderer);
+
+                }
+
+            }
+
+
+        }
     }
 }

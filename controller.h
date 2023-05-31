@@ -15,4 +15,4 @@ public:
 	void pollEvents(SDL_Event& event, bool& running, int(&cursorPos)[2]);
 
 
-};
+}; 

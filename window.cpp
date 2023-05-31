@@ -91,3 +91,4 @@ void Window::handleCursorKeys(SDL_Event& event, int(&cursorPos)[2]) {
 
     }
 }
+

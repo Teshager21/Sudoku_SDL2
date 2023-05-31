@@ -12,16 +12,22 @@ Model::~Model() {
 bool Model::init() {
     int tableArray[3][3][3][3] {{{0,0,0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}} };
     messages = "";
+    generateFilledPositions();
+    populateInitialCells();
     return true;
 }
 
 std::string Model::getMessages() { return messages; }
+typedef int (*tableArray3X4)[3][3][3];
+tableArray3X4 Model::getArray() { return tableArray; }
 
 void Model::setMessages(std::string message) { messages = message; }
 
-void Model:: generateFilledPositions(int(&filledPositions)[30], const int filledCells) {
-    srand(time(NULL));
 
+
+void Model:: generateFilledPositions() {
+    srand(time(NULL));
+    std::cout << "the new generation: " << filledCells << " size of filled pos: " << sizeof(filledPositions)<<std::endl;
     for (int i = 0; i < filledCells; i++) {
 
         int randPos = rand() % 81;
@@ -30,7 +36,7 @@ void Model:: generateFilledPositions(int(&filledPositions)[30], const int filled
             continue;
         }
         filledPositions[i] = randPos;
-        std::cout << "Generated Position: " << i << ": " << filledPositions[i] << ", " << std::endl;
+        std::cout << "New generated Position: " << i << ": " << filledPositions[i] << ", " << std::endl;
     }
 
 
@@ -47,8 +53,6 @@ bool Model::isElementofArray(int(&arr)[30], int value) {
 
 void Model::populateInitialCells( ) {
     srand(time(NULL));
-    //int* start = filledPositions;
-    //int* finish = filledPositions + filledCells * sizeof(int);
     int pos = 0;
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
