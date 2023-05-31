@@ -11,6 +11,7 @@ public:
 	double getCellSize();
 	int drawGrid();
 	void handleCursorKeys(SDL_Event& event, int(&cursorPos)[2]);
+	SDL_Renderer& getRenderer();
 private:
 		std::string m_title;
 		int m_width=700;

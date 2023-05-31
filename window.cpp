@@ -1,6 +1,7 @@
 #include "window.h"
 #include<SDL.h>
 #include<iostream>
+#include<SDL_ttf.h>
 
 Window::Window(const std::string &title, int width, int height):
 	m_title(title), m_width(width),m_height(height)
@@ -8,15 +9,19 @@ Window::Window(const std::string &title, int width, int height):
 	if (!init()) {
 		m_closed = true; 
 	}
+    TTF_Font* font = TTF_OpenFont("C:\\Users\\PC\\Downloads\\Roboto-BoldItalic.ttf", 28);
 }
 Window::~Window() {
 	SDL_DestroyRenderer(m_renderer);
 	SDL_DestroyWindow(m_window);
+    TTF_Quit();
 	SDL_Quit(); 
 }
 double Window::getCellSize() { return m_cellSize; }
 
-
+SDL_Renderer& Window::getRenderer() {
+    return *m_renderer;
+}
 
 bool Window::init() {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -27,83 +32,14 @@ bool Window::init() {
 	if (m_window == nullptr) {
 		std::cerr << "Failed to initialize window\n";
    }
-	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
+    SDL_Surface* screen = NULL;
+     m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
+    screen = SDL_GetWindowSurface(m_window);
+    Uint32 white = SDL_MapRGB(screen->format, 255, 255, 255);
+    SDL_FillRect(screen, NULL, white);
+
 	return true;
 
-}
-
-void Window::pollEvents() {
-	SDL_Event event;
-	if (SDL_PollEvent(&event)) {
-		switch (event.type) {
-		case SDL_QUIT:
-			break;
-		case SDL_KEYDOWN:
-            switch (event.key.keysym.sym) {
-            case SDLK_1: std::cout << "the number pressed is: 1";
-               // position = ((cursor.y - 30) / cellSize) * 9 + (cursor.x - 30) / cellSize;
-                
-                break;
-            case SDLK_2: std::cout << "the number pressed is: 2";
-               // position = ((cursor.y - 30) / cellSize) * 9 + (cursor.x - 30) / cellSize;
-                
-
-                break;
-            case SDLK_3: std::cout << "the number pressed is: 3";
-                //position = ((cursor.y - 30) / cellSize) * 9 + (cursor.x - 30) / cellSize;
-                
-
-                break;
-            case SDLK_4: std::cout << "the number pressed is: 4";
-                //position = ((cursor.y - 30) / cellSize) * 9 + (cursor.x - 30) / cellSize;
-                
-
-                break;
-            case SDLK_5: std::cout << "the number pressed is: 5";
-               // position = ((cursor.y - 30) / cellSize) * 9 + (cursor.x - 30) / cellSize;
-                
-
-                break;
-            case SDLK_6: std::cout << "the number pressed is: 6";
-               // position = ((cursor.y - 30) / cellSize) * 9 + (cursor.x - 30) / cellSize;
-                
-
-                break;
-            case SDLK_7: std::cout << "the number pressed is: 7";
-                //position = ((cursor.y - 30) / cellSize) * 9 + (cursor.x - 30) / cellSize;
-                
-
-                break;
-            case SDLK_8: std::cout << "the number pressed is: 8";
-                //position = ((cursor.y - 30) / cellSize) * 9 + (cursor.x - 30) / cellSize;
-                
-
-                break;
-            case SDLK_9: std::cout << "the number pressed is: 9";
-                //position = ((cursor.y - 30) / cellSize) * 9 + (cursor.x - 30) / cellSize;
-                
-
-                break;
-            case SDLK_LEFT:
-                
-                break;
-            case SDLK_RIGHT:
-                
-                break;
-            case SDLK_UP:
-                
-                break;
-            case SDLK_DOWN:
-                
-                break;
-            }
-
-		default:
-			break;
-
-		}
-			
-	}
 }
 
 int Window:: drawGrid() {

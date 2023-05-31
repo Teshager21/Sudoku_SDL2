@@ -4,6 +4,8 @@
 #include<SDL_ttf.h>
 #include<ctime>
 #include<cstdlib>  
+#include"window.h"
+
 
 #define fps 60
 #define SCREEN_WIDTH 700
@@ -31,7 +33,8 @@ void pollEvents(SDL_Event& event, bool& running, int(&cursorPos)[2], int filledC
 int main(int argc, char* argv[]) {
     int tableArray[3][3][3][3]{{{0,0,0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}};
     std::string messages="";
-
+    Window window("SUDOKU",SCREEN_WIDTH,SCREEN_HEIGHT);
+    SDL_Renderer& renderer = window.getRenderer();
     const int filledCells = 30;
     int filledPositions[30];
     generateFilledPositions(filledPositions, filledCells);
@@ -53,22 +56,7 @@ int main(int argc, char* argv[]) {
 
         }
     }
-
-    SDL_Init(SDL_INIT_EVERYTHING);
     TTF_Init();
-    SDL_Window* window = NULL;
-    window = SDL_CreateWindow("SUDOKU", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT,0);
-    if (window == NULL) {
-        std::cout << "window not created! " << SDL_GetError();
-    }
-    
-    SDL_Surface* screen = NULL;
-    SDL_Renderer* renderer = NULL;
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    screen = SDL_GetWindowSurface(window);
-    Uint32 white = SDL_MapRGB(screen->format, 255, 255, 255);
-    SDL_FillRect(screen, NULL, white);
-
     Uint32 starting_tick;
     SDL_Event event;
     bool running = true;
@@ -78,9 +66,9 @@ int main(int argc, char* argv[]) {
         SDL_GL_SetSwapInterval(1);
         starting_tick = SDL_GetTicks();
         pollEvents(event, running, cursorPos, filledCells, filledPositions, tableArray, messages);
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-        SDL_RenderClear(renderer);
-        drawGrid(renderer);
+        SDL_SetRenderDrawColor(&renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+        SDL_RenderClear(&renderer);
+        drawGrid(&renderer);
 
     //TTF_Font* font = TTF_OpenFont("C:\\Windows\\Fonts\\arial.ttf", 28);
     TTF_Font* font = TTF_OpenFont("C:\\Users\\PC\\Downloads\\Roboto-BoldItalic.ttf", 28);
@@ -123,19 +111,19 @@ int main(int argc, char* argv[]) {
                     //create texture from the surfaces
                     col = 3 * i + k;
                     row = 3 * j + l;
-                    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+                    SDL_Texture* texture = SDL_CreateTextureFromSurface(&renderer, surface);
                     SDL_Rect rect = { 20 + cellSize * (col+1) + hIndent , 20 + cellSize * (row+1) + vIndent , surface->w,surface->h };
-                    SDL_RenderCopy(renderer, texture, NULL, &rect);
+                    SDL_RenderCopy(&renderer, texture, NULL, &rect);
 
                     //render the cursor
-                    drawCursor(cursorPos, *renderer);
+                    drawCursor(cursorPos, renderer);
 
                     //display message
-                    displayMessage(*renderer, messages);
+                    displayMessage(renderer, messages);
 
-                    SDL_SetRenderDrawColor(renderer, 255, 255, 255,SDL_ALPHA_TRANSPARENT); 
-                    SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-                    SDL_RenderPresent(renderer);   
+                    SDL_SetRenderDrawColor(&renderer, 255, 255, 255,SDL_ALPHA_TRANSPARENT); 
+                    SDL_SetRenderDrawColor(&renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+                    SDL_RenderPresent(&renderer);   
 
                 }
                 
@@ -153,16 +141,19 @@ int main(int argc, char* argv[]) {
     Uint32 frameDelay=1000/fps;
     if (frameDelay > frameTime) {
         SDL_Delay(frameDelay - frameTime);
+
     }
+
+    //clearing
     SDL_FreeSurface(surface);
     SDL_DestroyTexture(texture);
     TTF_CloseFont(font);
 
 }
 
-    SDL_DestroyWindow(window);
-    TTF_Quit();
-    SDL_Quit();
+    //SDL_DestroyWindow(window);
+   // TTF_Quit();
+    //SDL_Quit();
     return 0;
 
 }
@@ -297,7 +288,6 @@ bool isItRepeated(std::string scope, int scopeSpecifier, double value, int(&tabl
     }
     return false;
 }
-
 
 void receiveInput(int(&tableArray)[3][3][3][3], int position, int value, std::string& messages) {
     int i, j, k, l;
