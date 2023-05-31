@@ -62,7 +62,6 @@ int main(int argc, char* argv[]) {
         std::cout << "window not created! " << SDL_GetError();
     }
     
-
     SDL_Surface* screen = NULL;
     SDL_Renderer* renderer = NULL;
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
@@ -75,18 +74,14 @@ int main(int argc, char* argv[]) {
     bool running = true;
     int cursorPos[2] = { 20 + cellSize,20 + cellSize };
    
-
     while (running) {
         SDL_GL_SetSwapInterval(1);
-        
         starting_tick = SDL_GetTicks();
         pollEvents(event, running, cursorPos, filledCells, filledPositions, tableArray, messages);
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
         SDL_RenderClear(renderer);
-      
         drawGrid(renderer);
 
-     
     //TTF_Font* font = TTF_OpenFont("C:\\Windows\\Fonts\\arial.ttf", 28);
     TTF_Font* font = TTF_OpenFont("C:\\Users\\PC\\Downloads\\Roboto-BoldItalic.ttf", 28);
     SDL_Color black = { 0,0,0,SDL_ALPHA_OPAQUE };
@@ -97,7 +92,6 @@ int main(int argc, char* argv[]) {
     SDL_Surface* surface=nullptr;
     //create texture from the surface
     SDL_Texture* texture= nullptr;
-
 
     //create a rectangle
 

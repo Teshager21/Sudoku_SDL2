@@ -138,3 +138,20 @@ int Window:: drawGrid() {
     }
     return 0;
 }
+void Window::handleCursorKeys(SDL_Event& event, int(&cursorPos)[2]) {
+    switch (event.key.keysym.sym) {
+    case SDLK_LEFT:
+        cursorPos[0] -= m_cellSize;
+        break;
+    case SDLK_RIGHT:
+        cursorPos[0] += m_cellSize;
+        break;
+    case SDLK_UP:
+        cursorPos[1] -= m_cellSize;
+        break;
+    case SDLK_DOWN:
+        cursorPos[1] += m_cellSize;
+        break;
+
+    }
+}
