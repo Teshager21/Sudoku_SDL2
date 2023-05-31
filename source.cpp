@@ -24,6 +24,9 @@ void handleKeyEvents(int selectedValue, int (&cursorPos)[2], int filledCells, in
 void handleCursorKeys(SDL_Event& event, int (&cursorPos)[2]);
 void handleKeyboardEvents(SDL_Event& event, int (&cursorPos)[2], int filledCells, int(&filledPositions)[30], int(&tableArray)[3][3][3][3], std::string messages);
 void drawCursor(int(&cursorPos)[2], SDL_Renderer& renderer);
+void displayMessage(SDL_Renderer& renderer, std::string messages);
+void pollEvents(SDL_Event& event, bool& running, int(&cursorPos)[2], int filledCells, int(&filledPositions)[30], int(&tableArray)[3][3][3][3], std::string messages);
+
 
 int main(int argc, char* argv[]) {
     int tableArray[3][3][3][3]{{{0,0,0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}};
@@ -72,25 +75,12 @@ int main(int argc, char* argv[]) {
     bool running = true;
     int cursorPos[2] = { 20 + cellSize,20 + cellSize };
    
-   
-
- 
 
     while (running) {
         SDL_GL_SetSwapInterval(1);
         
         starting_tick = SDL_GetTicks();
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
-                running = false;
-                break;
-            }
-
-            int position = 0;
-
-
-            handleKeyboardEvents(event, cursorPos, filledCells, filledPositions, tableArray, messages);
-        }
+        pollEvents(event, running, cursorPos, filledCells, filledPositions, tableArray, messages);
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
         SDL_RenderClear(renderer);
       
@@ -99,8 +89,6 @@ int main(int argc, char* argv[]) {
      
     //TTF_Font* font = TTF_OpenFont("C:\\Windows\\Fonts\\arial.ttf", 28);
     TTF_Font* font = TTF_OpenFont("C:\\Users\\PC\\Downloads\\Roboto-BoldItalic.ttf", 28);
-    TTF_Font* messageFont = TTF_OpenFont("C:\\Users\\PC\\Downloads\\Roboto-Regular.ttf", 24);
-    //TTF_Font* messageFont= TTF_OpenFont("C:\\Windows\\Fonts\\arial.ttf", 15);
     SDL_Color black = { 0,0,0,SDL_ALPHA_OPAQUE };
     SDL_Color red = { 255,0,0,SDL_ALPHA_OPAQUE };
     SDL_Color blue = { 0,0,255,SDL_ALPHA_OPAQUE };
@@ -135,9 +123,6 @@ int main(int argc, char* argv[]) {
                         }
                     }
 
-                    
-                     SDL_Surface* messageSurface = TTF_RenderText_Solid(messageFont, messages.c_str(), red);
-
                     int hIndent = (cellSize - surface->w) * 0.5;
                     int vIndent = (cellSize - surface->h) * 0.5;    
           
@@ -145,26 +130,18 @@ int main(int argc, char* argv[]) {
                     col = 3 * i + k;
                     row = 3 * j + l;
                     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-                    SDL_Texture* msgTexture = SDL_CreateTextureFromSurface(renderer, messageSurface);
                     SDL_Rect rect = { 20 + cellSize * (col+1) + hIndent , 20 + cellSize * (row+1) + vIndent , surface->w,surface->h };
-                    SDL_Rect messageRect = { 80,40,200,19 };
                     SDL_RenderCopy(renderer, texture, NULL, &rect);
-
-                    SDL_RenderCopy(renderer,msgTexture, NULL, &messageRect);
 
                     //render the cursor
                     drawCursor(cursorPos, *renderer);
 
+                    //display message
+                    displayMessage(*renderer, messages);
 
-                    SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-                    SDL_RenderDrawRect(renderer, &messageRect);
-                    //SDL_RenderPresent(renderer);
-                    
                     SDL_SetRenderDrawColor(renderer, 255, 255, 255,SDL_ALPHA_TRANSPARENT); 
                     SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-
-                    SDL_RenderPresent(renderer);
-                   
+                    SDL_RenderPresent(renderer);   
 
                 }
                 
@@ -521,10 +498,15 @@ void handleKeyboardEvents(SDL_Event& event,int (&cursorPos)[2], int filledCells,
 
 void displayMessage(SDL_Renderer& renderer,std::string messages) {
     SDL_Color red = { 255,0,0,SDL_ALPHA_OPAQUE };
-    SDL_Rect messageRect = { 80,40,200,19 };
     TTF_Font* messageFont = TTF_OpenFont("C:\\Users\\PC\\Downloads\\Roboto-Regular.ttf", 24);
     SDL_Surface* messageSurface = TTF_RenderText_Solid(messageFont, messages.c_str(), red);
     SDL_Texture* msgTexture = SDL_CreateTextureFromSurface(&renderer, messageSurface);
+    
+    SDL_Rect messageRect = { 80,40,200,19 };
+    SDL_RenderCopy(&renderer, msgTexture, NULL, &messageRect);
+
+    SDL_SetRenderDrawColor(&renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_RenderDrawRect(&renderer, &messageRect);
 }
 
 void drawCursor(int (&cursorPos)[2],SDL_Renderer& renderer) {
@@ -543,4 +525,16 @@ void drawCursor(int (&cursorPos)[2],SDL_Renderer& renderer) {
     SDL_RenderFillRect(&renderer, &cursor2);
     SDL_RenderFillRect(&renderer, &cursor3);
 
+}
+
+void pollEvents(SDL_Event& event,bool& running,int (&cursorPos)[2],int filledCells,int (&filledPositions)[30],int (&tableArray)[3][3][3][3],std::string messages) {
+    while (SDL_PollEvent(&event)) {
+        if (event.type == SDL_QUIT) {
+            running = false;
+            break;
+        }
+
+        int position = 0;
+        handleKeyboardEvents(event, cursorPos, filledCells, filledPositions, tableArray, messages);
+    }
 }
