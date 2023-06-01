@@ -13,6 +13,8 @@ public:
 	SDL_Renderer& getRenderer();
 	void drawCursor();
 	int getCursorPos(int x);
+	bool getState();
+	void setState(bool state);
 private:
 		std::string m_title;
 		int m_width=700;
@@ -20,7 +22,7 @@ private:
 		int m_cellSize=60;
 		int m_cursorPos[2] = { 20 + m_cellSize,20 + m_cellSize };
 
-		bool m_running = false;
+		bool m_running = true;
 		SDL_Window *m_window=nullptr;
 		SDL_Renderer *m_renderer;
 };

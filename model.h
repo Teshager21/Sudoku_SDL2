@@ -15,8 +15,6 @@ public:
 	std::string getMessages();
 	void setMessages(std::string message);
 	int getMembers(int w, int x, int y, int z);
-	//typedef int(*tableArray3X4)[3][3][3];
-	//tableArray3X4 getArray();
 private:
 	int filledCells=30;
 	int filledPositions[30]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};

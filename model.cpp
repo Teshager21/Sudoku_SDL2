@@ -18,8 +18,6 @@ bool Model::init() {
 }
 
 std::string Model::getMessages() { return messages; }
-//typedef int (*tableArray3X4)[3][3][3];
-//tableArray3X4 Model::getArray() { return tableArray; }
 int Model::getMembers(int w, int x, int y, int z) {
     return m_tableArray[w][x][y][z];
 }
@@ -30,7 +28,6 @@ void Model::setMessages(std::string message) { messages = message; }
 
 void Model:: generateFilledPositions() {
     srand(time(NULL));
-    std::cout << "the new generation: " << filledCells << " size of filled pos: " << sizeof(filledPositions)<<std::endl;
     for (int i = 0; i < filledCells; i++) {
 
         int randPos = rand() % 81;
@@ -39,7 +36,6 @@ void Model:: generateFilledPositions() {
             continue;
         }
         filledPositions[i] = randPos;
-        std::cout << "New generated Position: " << i << ": " << filledPositions[i] << ", " << std::endl;
     }
 
 
@@ -62,10 +58,8 @@ void Model::populateInitialCells( ) {
             for (int k = 0; k < 3; k++) {
                 for (int l = 0; l < 3; l++) {
                     pos = 27 * i + 9 * k + 3 * j + l;
-                    //auto exists = std::find(start, finish, pos);
                     for (int a = 0; a < filledCells; a++) {
                         if (filledPositions[a] == pos) {
-                            // if (isElementofArray(filledPositions, pos)) {
                             int fill=0;
                             do {
                                 fill = rand() % 9 + 1;

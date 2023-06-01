@@ -9,14 +9,19 @@ Window::Window(const std::string &title, int width, int height):
 	if (!init()) {
 		m_running = true; 
 	}
+    TTF_Init();
     TTF_Font* font = TTF_OpenFont("C:\\Users\\PC\\Downloads\\Roboto-BoldItalic.ttf", 28);
 }
 Window::~Window() {
 	SDL_DestroyRenderer(m_renderer);
 	SDL_DestroyWindow(m_window);
+    //TTF_CloseFont(font);
     TTF_Quit();
 	SDL_Quit(); 
 }
+
+bool Window::getState() { return m_running; }
+void Window::setState(bool state) {m_running=state; }
 double Window::getCellSize() { return m_cellSize; }
 
 SDL_Renderer& Window::getRenderer() {

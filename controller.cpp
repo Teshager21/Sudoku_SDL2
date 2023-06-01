@@ -77,14 +77,17 @@ void Controller:: handleKeyboardEvents(SDL_Event& event) {
     }
 }
 
-void Controller::pollEvents(SDL_Event& event, bool& running, int(&cursorPos)[2]) {
+void Controller::pollEvents(SDL_Event& event,Window& window) {
     while (SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
-            running = false;
+            //running = false;
+            window.setState(false);
             break;
         }
         handleKeyboardEvents(event);
     }
+    SDL_SetRenderDrawColor(&window.getRenderer(), 255, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_RenderClear(&window.getRenderer());
 }
 
 void Controller::renderTable(Window& window,Model& model) {
@@ -128,6 +131,7 @@ void Controller::renderTable(Window& window,Model& model) {
 
                     //render the cursor
                     window.drawCursor();
+                    displayMessage(window, model);
 
                     SDL_SetRenderDrawColor(&window.getRenderer(), 255, 255, 255, SDL_ALPHA_TRANSPARENT);
                     SDL_SetRenderDrawColor(& window.getRenderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
@@ -140,4 +144,17 @@ void Controller::renderTable(Window& window,Model& model) {
 
         }
     }
+}
+
+void Controller:: displayMessage(Window& window, Model& model) {
+    SDL_Color red = { 255,0,0,SDL_ALPHA_OPAQUE };
+    TTF_Font* messageFont = TTF_OpenFont("C:\\Users\\PC\\Downloads\\Roboto-Regular.ttf", 22);
+    SDL_Surface* messageSurface = TTF_RenderText_Solid(messageFont, model.getMessages().c_str(), red);
+    SDL_Texture* msgTexture = SDL_CreateTextureFromSurface(&window.getRenderer(), messageSurface);
+
+    SDL_Rect messageRect = { 80,640,200,26 };
+    SDL_RenderCopy(&window.getRenderer(), msgTexture, NULL, &messageRect);
+
+    SDL_SetRenderDrawColor(&window.getRenderer(), 255, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_RenderDrawRect(&window.getRenderer(), &messageRect);
 }
