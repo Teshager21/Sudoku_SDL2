@@ -6,6 +6,7 @@
 #include<cstdlib>  
 #include"window.h"
 #include "model.h"
+#include"controller.h"
 
 
 #define fps 60
@@ -33,37 +34,31 @@ void renderTable(int(&tableArray)[3][3][3][3], SDL_Renderer& renderer, int(&curs
 
 
 int main(int argc, char* argv[]) {
-    int tableArray[3][3][3][3]{{{0,0,0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}};
-    std::string messages="";
+   // int tableArray[3][3][3][3]{{{0,0,0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}};
+   // std::string messages="";
     Window window("SUDOKU",SCREEN_WIDTH,SCREEN_HEIGHT);
     SDL_Renderer& renderer = window.getRenderer();
-    const int filledCells = 30;
-    int filledPositions[30];
+    //const int filledCells = 30;
+    //int filledPositions[30];
     Model model;
-    //00
+    Controller controller(model,window);
     model.generateFilledPositions();
-    generateFilledPositions(filledPositions, filledCells);
-    //std::cout << "list of filled position: ";
-    //for (int i = 0; i < filledCells; i++) {
-        //std::cout << filledPositions[i] << ", ";
-    //}
-    //std::cout << std::endl;
-
-    populateInitialCells(tableArray, filledCells, filledPositions);
+    //generateFilledPositions(filledPositions, filledCells);
+   //populateInitialCells(tableArray, filledCells, filledPositions);
     model.populateInitialCells();
-    int (*tArray)[3][3][3] = model.getArray();
+ 
      
-    for (int i = 0; i < 3; i++) {
-        for (int k = 0; k < 3; k++) {
-            for (int j = 0; j < 3; j++) {
-                for (int l = 0; l < 3; l++) {
-                    //std::cout << tableArray[i][j][k][l] << "[" << i << j << k << l << "]" << "[" << 27 * i + 9 * k + 3 * j + l << "], ";
-                    std::cout<<&tArray[i][j][k][l]<<"["<<i<<j<<k<<l<<"]" << "[" << 27 * i + 9 * k + 3 * j + l << "], ";
-                }
-            }
+    //for (int i = 0; i < 3; i++) {
+    //    for (int k = 0; k < 3; k++) {
+    //        for (int j = 0; j < 3; j++) {
+    //            for (int l = 0; l < 3; l++) {
+    //                //std::cout << tableArray[i][j][k][l] << "[" << i << j << k << l << "]" << "[" << 27 * i + 9 * k + 3 * j + l << "], ";
+    //                std::cout << model.getMembers(i,j,k,l) << "[" << i << j << k << l << "]" << "[" << 27 * i + 9 * k + 3 * j + l << "], ";
+    //            }
+    //        }
 
-        }
-    }
+    //    }
+    //}
     TTF_Init();
     Uint32 starting_tick;
     SDL_Event event;
@@ -73,37 +68,40 @@ int main(int argc, char* argv[]) {
     while (running) {
         SDL_GL_SetSwapInterval(1);
         starting_tick = SDL_GetTicks();
-        pollEvents(event, running, cursorPos, filledCells, filledPositions, tableArray, messages);
+        //pollEvents(event, running, cursorPos, filledCells, filledPositions, tableArray, messages);
+        controller.pollEvents(event,running,cursorPos);
+   
         SDL_SetRenderDrawColor(&renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
         SDL_RenderClear(&renderer);
         drawGrid(&renderer);
 
-    //TTF_Font* font = TTF_OpenFont("C:\\Windows\\Fonts\\arial.ttf", 28);
-    TTF_Font* font = TTF_OpenFont("C:\\Users\\PC\\Downloads\\Roboto-BoldItalic.ttf", 28);
-    SDL_Color black = { 0,0,0,SDL_ALPHA_OPAQUE };
-    SDL_Color red = { 255,0,0,SDL_ALPHA_OPAQUE };
-    SDL_Color blue = { 0,0,255,SDL_ALPHA_OPAQUE };
-    SDL_Color white = { 255,255,255,SDL_ALPHA_OPAQUE };
+        //TTF_Font* font = TTF_OpenFont("C:\\Windows\\Fonts\\arial.ttf", 28);
+        //TTF_Font* font = TTF_OpenFont("C:\\Users\\PC\\Downloads\\Roboto-BoldItalic.ttf", 28);
+        /*SDL_Color black = { 0,0,0,SDL_ALPHA_OPAQUE };
+        SDL_Color red = { 255,0,0,SDL_ALPHA_OPAQUE };
+        SDL_Color blue = { 0,0,255,SDL_ALPHA_OPAQUE };
+        SDL_Color white = { 255,255,255,SDL_ALPHA_OPAQUE };*/
 
-    renderTable(tableArray, renderer, cursorPos, filledCells, filledPositions);
+        //renderTable(tableArray, renderer, cursorPos, filledCells, filledPositions);
+        controller.renderTable(window, model);
     
-    displayMessage(renderer, messages);
+        //displayMessage(renderer, messages);
    
-    Uint32 frameTime = SDL_GetTicks() - starting_tick;
-    Uint32 frameDelay=1000/fps;
-    if (frameDelay > frameTime) {
-        SDL_Delay(frameDelay - frameTime);
+        Uint32 frameTime = SDL_GetTicks() - starting_tick;
+        Uint32 frameDelay=1000/fps;
+        if (frameDelay > frameTime) {
+            SDL_Delay(frameDelay - frameTime);
+
+        }
+
+        //clearing
+        /*SDL_FreeSurface(surface);
+        SDL_DestroyTexture(texture);
+        TTF_CloseFont(font);*/
 
     }
 
-    //clearing
-    /*SDL_FreeSurface(surface);
-    SDL_DestroyTexture(texture);
-    TTF_CloseFont(font);*/
-
-}
     return 0;
-
 }
 
 bool isElementofArray(int (&arr)[30], int value) {

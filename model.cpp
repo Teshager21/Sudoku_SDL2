@@ -10,7 +10,7 @@ Model::~Model() {
 }
 
 bool Model::init() {
-    int tableArray[3][3][3][3] {{{0,0,0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}} };
+    int m_tableArray[3][3][3][3] {{{0,0,0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}} };
     messages = "";
     generateFilledPositions();
     populateInitialCells();
@@ -18,8 +18,11 @@ bool Model::init() {
 }
 
 std::string Model::getMessages() { return messages; }
-typedef int (*tableArray3X4)[3][3][3];
-tableArray3X4 Model::getArray() { return tableArray; }
+//typedef int (*tableArray3X4)[3][3][3];
+//tableArray3X4 Model::getArray() { return tableArray; }
+int Model::getMembers(int w, int x, int y, int z) {
+    return m_tableArray[w][x][y][z];
+}
 
 void Model::setMessages(std::string message) { messages = message; }
 
@@ -63,12 +66,12 @@ void Model::populateInitialCells( ) {
                     for (int a = 0; a < filledCells; a++) {
                         if (filledPositions[a] == pos) {
                             // if (isElementofArray(filledPositions, pos)) {
-                            int fill;
+                            int fill=0;
                             do {
                                 fill = rand() % 9 + 1;
                             } while (isItRepeated("row", i * 3 + k, fill) || isItRepeated("col", j * 3 + l, fill) || isItRepeated("block", i * 3 + j, fill));
 
-                            tableArray[j][i][l][k] = fill;
+                            m_tableArray[j][i][l][k] = fill;
                         }
                     }
 
@@ -89,8 +92,8 @@ bool Model::isItRepeated(std::string scope, int scopeSpecifier, double value) {
                     for (int l = 0; l < 3; l++) {
 
                         if (i * 3 + k == scopeSpecifier) {
-                            rowElem = rowElem + "[" + std::to_string(scopeSpecifier) + "]" + ", " + std::to_string(tableArray[i][j][k][l]) + "(" + std::to_string(i) + std::to_string(j) + std::to_string(k) + std::to_string(l) + ")";
-                            if (value == tableArray[i][j][k][l]) {
+                            rowElem = rowElem + "[" + std::to_string(scopeSpecifier) + "]" + ", " + std::to_string(m_tableArray[i][j][k][l]) + "(" + std::to_string(i) + std::to_string(j) + std::to_string(k) + std::to_string(l) + ")";
+                            if (value == m_tableArray[i][j][k][l]) {
                                 return true;
                             }
                         }
@@ -108,7 +111,7 @@ bool Model::isItRepeated(std::string scope, int scopeSpecifier, double value) {
                     for (int l = 0; l < 3; l++) {
 
                         if (j * 3 + l == scopeSpecifier) {
-                            if (value == tableArray[i][j][k][l]) {
+                            if (value == m_tableArray[i][j][k][l]) {
                                 return true;
                             }
                         }
@@ -126,7 +129,7 @@ bool Model::isItRepeated(std::string scope, int scopeSpecifier, double value) {
                     for (int l = 0; l < 3; l++) {
 
                         if (i * 3 + j == scopeSpecifier) {
-                            if (value == tableArray[i][j][k][l]) {
+                            if (value == m_tableArray[i][j][k][l]) {
                                 return true;
                             }
                         }
@@ -157,19 +160,20 @@ void Model::receiveInput( int position, int value) {
     j = (position - 27 * i - 9 * k) / 3;
     if (isItRepeated("row", i * 3 + k, value) || isItRepeated("col", j * 3 + l, value) || isItRepeated("block", i * 3 + j, value)) {
         messages = std::to_string(value) + ": already used!";
+        std::cout << messages;
     }
     else {
-        tableArray[j][i][l][k] = value;
+        m_tableArray[j][i][l][k] = value;
         messages = "";
     }
-    std::cout << std::endl << "received! " << i << j << k << l << ", position is: " << position << " value at the position: " << tableArray[i][j][k][l] << std::endl;
+    std::cout << std::endl << "received! " << i << j << k << l << ", position is: " << position << " value at the position: " << m_tableArray[i][j][k][l] << std::endl;
     std::cout << "filled values are: ";
     for (int i = 0; i < 3; i++) {
         for (int k = 0; k < 3; k++) {
             for (int j = 0; j < 3; j++) {
                 for (int l = 0; l < 3; l++) {
 
-                    std::cout << tableArray[j][i][l][k] << ", ";
+                    std::cout << m_tableArray[j][i][l][k] << ", ";
 
                 }
             }
@@ -193,7 +197,7 @@ bool Model::isgameWon() {
         for (int j = 0; j < 3; j++) {
             for (int k = 0; k < 3; k++) {
                 for (int l = 0; l < 3; l++) {
-                    if (tableArray[i][j][k][l] == 0) {
+                    if (m_tableArray[i][j][k][l] == 0) {
                         return false;
                     }
                 }

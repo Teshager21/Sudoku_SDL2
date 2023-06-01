@@ -14,11 +14,13 @@ public:
 	bool isgameWon();
 	std::string getMessages();
 	void setMessages(std::string message);
-	typedef int(*tableArray3X4)[3][3][3];
-	tableArray3X4 getArray();
+	int getMembers(int w, int x, int y, int z);
+	//typedef int(*tableArray3X4)[3][3][3];
+	//tableArray3X4 getArray();
 private:
 	int filledCells=30;
-	int filledPositions[30];//={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-	int tableArray[3][3][3][3];
+	int filledPositions[30]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+	//int m_tableArray[3][3][3][3];
+	int m_tableArray[3][3][3][3]{ {{0,0,0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}} };
 	std::string messages;
 };

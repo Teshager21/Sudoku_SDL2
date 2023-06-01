@@ -7,7 +7,7 @@ Window::Window(const std::string &title, int width, int height):
 	m_title(title), m_width(width),m_height(height)
 {
 	if (!init()) {
-		m_closed = true; 
+		m_running = true; 
 	}
     TTF_Font* font = TTF_OpenFont("C:\\Users\\PC\\Downloads\\Roboto-BoldItalic.ttf", 28);
 }
@@ -22,6 +22,8 @@ double Window::getCellSize() { return m_cellSize; }
 SDL_Renderer& Window::getRenderer() {
     return *m_renderer;
 }
+
+int Window::getCursorPos(int x) { return m_cursorPos[x]; }
 
 bool Window::init() {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -74,21 +76,39 @@ int Window:: drawGrid() {
     }
     return 0;
 }
-void Window::handleCursorKeys(SDL_Event& event, int(&cursorPos)[2]) {
+void Window::handleCursorKeys(SDL_Event& event) {
     switch (event.key.keysym.sym) {
     case SDLK_LEFT:
-        cursorPos[0] -= m_cellSize;
+        m_cursorPos[0] -= m_cellSize;
         break;
     case SDLK_RIGHT:
-        cursorPos[0] += m_cellSize;
+        m_cursorPos[0] += m_cellSize;
         break;
     case SDLK_UP:
-        cursorPos[1] -= m_cellSize;
+        m_cursorPos[1] -= m_cellSize;
         break;
     case SDLK_DOWN:
-        cursorPos[1] += m_cellSize;
+        m_cursorPos[1] += m_cellSize;
         break;
 
     }
+}
+
+void Window::drawCursor() {
+    SDL_Rect cursor{ m_cursorPos[0],m_cursorPos[1],m_cellSize,m_cellSize };
+    SDL_Rect cursor2{ m_cursorPos[0] + 1,m_cursorPos[1] + 1,m_cellSize - 2,m_cellSize - 2 };
+    SDL_Rect cursor3{ m_cursorPos[0] + 2,m_cursorPos[1] + 2,m_cellSize - 4,m_cellSize - 4 };
+
+    SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
+    SDL_SetRenderDrawColor(m_renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
+    SDL_RenderDrawRect(m_renderer, &cursor);
+    SDL_RenderDrawRect(m_renderer, &cursor2);
+    SDL_RenderDrawRect(m_renderer, &cursor3);
+
+    SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_TRANSPARENT);
+    SDL_RenderFillRect(m_renderer, &cursor);
+    SDL_RenderFillRect(m_renderer, &cursor2);
+    SDL_RenderFillRect(m_renderer, &cursor3);
+
 }
 

@@ -10,9 +10,10 @@ class Controller{
 public:
 	Controller(Model& model, Window& window);
 	~Controller();
-	void handleKeyEvents(int selectedValue, int (&cursorPos)[2]);
-	void handleKeyboardEvents(SDL_Event& event, int (&cursorPos)[2]);
+	void handleKeyEvents(int selectedValue, Window& window);
+	void handleKeyboardEvents(SDL_Event& event);
 	void pollEvents(SDL_Event& event, bool& running, int(&cursorPos)[2]);
+	void renderTable(Window& window, Model& model);
 
 
 }; 
