@@ -11,12 +11,12 @@ Controller::~Controller(){}
 
 void Controller::handleKeyEvents(int selectedValue, Window& window) {
 	int position = ((window.getCursorPos(1) - 80) / window.getCellSize()) * 9 + (window.getCursorPos(0) - 80) / window.getCellSize();
-	if (model.checkSelectedPosition(position)) {
+	if (!model.checkSelectedPosition(position)) {
         model.receiveInput(position, selectedValue);
         std::cout <<std::endl<< "been here: position " << position << " value: " << selectedValue << std::endl;
 	}
 	else {
-		model.setMessages( ("Cell "+ std::to_string(position) + " not Available! "));
+		model.setMessages( ("Cell "+ std::to_string(position) + " not Available! ")+std::to_string(model.getMembers(position/9,position%9)));
 	}
      
 	std::cout << "the position calculated: " << position;
@@ -90,12 +90,6 @@ void Controller::pollEvents(Window& window) {
     SDL_RenderClear(&window.getRenderer());
 }
 
-void Controller::renderTable(Window& window,Model& model) {
-    
-    displayArray(window, model, { 0,124,70 });
-
-}
-
 void Controller:: displayMessage(Window& window, Model& model) {
     SDL_Color red = { 255,0,0,SDL_ALPHA_OPAQUE };
     TTF_Font* messageFont = TTF_OpenFont("C:\\Users\\PC\\Downloads\\Roboto-Regular.ttf", 22);
@@ -123,46 +117,6 @@ void Controller::grayFixedCells(Model& model,Window& window) {
             SDL_RenderDrawRect(&window.getRenderer(), &window.GetMemberOfGrayRects(i)); // draw the rectangle outline
             SDL_RenderFillRect(&window.getRenderer(), &window.GetMemberOfGrayRects(i));
             //grayCell(pos, window);
-        }
-    }
-
-}
-
-void Controller::displayArray(Window& window,Model& model,SDL_Color color) {
-    TTF_Font* font = TTF_OpenFont("C:\\Users\\PC\\Downloads\\Roboto-BoldItalic.ttf", 28);
-    SDL_Surface* surface = nullptr;
-    for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-                    char text[10];
-                    char test[10];
-                    sprintf_s(text, "%d", model.getMembers(i, j));
-                    sprintf_s(test, "%d", 0);
-                    if (model.getMembers(i, j) == 0) {
-                        //surface = TTF_RenderText_Solid(font, text, { 255,255,255,255 });
-                    }
-                    else {
-                        int pos = 3 * i + j;
-                        if (model.checkSelectedPosition(pos)) {
-                           //surface = TTF_RenderText_Solid(font, text, { 0,124,70 });
-                            //surface = TTF_RenderText_Solid(font, text, color);
-                        }
-                        else {
-                           // surface = TTF_RenderText_Solid(font, text, { 0,0,200 });
-                        }
-                    }
-
-                    int hIndent = (window.getCellSize() - surface->w) * 0.5;
-                    int vIndent = (window.getCellSize() - surface->h) * 0.5;
-
-                    //create texture from the surfaces
-                
-                    SDL_Texture* texture = SDL_CreateTextureFromSurface(&window.getRenderer(), surface);
-                    SDL_Rect rect = { 20 + window.getCellSize() * (j + 1) + hIndent , 20 + window.getCellSize() * (i + 1) + vIndent , surface->w,surface->h };
-                    SDL_RenderCopy(&window.getRenderer(), texture, NULL, &rect);
-                    //render the cursor
-                    window.drawCursor();
-                    displayMessage(window, model);
-                    SDL_RenderPresent(&window.getRenderer());
         }
     }
 

@@ -50,7 +50,7 @@ void Model:: generateFilledPositions() {
 }
 
 bool Model::isElementofArray(int(&arr)[30], int value) {
-    for (int i = 0; i < sizeof(arr); i++) {
+    for (int i = 0; i < sizeof(arr)/sizeof(arr[i]); i++) {
         if (arr[i] == value) {
             return true;
         }
