@@ -60,42 +60,7 @@ bool Model::isElementofArray(int(&arr)[30], int value) {
 
 void Model::populateInitialCells( ) {
     srand(time(NULL));
-    //int pos = 0;
-    //for (int i = 0; i < 3; i++) {
-    //    for (int j = 0; j < 3; j++) {
-    //        for (int k = 0; k < 3; k++) {
-    //            for (int l = 0; l < 3; l++) {
-    //                pos = 27 * i + 9 * k + 3 * j + l;
-    //                for (int a = 0; a < filledCells; a++) {
-    //                    if (filledPositions[a] == pos) {
-    //                        int fill=0;
-    //                        do {
-    //                            fill = rand() % 9 + 1;
-    //                        } while (isItRepeated("row", i * 3 + k, fill) || isItRepeated("col", j * 3 + l, fill) || isItRepeated("block", i * 3 + j, fill));
-
-    //                        m_tableArray[j][i][l][k] = fill;
-    //                        //if (m_tableArray[j][i][l][k] == 0) {
-    //                            //std::cout<<std::endl << "TROUBLE!"<<std::endl;
-    //                        //}
-    //                    }
-    //                }
-    //                 
-    //            }
-    //        }
-    //    }
-
-    //}
-
-    //for (int i = 0; i < 3; i++) {
-    //    for (int j = 0; j < 3; j++) {
-    //        for (int k = 0; k < 3; k++) {
-    //            for (int l = 0; l < 3; l++) {
-    //                std::cout << m_tableArray[i][k][j][l] << ", ";
-    //            }
-    //        }
-    //        std::cout << std::endl;
-    //    }
-    //}
+   
     int col = 0, row = 0,block=0,fill=0;
     for (int i = 0; i < filledCells; i++) {
         col = filledPositions[i] % 9;
@@ -105,14 +70,8 @@ void Model::populateInitialCells( ) {
           fill = rand() % 9 + 1;
         }
         while(isItRepeated("row", row, fill) || isItRepeated("col", col, fill) || isItRepeated("block", block, fill));
-                m_tableArray[row][col] = fill;
-         
-        
-        
-      
-   }
-
-
+                m_tableArray[row][col] = fill; 
+    }
 }
 
 bool Model::isItRepeated(std::string scope, int scopeSpecifier, double value) {
@@ -144,7 +103,8 @@ bool Model::isItRepeated(std::string scope, int scopeSpecifier, double value) {
     if (scope == "block") {
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
-                if (row * 3 + col == scopeSpecifier) {
+                int position = row * 9 + col;
+                if ((position / 27)*3+ (position % 9)/3 == scopeSpecifier) {
                     if (value == m_tableArray[row][col]) {
                         return true;
                     }
@@ -160,7 +120,7 @@ void Model::receiveInput( int position, int value) {
     i = position / 9;
     j = position % 9;
 
-    if (isItRepeated("row", i , value) || isItRepeated("col", j, value) || isItRepeated("block", i * 3 + j, value)) {
+    if (isItRepeated("row", i , value) || isItRepeated("col", j, value) || isItRepeated("block", (position / 27) * 3 + (position % 9) / 3, value)) {
         messages = std::to_string(value) + ": already used!";
         std::cout << messages;
     }
