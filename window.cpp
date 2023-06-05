@@ -49,8 +49,8 @@ bool Window::init() {
     for (int i = 0; i < 30; i++) {
         m_grayRects[i].x = 0; // x position
         m_grayRects[i].y =0; // y position
-        m_grayRects[i].w = m_cellSize-4; // width
-        m_grayRects[i].h = m_cellSize-4; // height
+        m_grayRects[i].w = m_cellSize-2; // width
+        m_grayRects[i].h = m_cellSize-2; // height
     }
 
 	return true;

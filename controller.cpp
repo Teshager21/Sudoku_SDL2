@@ -108,8 +108,10 @@ void Controller::grayFixedCells(Model& model,Window& window) {
         int row = model.getFilledPosition(i) / 9;
         int col = model.getFilledPosition(i) % 9;
         int pos = model.getFilledPosition(i);
-        int x = 84+row*window.getCellSize();
-        int y = 84 + col * window.getCellSize();
+        int x = 0,y=0;
+        if(row%3==0){ x = 84 + row * window.getCellSize(); }else{ x = 80 + row * window.getCellSize(); }
+        
+        if (col % 3 == 0) { y = 84 + col * window.getCellSize(); }else{ y = 78 + col * window.getCellSize(); }
         if (model.checkSelectedPosition(model.getFilledPosition(i))){
             //std::cout << std::endl <<pos<<" "<< model.getFilledPosition(i) << "Position to be grayed: " << model.getFilledPosition(i) << std::endl;
             window.SetMemberOfGrayRects(i, y, x);
