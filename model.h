@@ -1,5 +1,6 @@
 #pragma once
 #include<string>
+#include<vector>
 class Model {
 public:
 	Model();
@@ -14,11 +15,16 @@ public:
 	bool isgameWon();
 	std::string getMessages();
 	void setMessages(std::string message);
-	int getMembers(int w, int x, int y, int z);
+	int getMembers(int x, int y);
+	int getFilledPosition(int x);
+	int GetFilledCells();
+	std::vector<int>getVariablePositions();
+	//bool isElementofArray(int selectedPosition);
 private:
 	int filledCells=30;
-	int filledPositions[30]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-	//int m_tableArray[3][3][3][3];
-	int m_tableArray[3][3][3][3]{ {{0,0,0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}} };
+	int filledPositions[30]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+	int m_variablePositions[51]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+	std::vector<int> variablePositions;
+	int m_tableArray[9][9]{ {0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0} ,{0,0,0,0,0,0,0,0,0} ,{0,0,0,0,0,0,0,0,0} ,{0,0,0,0,0,0,0,0,0} ,{0,0,0,0,0,0,0,0,0} ,{0,0,0,0,0,0,0,0,0} ,{0,0,0,0,0,0,0,0,0} };
 	std::string messages;
 };

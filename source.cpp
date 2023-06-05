@@ -1,63 +1,35 @@
 #include<iostream>
-#include<string>
-#include<SDL.h>
-#include<SDL_ttf.h>
-#include<ctime>
-#include<cstdlib>  
 #include"window.h"
 #include "model.h"
 #include"controller.h"
 
-
-#define fps 60
 #define SCREEN_WIDTH 700
 #define SCREEN_HEIGHT 700
-#define cellSize 60
-
-//int capFrameRate(Uint32 starting_tick);
-//int generateNumberofFilledCells();
-//void generateFilledPositions(int(&filledPositions)[30], const int filledCells);
-//void populateInitialCells(int(&tableArray)[3][3][3][3], const int filledCells, int filledPositions[30]);
-//bool isItRepeated(std::string scope, int scopeSpecifier, double value, int(&tableArray)[3][3][3][3]);
-//void receiveInput(int(&tableArray)[3][3][3][3], int position, int value, std::string& messages);
-//bool checkSelectedPosition(int selectedPosition, int filledPositions[], int filledCells);
-//bool isgameWon(int tableArray[3][3][3][3]);
-//int drawGrid(SDL_Renderer* renderer);
-//void handleKeyEvents(int selectedValue, int (&cursorPos)[2], int filledCells, int(&filledPositions)[30], int(&tableArray)[3][3][3][3], std::string messages);
-//void handleCursorKeys(SDL_Event& event, int (&cursorPos)[2]);
-//void handleKeyboardEvents(SDL_Event& event, int (&cursorPos)[2], int filledCells, int(&filledPositions)[30], int(&tableArray)[3][3][3][3], std::string messages);
-//void drawCursor(int(&cursorPos)[2], SDL_Renderer& renderer);
-//void displayMessage(SDL_Renderer& renderer, std::string messages);
-//void pollEvents(SDL_Event& event, bool& running, int(&cursorPos)[2], int filledCells, int(&filledPositions)[30], int(&tableArray)[3][3][3][3], std::string messages);
-//void renderTable(int(&tableArray)[3][3][3][3], SDL_Renderer& renderer, int(&cursorPos)[2], int filledCells, int(&filledPositions)[30]);
 
 int main(int argc, char* argv[]) {
     Window window("SUDOKU",SCREEN_WIDTH,SCREEN_HEIGHT);
     Model model;
     Controller controller(model,window);
-    model.init();
+    
     Uint32 starting_tick;
-    SDL_Event event;
-   
-   
+  
     while (window.getState()) {
-        SDL_GL_SetSwapInterval(1);
+
         starting_tick = SDL_GetTicks();
 
-        controller.pollEvents(event,window);
+        controller.pollEvents(window);
         window.drawGrid();
-        controller.renderTable(window, model);
-   
-        Uint32 frameTime = SDL_GetTicks() - starting_tick;
-        Uint32 frameDelay=1000/fps;
-        if (frameDelay > frameTime) {
-            SDL_Delay(frameDelay - frameTime);
-
-        }
+        
+        controller.grayFixedCells(model, window);
+        controller.displayFixedPositions(window, model);
+        controller.displayVariablePositions(window, model);
+        
+        window.CapFrameRate(starting_tick);
+ 
         //clearing
-        /*SDL_FreeSurface(surface);
-        SDL_DestroyTexture(texture);
-        TTF_CloseFont(font);*/
+        //SDL_FreeSurface(surface);
+        //SDL_DestroyTexture(texture);
+        //TTF_CloseFont(font);
     }
 
     return 0;

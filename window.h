@@ -1,11 +1,16 @@
 #pragma once
 #include<string>
 #include<SDL.h>
+#include<array>
+
+#define fps 2
+
 class Window {
 public:
 	Window(const std::string &title, int width, int height);
 	~Window();
 	bool init();
+	void CapFrameRate(Uint32 starting_tick);
 	inline bool isClosed() const { return m_running; };
 	double getCellSize();
 	int drawGrid();
@@ -15,6 +20,10 @@ public:
 	int getCursorPos(int x);
 	bool getState();
 	void setState(bool state);
+	void getSurface();
+	SDL_Rect& GetMemberOfGrayRects(int x);
+	void SetMemberOfGrayRects(int pos, int x, int y);
+	
 private:
 		std::string m_title;
 		int m_width=700;
@@ -25,6 +34,8 @@ private:
 		bool m_running = true;
 		SDL_Window *m_window=nullptr;
 		SDL_Renderer *m_renderer;
+		SDL_Surface* m_surface = nullptr;
+		std::array<SDL_Rect,30> m_grayRects;
 };
 
 

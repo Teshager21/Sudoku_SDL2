@@ -38,12 +38,20 @@ bool Window::init() {
 	m_window = SDL_CreateWindow(m_title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height, 0);
 	if (m_window == nullptr) {
 		std::cerr << "Failed to initialize window\n";
-   }
+    }
     SDL_Surface* screen = NULL;
      m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
     screen = SDL_GetWindowSurface(m_window);
     Uint32 white = SDL_MapRGB(screen->format, 255, 255, 255);
     SDL_FillRect(screen, NULL, white);
+
+
+    for (int i = 0; i < 30; i++) {
+        m_grayRects[i].x = 0; // x position
+        m_grayRects[i].y =0; // y position
+        m_grayRects[i].w = m_cellSize-4; // width
+        m_grayRects[i].h = m_cellSize-4; // height
+    }
 
 	return true;
 
@@ -117,3 +125,19 @@ void Window::drawCursor() {
 
 }
 
+void Window::CapFrameRate(Uint32 starting_tick) {
+    Uint32 frameTime = SDL_GetTicks() - starting_tick;
+    Uint32 frameDelay = 1000 / fps;
+    if (frameDelay > frameTime) {
+        SDL_Delay(frameDelay - frameTime);
+    }
+}
+
+SDL_Rect& Window::GetMemberOfGrayRects(int x) {
+    return m_grayRects[x];
+}
+
+void Window::SetMemberOfGrayRects(int pos,int x, int y) {
+    m_grayRects[pos].x=x;
+    m_grayRects[pos].y = y;
+}
