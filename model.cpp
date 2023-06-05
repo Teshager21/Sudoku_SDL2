@@ -118,8 +118,8 @@ void Model::populateInitialCells( ) {
 bool Model::isItRepeated(std::string scope, int scopeSpecifier, double value) {
     std::string rowElem;
     if (scope == "row") {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
                 if (i == scopeSpecifier) {
                     if (value == m_tableArray[i][j]) {
                         return true;
@@ -142,10 +142,10 @@ bool Model::isItRepeated(std::string scope, int scopeSpecifier, double value) {
     }
 
     if (scope == "block") {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (i * 3 + j == scopeSpecifier) {
-                    if (value == m_tableArray[i][j]) {
+        for (int row = 0; row < 9; row++) {
+            for (int col = 0; col < 9; col++) {
+                if (row * 3 + col == scopeSpecifier) {
+                    if (value == m_tableArray[row][col]) {
                         return true;
                     }
                 }
