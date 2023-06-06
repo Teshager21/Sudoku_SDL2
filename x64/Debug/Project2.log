@@ -1,21 +1,3 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(517,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (Project2.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  controller.cpp
-C:\Users\PC\source\repos\Project2\controller.cpp(4,9): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\PC\source\repos\Project2\controller.cpp(13,15): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\PC\source\repos\Project2\controller.cpp(112,30): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\PC\source\repos\Project2\controller.cpp(112,74): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\PC\source\repos\Project2\controller.cpp(114,36): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\PC\source\repos\Project2\controller.cpp(114,80): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-C:\Users\PC\source\repos\Project2\controller.cpp(144,21): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\PC\source\repos\Project2\controller.cpp(145,21): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\PC\source\repos\Project2\controller.cpp(147,65): warning C4838: conversion from 'double' to 'int' requires a narrowing conversion
-C:\Users\PC\source\repos\Project2\controller.cpp(147,65): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\PC\source\repos\Project2\controller.cpp(147,115): warning C4838: conversion from 'double' to 'int' requires a narrowing conversion
-C:\Users\PC\source\repos\Project2\controller.cpp(147,115): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\PC\source\repos\Project2\controller.cpp(170,21): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\PC\source\repos\Project2\controller.cpp(171,21): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\PC\source\repos\Project2\controller.cpp(173,65): warning C4838: conversion from 'double' to 'int' requires a narrowing conversion
-C:\Users\PC\source\repos\Project2\controller.cpp(173,65): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-C:\Users\PC\source\repos\Project2\controller.cpp(173,115): warning C4838: conversion from 'double' to 'int' requires a narrowing conversion
-C:\Users\PC\source\repos\Project2\controller.cpp(173,115): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+  window.cpp
   Project2.vcxproj -> C:\Users\PC\source\repos\Project2\x64\Debug\SUDOKU_SDL2.exe

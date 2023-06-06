@@ -9,6 +9,27 @@
 Controller::Controller(Model& model, Window& window): model(model),window(window) {}
 Controller::~Controller(){}
 
+bool Controller::run() {
+    Uint32 starting_tick;
+    while (window.getState()) {
+
+        starting_tick = SDL_GetTicks();
+
+        pollEvents(window);
+        window.drawGrid();
+        grayFixedCells(model, window);
+        displayFixedPositions(window, model);
+        displayVariablePositions(window, model);
+        window.CapFrameRate(starting_tick);
+
+        //clearing
+        //SDL_FreeSurface(surface);
+        //SDL_DestroyTexture(texture);
+        //TTF_CloseFont(font);
+    }
+    return true;
+}
+
 void Controller::handleKeyEvents(int selectedValue, Window& window) {
 	int position = ((window.getCursorPos(1) - 80) / window.getCellSize()) * 9 + (window.getCursorPos(0) - 80) / window.getCellSize();
 	if (!model.checkSelectedPosition(position)) {
@@ -109,9 +130,9 @@ void Controller::grayFixedCells(Model& model,Window& window) {
         int col = model.getFilledPosition(i) % 9;
         int pos = model.getFilledPosition(i);
         int x = 0,y=0;
-        if(row%3==0){ x = 84 + row * window.getCellSize(); }else{ x = 80 + row * window.getCellSize(); }
+        if(row%3==0){ x = 84 + row * window.getCellSize(); }else{ x = 82 + row * window.getCellSize(); }
         
-        if (col % 3 == 0) { y = 84 + col * window.getCellSize(); }else{ y = 78 + col * window.getCellSize(); }
+        if (col % 3 == 0) { y = 84 + col * window.getCellSize(); }else{ y = 82 + col * window.getCellSize(); }
         if (model.checkSelectedPosition(model.getFilledPosition(i))){
             //std::cout << std::endl <<pos<<" "<< model.getFilledPosition(i) << "Position to be grayed: " << model.getFilledPosition(i) << std::endl;
             window.SetMemberOfGrayRects(i, y, x);
