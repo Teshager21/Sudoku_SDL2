@@ -23,9 +23,7 @@ bool Controller::run() {
         window.CapFrameRate(starting_tick);
 
         //clearing
-        //SDL_FreeSurface(surface);
         //SDL_DestroyTexture(texture);
-        //TTF_CloseFont(font);
     }
     return true;
 }
@@ -122,6 +120,9 @@ void Controller:: displayMessage(Window& window, Model& model) {
 
     SDL_SetRenderDrawColor(&window.getRenderer(), 255, 255, 255, SDL_ALPHA_OPAQUE);
     SDL_RenderDrawRect(&window.getRenderer(), &messageRect);
+
+    SDL_FreeSurface(messageSurface);
+    TTF_CloseFont(messageFont);
 }
 
 void Controller::grayFixedCells(Model& model,Window& window) {
@@ -168,11 +169,14 @@ void Controller::displayFixedPositions(Window& window,Model& model) {
         SDL_Rect rect = { 20 + window.getCellSize() * (col + 1) + hIndent , 20 + window.getCellSize() * (row + 1) + vIndent , surface->w,surface->h };
         SDL_RenderCopy(&window.getRenderer(), texture, NULL, &rect);
       
-
+        SDL_FreeSurface(surface);
+        TTF_CloseFont(font);
     }
     window.drawCursor();
     displayMessage(window, model);
     SDL_RenderPresent(&window.getRenderer());
+
+    SDL_FreeSurface(surface);
 }
 
 void Controller::displayVariablePositions(Window& window, Model& model) {
@@ -197,5 +201,7 @@ void Controller::displayVariablePositions(Window& window, Model& model) {
     window.drawCursor();
     displayMessage(window, model);
     SDL_RenderPresent(&window.getRenderer());
+    SDL_FreeSurface(surface);
+    TTF_CloseFont(font);
 }
 

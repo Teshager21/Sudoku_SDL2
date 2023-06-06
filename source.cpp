@@ -1,6 +1,4 @@
 #include<iostream>
-#include"window.h"
-#include "model.h"
 #include"controller.h"
 
 #define SCREEN_WIDTH 700
