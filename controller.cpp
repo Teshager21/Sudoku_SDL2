@@ -21,9 +21,6 @@ bool Controller::run() {
         displayFixedPositions(window, model);
         displayVariablePositions(window, model);
         window.CapFrameRate(starting_tick);
-
-        //clearing
-        //SDL_DestroyTexture(texture);
     }
     return true;
 }
@@ -123,6 +120,7 @@ void Controller:: displayMessage(Window& window, Model& model) {
 
     SDL_FreeSurface(messageSurface);
     TTF_CloseFont(messageFont);
+    SDL_DestroyTexture(msgTexture);
 }
 
 void Controller::grayFixedCells(Model& model,Window& window) {
@@ -148,7 +146,7 @@ void Controller::grayFixedCells(Model& model,Window& window) {
 void Controller::displayFixedPositions(Window& window,Model& model) {
     TTF_Font* font = TTF_OpenFont("C:\\Users\\PC\\Downloads\\Roboto-BoldItalic.ttf", 28);
     SDL_Surface* surface = nullptr;
-
+    SDL_Texture* texture = nullptr;
     for (int m = 0; m < model.GetFilledCells(); m++) {
         int position = model.getFilledPosition(m);
         int row = position / 9;
@@ -165,23 +163,24 @@ void Controller::displayFixedPositions(Window& window,Model& model) {
         }
         int hIndent = (window.getCellSize() - surface->w) * 0.5;
         int vIndent = (window.getCellSize() - surface->h) * 0.5;
-        SDL_Texture* texture = SDL_CreateTextureFromSurface(&window.getRenderer(), surface);
+         texture = SDL_CreateTextureFromSurface(&window.getRenderer(), surface);
         SDL_Rect rect = { 20 + window.getCellSize() * (col + 1) + hIndent , 20 + window.getCellSize() * (row + 1) + vIndent , surface->w,surface->h };
         SDL_RenderCopy(&window.getRenderer(), texture, NULL, &rect);
-      
-        SDL_FreeSurface(surface);
-        TTF_CloseFont(font);
+ 
     }
     window.drawCursor();
     displayMessage(window, model);
     SDL_RenderPresent(&window.getRenderer());
 
     SDL_FreeSurface(surface);
+    TTF_CloseFont(font);
+    SDL_DestroyTexture(texture);
 }
 
 void Controller::displayVariablePositions(Window& window, Model& model) {
     TTF_Font* font = TTF_OpenFont("C:\\Users\\PC\\Downloads\\Roboto-BoldItalic.ttf", 28);
     SDL_Surface* surface = nullptr;
+    SDL_Texture* texture = nullptr;
 
     for (int m = 0; m < model.getVariablePositions().size(); m++) {
         int position = model.getVariablePositions()[m];
@@ -194,14 +193,16 @@ void Controller::displayVariablePositions(Window& window, Model& model) {
         surface = TTF_RenderText_Solid(font, text, { 0,128,70,0 });
         int hIndent = (window.getCellSize() - surface->w) * 0.5;
         int vIndent = (window.getCellSize() - surface->h) * 0.5;
-        SDL_Texture* texture = SDL_CreateTextureFromSurface(&window.getRenderer(), surface);
+        texture = SDL_CreateTextureFromSurface(&window.getRenderer(), surface);
         SDL_Rect rect = { 20 + window.getCellSize() * (col + 1) + hIndent , 20 + window.getCellSize() * (row + 1) + vIndent , surface->w,surface->h };
         SDL_RenderCopy(&window.getRenderer(), texture, NULL, &rect);
     }
     window.drawCursor();
     displayMessage(window, model);
     SDL_RenderPresent(&window.getRenderer());
+
     SDL_FreeSurface(surface);
     TTF_CloseFont(font);
+    SDL_DestroyTexture(texture);
 }
 
