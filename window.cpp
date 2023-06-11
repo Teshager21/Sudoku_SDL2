@@ -144,7 +144,7 @@ void Window::handleCursorKeys(SDL_Event& event) {
 }
 
 void Window::handleMouseClicks(SDL_Event& event) {
-    if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button != SDL_BUTTON_LEFT) {
+    if (event.type == SDL_MOUSEBUTTONDOWN || event.type==SDL_FINGERDOWN) {
         int x = event.button.x;
         int y = event.button.y;
         std::cout << "Clicked on: (" << x << "," << y << ")" << std::endl;
