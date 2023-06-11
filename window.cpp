@@ -141,8 +141,11 @@ void Window::handleMouseClicks(SDL_Event& event) {
     if (event.type == SDL_MOUSEBUTTONDOWN || event.type==SDL_FINGERDOWN) {
         int col = (event.button.x - 80) / (60);
         int row = (event.button.y - 80) / (60);
-        m_cursorPos[0] = 80 + col * 60;
-        m_cursorPos[1] = 80 + row * 60;
+        if (col < 9 && row < 9 && col>=0 && row>=0) {
+            m_cursorPos[0] = 80 + col * 60;
+            m_cursorPos[1] = 80 + row * 60;
+        }
+       
     }
 }
 
