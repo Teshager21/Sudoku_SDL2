@@ -5,7 +5,7 @@
 
 Model::Model() {
     if (init()) {
-
+        messages = ".";
     }
 
 }
@@ -126,7 +126,7 @@ void Model::receiveInput( int position, int value) {
     else {
         m_tableArray[i][j] = value;
         variablePositions.push_back(position);
-        messages = "";
+        messages = ".";
     }
 }
 

@@ -131,7 +131,6 @@ void Controller::grayFixedCells(Model& model,Window& window) {
 void Controller::displayFixedPositions(Window& window,Model& model) {
     TTF_Font* font = TTF_OpenFont("C:\\Users\\PC\\Downloads\\Roboto-BoldItalic.ttf", 28);
     SDL_Surface* surface = nullptr;
-    SDL_Texture* texture = nullptr;
     for (int m = 0; m < model.GetFilledCells(); m++) {
         int position = model.getFilledPosition(m);
         int row = position / 9;
@@ -140,26 +139,27 @@ void Controller::displayFixedPositions(Window& window,Model& model) {
         char test[10];
         sprintf_s(text, "%d", model.getMembers(row,col));
         sprintf_s(test, "%d", 0);
+        Texture texture = Texture(text, "Roboto-BoldItalic.ttf", 28, { 255,255,255,0 });
         if (model.getMembers(row, col) == 0) {
             surface = TTF_RenderText_Solid(font, text, { 255,255,255,0 });
+            Texture texture = Texture(text, "Roboto-BoldItalic.ttf", 28, { 255,255,255,0 });
         }
         else {
             surface = TTF_RenderText_Solid(font, text, { 0,0,200,0 });
+            Texture texture = Texture(text, "Roboto-BoldItalic.ttf", 28, { 0,0,200,0 });
+            int hIndent = (window.getCellSize() - surface->w) * 0.5;
+            int vIndent = (window.getCellSize() - surface->h) * 0.5;
+            texture.SetSrcRect(20 + window.getCellSize() * (col + 1) + hIndent, 20 + window.getCellSize() * (row + 1) + vIndent);
+
+            texture.renderText(text, { 0,0,200,0 }, "Roboto-BoldItalic.ttf", 28);
         }
-        int hIndent = (window.getCellSize() - surface->w) * 0.5;
-        int vIndent = (window.getCellSize() - surface->h) * 0.5;
-         texture = SDL_CreateTextureFromSurface(&window.getRenderer(), surface);
-        SDL_Rect rect = { 20 + window.getCellSize() * (col + 1) + hIndent , 20 + window.getCellSize() * (row + 1) + vIndent , surface->w,surface->h };
-        SDL_RenderCopy(&window.getRenderer(), texture, NULL, &rect);
- 
+        texture.Render();
     }
     window.drawCursor();
     displayMessage(window, model);
     SDL_RenderPresent(&window.getRenderer());
 
     SDL_FreeSurface(surface);
-    TTF_CloseFont(font);
-    SDL_DestroyTexture(texture);
 }
 void Controller::displayVariablePositions(Window& window, Model& model) {
     TTF_Font* font = TTF_OpenFont("C:\\Users\\PC\\Downloads\\Roboto-BoldItalic.ttf", 28);
