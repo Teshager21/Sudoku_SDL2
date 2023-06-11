@@ -86,21 +86,22 @@ void Window:: ClearBackBuffer() {
 
 int Window:: drawGrid() {
     //draw horizontal lines
+
     for (int i = 0; i <= 9; i++) {
-        SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+        SDL_SetRenderDrawColor(m_renderer, 150, 150, 150, SDL_ALPHA_OPAQUE);
         if ((i == 0 || i == 9) || (i + 3) % 3 == 0) {
             SDL_RenderDrawLine(m_renderer, 21 + m_cellSize, 21 + m_cellSize * (i + 1), 21 + m_cellSize * 10, 21 + m_cellSize * ((i + 1)));
             SDL_RenderDrawLine(m_renderer, 22 + m_cellSize, 22 + m_cellSize * (i + 1), 22 + m_cellSize * 10, 22 + m_cellSize * ((i + 1)));
             SDL_RenderDrawLine(m_renderer, 20 + m_cellSize, 20 + m_cellSize * (i + 1), 20 + m_cellSize * 10, 20 + m_cellSize * ((i + 1)));
         }
         else {
-            SDL_SetRenderDrawColor(m_renderer, 200, 200, 200, 120);
+            SDL_SetRenderDrawColor(m_renderer, 120, 120, 120, 120);
             SDL_RenderDrawLine(m_renderer, 20 + m_cellSize, 18 + m_cellSize * (i + 1), 20 + m_cellSize * 10, 18 + m_cellSize * ((i + 1)));
         }
     }
     //draw vertical lines
     for (int i = 0; i <= 9; i++) {
-        SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+        SDL_SetRenderDrawColor(m_renderer, 150, 150, 150, SDL_ALPHA_OPAQUE);
         if (i == 0 || i == 9 || (i + 3) % 3 == 0) {
 
             SDL_RenderDrawLine(m_renderer, 21 + m_cellSize * (i + 1), 21 + m_cellSize, 21 + m_cellSize * (i + 1), 21 + m_cellSize * 10);
@@ -108,7 +109,7 @@ int Window:: drawGrid() {
             SDL_RenderDrawLine(m_renderer, 20 + m_cellSize * (i + 1), 20 + m_cellSize, 20 + m_cellSize * (i + 1), 20 + m_cellSize * 10);
         }
         else {
-            SDL_SetRenderDrawColor(m_renderer, 200, 200, 200, 120);
+            SDL_SetRenderDrawColor(m_renderer, 120, 120, 120, 120);
             SDL_RenderDrawLine(m_renderer, 16 + m_cellSize * (i + 1), 20 + m_cellSize, 16 + m_cellSize * (i + 1), 20 + m_cellSize * 10);
         }
 
