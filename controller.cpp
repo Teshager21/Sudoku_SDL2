@@ -104,16 +104,10 @@ void Controller::pollEvents(Window& window) {
 }
 void Controller:: displayMessage(Window& window, Model& model) {
     SDL_Color red = { 255,0,0,SDL_ALPHA_OPAQUE };
-    //TTF_Font* messageFont = TTF_OpenFont("C:\\Users\\PC\\Downloads\\Roboto-Regular.ttf", 22);
     Texture texture =Texture(model.getMessages(), "Roboto-Regular.ttf", 22, red);
-
     texture.renderText(model.getMessages().c_str(),red, "Roboto-Regular.ttf", 22);
     texture.Render();  
     SDL_RenderPresent(&Window::getInstance()->getRenderer());
-
-    /*
-    TTF_CloseFont(messageFont);
-    SDL_DestroyTexture(msgTexture);*/
 }
 void Controller::grayFixedCells(Model& model,Window& window) {
     for (int i = 0; i < model.GetFilledCells(); i++) {

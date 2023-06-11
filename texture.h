@@ -19,7 +19,7 @@ public:
 	~Texture();
 	void renderText(const std::string& text, SDL_Color color, std::string filename, int size);
 	SDL_Rect* GetRenderRect();
-	void SetPosition(int x, int y);
+	void SetSrcRect(int x, int y,int w,int h);
 	virtual void Render();
 
 };
