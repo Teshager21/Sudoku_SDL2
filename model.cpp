@@ -122,28 +122,12 @@ void Model::receiveInput( int position, int value) {
 
     if (isItRepeated("row", i , value) || isItRepeated("col", j, value) || isItRepeated("block", (position / 27) * 3 + (position % 9) / 3, value)) {
         messages = std::to_string(value) + ": already used!";
-        std::cout << messages;
     }
     else {
         m_tableArray[i][j] = value;
         variablePositions.push_back(position);
         messages = "";
     }
-    std::cout << std::endl << "received! " << i << j << ", position is: " << position << " value at the position: " << m_tableArray[i][j] << std::endl;
-    std::cout << std::endl<<"filled values are: ";
-    for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-
-          std::cout << m_tableArray[i][j] << ", ";   
-        }
-        std::cout << std::endl;
-    }
-    /*std::cout << "List of filled Positions: ";*/
-    /*for (int i = 0; i < filledCells; i++) {
-        std::cout << filledPositions[i] << ",";
-    }*/
-    std::cout << std::endl;
-
 }
 
 bool Model::checkSelectedPosition(int selectedPosition) {

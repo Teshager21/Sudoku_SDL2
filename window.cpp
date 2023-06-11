@@ -3,6 +3,8 @@
 #include<iostream>
 #include<SDL_ttf.h>
 
+Window* Window::sInstance = NULL;
+
 Window::Window(const std::string &title, int width, int height):
 	m_title(title), m_width(width),m_height(height)
 {
@@ -10,23 +12,38 @@ Window::Window(const std::string &title, int width, int height):
 		m_running = true; 
 	}
     TTF_Init();
-    TTF_Font* font = TTF_OpenFont("C:\\Users\\PC\\Downloads\\Roboto-BoldItalic.ttf", 28);
+    //TTF_Font* font = TTF_OpenFont("C:\\Users\\PC\\Downloads\\Roboto-BoldItalic.ttf", 28);
 }
+
+
 Window::~Window() {
 	SDL_DestroyRenderer(m_renderer);
-	SDL_DestroyWindow(m_window);
-    //TTF_CloseFont(font);
+    delete sInstance;
     TTF_Quit();
 	SDL_Quit(); 
+}
+
+Window* Window::getInstance() {
+    if (!sInstance) {
+        sInstance = new Window("SUDOKU", SCREEN_WIDTH, SCREEN_HEIGHT);
+    }
+    return sInstance;
+
 }
 
 bool Window::getState() { return m_running; }
 void Window::setState(bool state) {m_running=state; }
 double Window::getCellSize() { return m_cellSize; }
 
-SDL_Renderer& Window::getRenderer() {
+SDL_Renderer& Window::getRenderer() { 
     return *m_renderer;
 }
+
+
+ void Window:: Render() {
+     SDL_RenderPresent(m_renderer);
+}
+
 
 int Window::getCursorPos(int x) { return m_cursorPos[x]; }
 
@@ -36,7 +53,7 @@ bool Window::init() {
 		return 0;
 	}
 	m_window = SDL_CreateWindow(m_title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height, 0);
-	if (m_window == nullptr) {
+	if (&sInstance == nullptr) {
 		std::cerr << "Failed to initialize window\n";
     }
     SDL_Surface* screen = NULL;
@@ -57,9 +74,28 @@ bool Window::init() {
 
 }
 
+SDL_Texture* Window::CreateTextTexture(TTF_Font* font, std::string text,SDL_Color color) {
+    SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), color);
+    if (surface == NULL) {
+        printf("Erro in text render:%s\n", TTF_GetError());
+        return NULL;
+    }
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(m_renderer, surface);
+    if (texture == NULL) {
+        printf("Error in creating texture:%s\n", SDL_GetError());
+    }
+
+   /* SDL_FreeSurface(surface);
+    SDL_DestroyTexture(texture);*/
+
+}
+
+void Window:: ClearBackBuffer() {
+    SDL_RenderClear(m_renderer);
+}
+
 int Window:: drawGrid() {
     //draw horizontal lines
-
     for (int i = 0; i <= 9; i++) {
         SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
         if ((i == 0 || i == 9) || (i + 3) % 3 == 0) {

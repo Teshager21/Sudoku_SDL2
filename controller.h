@@ -1,14 +1,18 @@
 #pragma once
 #include "window.h"
 #include "model.h"
+#include"texture.h"
+#include "AssetManager.h"
 
 class Controller{
 
 	Model& model;
-	Window& window;
+	Window* mWindow;
+	Texture* m_textTexture;
+	AssetManager* mAssetManager;
 
 public:
-	Controller(Model& model, Window& window);
+	Controller(Model& model);
 	~Controller(); 
 	bool run();
 	void handleKeyEvents(int selectedValue, Window& window);
