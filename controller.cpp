@@ -14,9 +14,7 @@ Controller::~Controller(){
 bool Controller::run() {
     Uint32 starting_tick;
     while (mWindow->getState()) {
-
         starting_tick = SDL_GetTicks();
-
         pollEvents(*mWindow);
         mWindow->drawGrid();
         grayFixedCells(model, *mWindow);
@@ -122,7 +120,7 @@ void Controller::grayFixedCells(Model& model,Window& window) {
         if (col % 3 == 0) { y = 84 + col * window.getCellSize(); }else{ y = 82 + col * window.getCellSize(); }
         if (model.checkSelectedPosition(model.getFilledPosition(i))){
             window.SetMemberOfGrayRects(i, y, x);
-            SDL_SetRenderDrawColor(&window.getRenderer(), 220, 240, 255, 245); 
+            SDL_SetRenderDrawColor(&window.getRenderer(), 240, 240, 240, 245); 
             SDL_RenderDrawRect(&window.getRenderer(), &window.GetMemberOfGrayRects(i)); 
             SDL_RenderFillRect(&window.getRenderer(), &window.GetMemberOfGrayRects(i));
         }

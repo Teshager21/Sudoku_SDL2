@@ -12,9 +12,7 @@ Window::Window(const std::string &title, int width, int height):
 		m_running = true; 
 	}
     TTF_Init();
-    //TTF_Font* font = TTF_OpenFont("C:\\Users\\PC\\Downloads\\Roboto-BoldItalic.ttf", 28);
 }
-
 
 Window::~Window() {
 	SDL_DestroyRenderer(m_renderer);
@@ -39,11 +37,9 @@ SDL_Renderer& Window::getRenderer() {
     return *m_renderer;
 }
 
-
  void Window:: Render() {
      SDL_RenderPresent(m_renderer);
 }
-
 
 int Window::getCursorPos(int x) { return m_cursorPos[x]; }
 
@@ -62,7 +58,6 @@ bool Window::init() {
     Uint32 white = SDL_MapRGB(screen->format, 255, 255, 255);
     SDL_FillRect(screen, NULL, white);
 
-
     for (int i = 0; i < 30; i++) {
         m_grayRects[i].x = 0; // x position
         m_grayRects[i].y =0; // y position
@@ -71,7 +66,6 @@ bool Window::init() {
     }
 
 	return true;
-
 }
 
 SDL_Texture* Window::CreateTextTexture(TTF_Font* font, std::string text,SDL_Color color) {
@@ -84,10 +78,6 @@ SDL_Texture* Window::CreateTextTexture(TTF_Font* font, std::string text,SDL_Colo
     if (texture == NULL) {
         printf("Error in creating texture:%s\n", SDL_GetError());
     }
-
-   /* SDL_FreeSurface(surface);
-    SDL_DestroyTexture(texture);*/
-
 }
 
 void Window:: ClearBackBuffer() {
@@ -128,16 +118,20 @@ int Window:: drawGrid() {
 void Window::handleCursorKeys(SDL_Event& event) {
     switch (event.key.keysym.sym) {
     case SDLK_LEFT:
-        m_cursorPos[0] -= m_cellSize;
+        if(m_cursorPos[0]>80)
+         m_cursorPos[0] -= m_cellSize;
         break;
     case SDLK_RIGHT:
-        m_cursorPos[0] += m_cellSize;
+        if(m_cursorPos[0]<540)
+            m_cursorPos[0] += m_cellSize;
         break;
     case SDLK_UP:
-        m_cursorPos[1] -= m_cellSize;
+        if (m_cursorPos[1] > 80)
+            m_cursorPos[1] -= m_cellSize;
         break;
     case SDLK_DOWN:
-        m_cursorPos[1] += m_cellSize;
+        if (m_cursorPos[1] < 540)
+            m_cursorPos[1] += m_cellSize;
         break;
 
     }
@@ -145,14 +139,10 @@ void Window::handleCursorKeys(SDL_Event& event) {
 
 void Window::handleMouseClicks(SDL_Event& event) {
     if (event.type == SDL_MOUSEBUTTONDOWN || event.type==SDL_FINGERDOWN) {
-        int x = event.button.x;
-        int y = event.button.y;
-        std::cout << "Clicked on: (" << x << "," << y << ")" << std::endl;
-        int col = (x - 80) / (60);
-        int row = (y - 80) / (60);
+        int col = (event.button.x - 80) / (60);
+        int row = (event.button.y - 80) / (60);
         m_cursorPos[0] = 80 + col * 60;
         m_cursorPos[1] = 80 + row * 60;
-        //std::cout << "the col is: " << col;
     }
 }
 
