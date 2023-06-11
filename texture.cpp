@@ -31,7 +31,6 @@ SDL_Surface* Texture::GetSurface() { return m_surface; }
 
 void Texture::Render() {
 	SDL_RenderCopy(&m_window->getRenderer(), m_textTexture, NULL, &m_renderRect);
-	
  }
 
 void Texture::SetSrcRect(int x, int y) {

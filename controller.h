@@ -26,4 +26,5 @@ public:
 	void displayFixedPositions(Window& window, Model& model);
 	void displayVariablePositions(Window& window, Model& model);
 
+
 }; 

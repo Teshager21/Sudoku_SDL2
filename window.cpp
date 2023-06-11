@@ -143,6 +143,19 @@ void Window::handleCursorKeys(SDL_Event& event) {
     }
 }
 
+void Window::handleMouseClicks(SDL_Event& event) {
+    if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button != SDL_BUTTON_LEFT) {
+        int x = event.button.x;
+        int y = event.button.y;
+        std::cout << "Clicked on: (" << x << "," << y << ")" << std::endl;
+        int col = (x - 80) / (60);
+        int row = (y - 80) / (60);
+        m_cursorPos[0] = 80 + col * 60;
+        m_cursorPos[1] = 80 + row * 60;
+        //std::cout << "the col is: " << col;
+    }
+}
+
 void Window::drawCursor() {
     SDL_Rect cursor{ m_cursorPos[0],m_cursorPos[1],m_cellSize,m_cellSize };
     SDL_Rect cursor2{ m_cursorPos[0] + 1,m_cursorPos[1] + 1,m_cellSize - 2,m_cellSize - 2 };

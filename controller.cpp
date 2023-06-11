@@ -88,6 +88,7 @@ void Controller:: handleKeyboardEvents(SDL_Event& event) {
         }
     }
 }
+
 void Controller::pollEvents(Window& window) {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
@@ -96,6 +97,7 @@ void Controller::pollEvents(Window& window) {
             break;
         }
         handleKeyboardEvents(event);
+        window.handleMouseClicks(event);
     }
     SDL_SetRenderDrawColor(&window.getRenderer(), 255, 255, 255, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(&window.getRenderer());

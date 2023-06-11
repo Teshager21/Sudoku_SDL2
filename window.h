@@ -33,6 +33,7 @@ public:
 	void DrawTextTexture(SDL_Texture* texture);
 	virtual void Render();
 	static Window* getInstance();
+	void handleMouseClicks(SDL_Event& event);
 	
 private:
 		
