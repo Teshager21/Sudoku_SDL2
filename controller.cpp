@@ -136,12 +136,12 @@ void Controller::displayFixedPositions(Window& window,Model& model) {
         char test[10];
         sprintf_s(text, "%d", model.getMembers(row,col));
         sprintf_s(test, "%d", 0);
-        Texture texture = Texture(text, "Roboto-BoldItalic.ttf", 28, { 255,255,255,0 });
+        Texture texture = Texture(text, "Roboto-Bold.ttf", 28, { 255,255,255,0 });
         if (model.getMembers(row, col) == 0) {
-            Texture texture = Texture(text, "Roboto-BoldItalic.ttf", 28, { 255,255,255,0 });
+            Texture texture = Texture(text, "Roboto-Bold.ttf", 28, { 255,255,255,0 });
         }
         else {
-            Texture texture = Texture(text, "Roboto-BoldItalic.ttf", 28, { 0,0,200,0 });
+            Texture texture = Texture(text, "Roboto-Bold.ttf", 28, { 0,0,200,0 });
             int hIndent = (window.getCellSize() - texture.GetSurface()->w) * 0.5;
             int vIndent = (window.getCellSize() - texture.GetSurface()->h) * 0.5;
             texture.SetSrcRect(20 + window.getCellSize() * (col + 1) + hIndent, 20 + window.getCellSize() * (row + 1) + vIndent);
@@ -165,7 +165,7 @@ void Controller::displayVariablePositions(Window& window, Model& model) {
         sprintf_s(text, "%d", model.getMembers(row, col));
         sprintf_s(test, "%d", 0);
        
-        Texture texture = Texture(text, "Roboto-BoldItalic.ttf", 28, { 0,128,70,0 });
+        Texture texture = Texture(text, "Roboto-Bold.ttf", 28, { 0,128,70,0 });
         int hIndent = (window.getCellSize() - texture.GetSurface()->w) * 0.5;
         int vIndent = (window.getCellSize() - texture.GetSurface()->h) * 0.5;
         texture.SetSrcRect(20 + window.getCellSize() * (col + 1) + hIndent, 20 + window.getCellSize() * (row + 1) + vIndent);

@@ -12,6 +12,7 @@ private:
 	std::vector<int>mPosition;
 	TTF_Font* m_font;
 	SDL_Color m_color;
+	SDL_Color m_drawColor={ 255, 255, 255, 120 };
 	std::string m_text;
 public:
 	Texture(std::string);
@@ -20,6 +21,7 @@ public:
 	void renderText();
 	SDL_Surface* GetSurface();
 	void SetSrcRect(int x, int y);
+	void SetDrawColor(SDL_Color color);
 	virtual void Render();
 
 

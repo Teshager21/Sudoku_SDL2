@@ -2,6 +2,7 @@
 #include<SDL.h>
 #include<iostream>
 #include<SDL_ttf.h>
+#include "Texture.h"
 
 Window* Window::sInstance = NULL;
 
@@ -48,7 +49,7 @@ bool Window::init() {
 		std::cerr << "Failed to initialize\n";
 		return 0;
 	}
-	m_window = SDL_CreateWindow(m_title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height, 0);
+	m_window = SDL_CreateWindow(m_title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height, SDL_WINDOW_BORDERLESS);
 	if (&sInstance == nullptr) {
 		std::cerr << "Failed to initialize window\n";
     }
@@ -85,8 +86,24 @@ void Window:: ClearBackBuffer() {
 }
 
 int Window:: drawGrid() {
-    //draw horizontal lines
 
+//window background
+    SDL_Rect backgroundW{ 0,0,700,700 };
+    SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_RenderDrawRect(m_renderer, &backgroundW);
+    SDL_SetRenderDrawColor(m_renderer, 235, 235, 255, SDL_ALPHA_OPAQUE);
+    SDL_RenderFillRect(m_renderer, &backgroundW);
+//table background
+    SDL_Rect backgroundT{ 80,80,540,540 };
+    SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_RenderDrawRect(m_renderer, &backgroundT);
+    SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_RenderFillRect(m_renderer, &backgroundT);
+
+
+
+
+    //draw horizontal lines
     for (int i = 0; i <= 9; i++) {
         SDL_SetRenderDrawColor(m_renderer, 150, 150, 150, SDL_ALPHA_OPAQUE);
         if ((i == 0 || i == 9) || (i + 3) % 3 == 0) {
@@ -114,6 +131,20 @@ int Window:: drawGrid() {
         }
 
     }
+
+    //Title Background
+    SDL_Rect backgroundTitle{ 0,0,700,30 };
+    //SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+    SDL_RenderDrawRect(m_renderer, &backgroundTitle);
+    SDL_SetRenderDrawColor(m_renderer, 25, 2, 254, SDL_ALPHA_OPAQUE);
+    SDL_RenderFillRect(m_renderer, &backgroundTitle);
+    //Title
+    //Texture texture = Texture("SUDOKU", "Roboto-Bold.ttf", 32, { 255,20,86,255 });
+    Texture texture = Texture("SUDOKU", "Roboto-Bold.ttf", 16, { 255,255,255,255 });
+    //texture.SetSrcRect((350-(texture.GetSurface()->w)/2), 0);
+    texture.SetSrcRect(20,5);
+    texture.renderText();
+    texture.Render();
     return 0;
 }
 void Window::handleCursorKeys(SDL_Event& event) {
@@ -139,6 +170,7 @@ void Window::handleCursorKeys(SDL_Event& event) {
 }
 
 void Window::handleMouseClicks(SDL_Event& event) {
+    //std::cout << event.type<<std::endl;
     if (event.type == SDL_MOUSEBUTTONDOWN || event.type==SDL_FINGERDOWN) {
         int col = (event.button.x - 80) / (60);
         int row = (event.button.y - 80) / (60);
