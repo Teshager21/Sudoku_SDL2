@@ -1,3 +1,6 @@
 ﻿x64
 .vscode
 .vs
+source.out
+*.out
+*.gch

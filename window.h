@@ -1,8 +1,10 @@
 #pragma once
+#include<string.h>
+#include<SDL2/SDL.h>
 #include<string>
-#include<SDL.h>
+#include<strings.h>
 #include<array>
-#include<SDL_ttf.h>
+#include<SDL2/SDL_ttf.h>
 
 #define fps 2
 #define SCREEN_WIDTH 700

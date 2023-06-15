@@ -1,11 +1,12 @@
 #include "texture.h"
 #include <iostream>
 
-Texture::Texture(std::string path ) : m_textTexture(nullptr) {
+Texture::Texture(std::string path ){
 
 }
 
 Texture::Texture(std::string text, std::string fontPath, int size,SDL_Color color) {
+	m_textTexture=nullptr;
 	m_window = Window::getInstance();
 	m_font = AssetManager::GetInstance()->GetFont(fontPath, size);
 	m_color = color;
@@ -32,6 +33,7 @@ Texture::~Texture() {
 SDL_Surface* Texture::GetSurface() { return m_surface; }
 
 void Texture::Render() {
+	
 	SDL_RenderCopy(&m_window->getRenderer(), m_textTexture, NULL, &m_renderRect);
  }
 

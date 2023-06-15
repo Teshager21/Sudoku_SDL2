@@ -1,8 +1,7 @@
 #include "window.h"
-#include<SDL.h>
+#include<SDL2/SDL.h>
 #include<iostream>
-#include<SDL_ttf.h>
-#include "Texture.h"
+#include "texture.h"
 
 Window* Window::sInstance = NULL;
 
@@ -54,7 +53,7 @@ bool Window::init() {
 		std::cerr << "Failed to initialize window\n";
     }
     SDL_Surface* screen = NULL;
-     m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
+     m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_PRESENTVSYNC);
     screen = SDL_GetWindowSurface(m_window);
     Uint32 white = SDL_MapRGB(screen->format, 255, 255, 255);
     SDL_FillRect(screen, NULL, white);
@@ -79,6 +78,7 @@ SDL_Texture* Window::CreateTextTexture(TTF_Font* font, std::string text,SDL_Colo
     if (texture == NULL) {
         printf("Error in creating texture:%s\n", SDL_GetError());
     }
+    return texture;
 }
 
 void Window:: ClearBackBuffer() {
