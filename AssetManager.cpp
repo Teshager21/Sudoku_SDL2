@@ -1,5 +1,6 @@
 #include"AssetManager.h"
 #include<iostream>
+#include<string>
 
 AssetManager* AssetManager::sInstance = nullptr;
 AssetManager::AssetManager() {
@@ -12,7 +13,7 @@ AssetManager::~AssetManager() {
 
 TTF_Font* AssetManager::GetFont(std::string filename, int size) {
 	std::string fullPath = SDL_GetBasePath();
-	fullPath.append("Assets\\" + filename);
+	fullPath.append("Assets/" + filename);
 	std::string key = fullPath + (char)size;
 	if (mFonts[key] == NULL) {
 		mFonts[key] = TTF_OpenFont(fullPath.c_str(), size);
