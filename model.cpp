@@ -3,6 +3,8 @@
 #include<iostream>
 #include<algorithm>
 
+Model* Model::sInstance=NULL;
+
 Model::Model() {
     if (init()) {
         messages = ".";
@@ -11,6 +13,13 @@ Model::Model() {
 }
 Model::~Model() {
 
+}
+
+Model* Model::getInstance(){
+    if (!sInstance) {
+        sInstance = new Model();
+    }
+    return sInstance;
 }
 
 bool Model::init() {

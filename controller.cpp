@@ -1,12 +1,13 @@
 #include<iostream>
 #include<string>
-#include"controller.h">
 #include"model.h"
 #include "AssetManager.h"
+#include "controller.h"
 
-Controller::Controller(Model& model): model(model) {
+Controller::Controller(){
     mAssetManager = AssetManager::GetInstance();
     mWindow = Window::getInstance(); 
+    mModel= Model::getInstance();
 }
 Controller::~Controller(){
     delete m_textTexture;
@@ -15,60 +16,60 @@ bool Controller::run() {
     Uint32 starting_tick;
     while (mWindow->getState()) {
         starting_tick = SDL_GetTicks();
-        pollEvents(*mWindow);
+        pollEvents();
         mWindow->drawGrid();
-        grayFixedCells(model, *mWindow);
-        displayFixedPositions(*mWindow, model);
-        displayVariablePositions(*mWindow, model);
+        grayFixedCells();
+        displayFixedPositions();
+        displayVariablePositions();
         mWindow->CapFrameRate(starting_tick);
     }
     return true;
 }
-void Controller::handleKeyEvents(int selectedValue, Window& window) {
-	int position = ((window.getCursorPos(1) - 80) / window.getCellSize()) * 9 + (window.getCursorPos(0) - 80) / window.getCellSize();
-	if (!model.checkSelectedPosition(position)) {
-        model.receiveInput(position, selectedValue);
+void Controller::handleKeyEvents(int selectedValue) {
+	int position = ((mWindow->getCursorPos(1) - 80) / mWindow->getCellSize()) * 9 + (mWindow->getCursorPos(0) - 80) / mWindow->getCellSize();
+	if (!mModel->checkSelectedPosition(position)) {
+        mModel->receiveInput(position, selectedValue);
 	}
 	else {
-		model.setMessages( ("Cell "+ std::to_string(position) + " not Available! ")+std::to_string(model.getMembers(position/9,position%9)));
+		mModel->setMessages( ("Cell "+ std::to_string(position) + " not Available! ")+std::to_string(mModel->getMembers(position/9,position%9)));
 	}
 }
 void Controller:: handleKeyboardEvents(SDL_Event& event) {
     if (SDL_KEYDOWN == event.type) {
         switch (event.key.keysym.sym) {
         case SDLK_1: 
-            handleKeyEvents(1,*mWindow);
+            handleKeyEvents(1);
             break;
         case SDLK_2: 
-            handleKeyEvents(2,*mWindow);
+            handleKeyEvents(2);
 
             break;
         case SDLK_3: 
-            handleKeyEvents(3, *mWindow);
+            handleKeyEvents(3);
 
             break;
         case SDLK_4: 
-            handleKeyEvents(4, *mWindow);
+            handleKeyEvents(4);
 
             break;
         case SDLK_5: 
 
-            handleKeyEvents(5, *mWindow);
+            handleKeyEvents(5);
             break;
         case SDLK_6: 
-            handleKeyEvents(6, *mWindow);
+            handleKeyEvents(6);
 
             break;
         case SDLK_7: 
-            handleKeyEvents(7, *mWindow);
+            handleKeyEvents(7);
 
             break;
         case SDLK_8: 
-            handleKeyEvents(8, *mWindow);
+            handleKeyEvents(8);
 
             break;
         case SDLK_9: 
-            handleKeyEvents(9, *mWindow);
+            handleKeyEvents(9);
 
             break;
         case SDLK_LEFT:
@@ -87,92 +88,92 @@ void Controller:: handleKeyboardEvents(SDL_Event& event) {
     }
 }
 
-void Controller::pollEvents(Window& window) {
+void Controller::pollEvents() {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
-            window.setState(false);
+            mWindow->setState(false);
             break;
         }
         handleKeyboardEvents(event);
-        window.handleMouseClicks(event);
+        mWindow->handleMouseClicks(event);
     }
-    SDL_SetRenderDrawColor(&window.getRenderer(), 255, 255, 255, SDL_ALPHA_OPAQUE);
-    SDL_RenderClear(&window.getRenderer());
+    SDL_SetRenderDrawColor(&mWindow->getRenderer(), 255, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_RenderClear(&mWindow->getRenderer());
 }
-void Controller:: displayMessage(Window& window, Model& model) {
+void Controller:: displayMessage() {
     SDL_Color red = { 255,0,0,SDL_ALPHA_OPAQUE };
-    Texture texture =Texture(model.getMessages(), "Roboto-Regular.ttf", 22, red);
+    Texture texture =Texture(mModel->getMessages(), "Roboto-Regular.ttf", 22, red);
     texture.SetSrcRect(80, 640);
     texture.renderText();
     texture.Render();  
-    SDL_RenderPresent(&Window::getInstance()->getRenderer());
+    SDL_RenderPresent(&mWindow->getRenderer());
 }
-void Controller::grayFixedCells(Model& model,Window& window) {
-    for (int i = 0; i < model.GetFilledCells(); i++) {
-        int pos = model.getFilledPosition(i);
+void Controller::grayFixedCells() {
+    for (int i = 0; i < mModel->GetFilledCells(); i++) {
+        int pos = mModel->getFilledPosition(i);
         int row = pos / 9;
         int col = pos % 9;
         
         int x = 0,y=0;
-        if(row%3==0){ x = 84 + row * window.getCellSize(); }else{ x = 82 + row * window.getCellSize(); }
+        if(row%3==0){ x = 84 + row * mWindow->getCellSize(); }else{ x = 82 + row * mWindow->getCellSize(); }
         
-        if (col % 3 == 0) { y = 84 + col * window.getCellSize(); }else{ y = 82 + col * window.getCellSize(); }
-        if (model.checkSelectedPosition(model.getFilledPosition(i))){
-            window.SetMemberOfGrayRects(i, y, x);
-            SDL_SetRenderDrawColor(&window.getRenderer(), 240, 240, 240, 245); 
-            SDL_RenderDrawRect(&window.getRenderer(), &window.GetMemberOfGrayRects(i)); 
-            SDL_RenderFillRect(&window.getRenderer(), &window.GetMemberOfGrayRects(i));
+        if (col % 3 == 0) { y = 84 + col * mWindow->getCellSize(); }else{ y = 82 + col * mWindow->getCellSize(); }
+        if (mModel->checkSelectedPosition(mModel->getFilledPosition(i))){
+            mWindow->SetMemberOfGrayRects(i, y, x);
+            SDL_SetRenderDrawColor(&mWindow->getRenderer(), 240, 240, 240, 245); 
+            SDL_RenderDrawRect(&mWindow->getRenderer(), &mWindow->GetMemberOfGrayRects(i)); 
+            SDL_RenderFillRect(&mWindow->getRenderer(), &mWindow->GetMemberOfGrayRects(i));
         }
     }
 
 } 
-void Controller::displayFixedPositions(Window& window,Model& model) {
-    for (int m = 0; m < model.GetFilledCells(); m++) {
-        int position = model.getFilledPosition(m);
+void Controller::displayFixedPositions() {
+    for (int m = 0; m < mModel->GetFilledCells(); m++) {
+        int position = mModel->getFilledPosition(m);
         int row = position / 9;
         int col = position % 9;
         char text[10];
         char test[10];
-        sprintf_s(text, "%d", model.getMembers(row,col));
-        sprintf_s(test, "%d", 0);
+        snprintf(text, sizeof(text),"%d", mModel->getMembers(row,col));
+        snprintf(test, sizeof(test),"%d", 0);
         Texture texture = Texture(text, "Roboto-Bold.ttf", 28, { 255,255,255,0 });
-        if (model.getMembers(row, col) == 0) {
+        if (mModel->getMembers(row, col) == 0) {
             Texture texture = Texture(text, "Roboto-Bold.ttf", 28, { 255,255,255,0 });
         }
         else {
             Texture texture = Texture(text, "Roboto-Bold.ttf", 28, { 0,0,200,0 });
-            int hIndent = (window.getCellSize() - texture.GetSurface()->w) * 0.5;
-            int vIndent = (window.getCellSize() - texture.GetSurface()->h) * 0.5;
-            texture.SetSrcRect(20 + window.getCellSize() * (col + 1) + hIndent, 20 + window.getCellSize() * (row + 1) + vIndent);
+            int hIndent = (mWindow->getCellSize() - texture.GetSurface()->w) * 0.5;
+            int vIndent = (mWindow->getCellSize() - texture.GetSurface()->h) * 0.5;
+            texture.SetSrcRect(20 + mWindow->getCellSize() * (col + 1) + hIndent, 20 + mWindow->getCellSize() * (row + 1) + vIndent);
 
             texture.renderText();
         }
         texture.Render();
     }
-    window.drawCursor();
-    displayMessage(window, model);
-    SDL_RenderPresent(&window.getRenderer());
+    mWindow->drawCursor();
+    displayMessage();
+    SDL_RenderPresent(&mWindow->getRenderer());
 }
-void Controller::displayVariablePositions(Window& window, Model& model) {
+void Controller::displayVariablePositions() {
 
-    for (int m = 0; m < model.getVariablePositions().size(); m++) {
-        int position = model.getVariablePositions()[m];
+    for (int m = 0; m < mModel->getVariablePositions().size(); m++) {
+        int position = mModel->getVariablePositions()[m];
         int row = position / 9;
         int col = position % 9;
         char text[10];
         char test[10];
-        sprintf_s(text, "%d", model.getMembers(row, col));
-        sprintf_s(test, "%d", 0);
+        snprintf(text,sizeof(text), "%d", mModel->getMembers(row, col));
+        snprintf(test,sizeof(test), "%d", 0);
        
         Texture texture = Texture(text, "Roboto-Bold.ttf", 28, { 0,128,70,0 });
-        int hIndent = (window.getCellSize() - texture.GetSurface()->w) * 0.5;
-        int vIndent = (window.getCellSize() - texture.GetSurface()->h) * 0.5;
-        texture.SetSrcRect(20 + window.getCellSize() * (col + 1) + hIndent, 20 + window.getCellSize() * (row + 1) + vIndent);
+        int hIndent = (mWindow->getCellSize() - texture.GetSurface()->w) * 0.5;
+        int vIndent = (mWindow->getCellSize() - texture.GetSurface()->h) * 0.5;
+        texture.SetSrcRect(20 + mWindow->getCellSize() * (col + 1) + hIndent, 20 + mWindow->getCellSize() * (row + 1) + vIndent);
         texture.renderText();
     }
-    window.drawCursor();
-    displayMessage(window, model);
-    SDL_RenderPresent(&window.getRenderer());
+    mWindow->drawCursor();
+    displayMessage();
+    SDL_RenderPresent(&mWindow->getRenderer());
 }
 

@@ -6,25 +6,25 @@
 
 class Controller{
 
-	Model& model;
+	Model* mModel;
 	Window* mWindow;
 	Texture* m_textTexture;
 	AssetManager* mAssetManager;
 
 public:
-	Controller(Model& model);
+	Controller();
 	~Controller(); 
 	bool run();
-	void handleKeyEvents(int selectedValue, Window& window);
+	void handleKeyEvents(int selectedValue);
 	void handleKeyboardEvents(SDL_Event& event);
-	void pollEvents(Window& window);
-	void renderTable(Window& window, Model& model);
-	void displayMessage(Window& window, Model& model);
-	void grayFixedCells(Model& model, Window& window);
-	void grayCell(int pos, Window& window);
-	void displayArray(Window& window, Model& model, SDL_Color color);
-	void displayFixedPositions(Window& window, Model& model);
-	void displayVariablePositions(Window& window, Model& model);
+	void pollEvents();
+	void renderTable();
+	void displayMessage();
+	void grayFixedCells();
+	void grayCell(int pos);
+	void displayArray(SDL_Color color);
+	void displayFixedPositions();
+	void displayVariablePositions();
 
 
 }; 

@@ -5,12 +5,8 @@
 #define SCREEN_HEIGHT 700
 
 int main(int argc, char* argv[]) {
-    Model model;
-    Controller controller(model);
-
+    Controller controller;
     controller.run();
-    
-
     return 0;
 }
 
