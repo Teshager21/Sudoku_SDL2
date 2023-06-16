@@ -21,12 +21,15 @@ bool Controller::run() {
         grayFixedCells();
         displayFixedPositions();
         displayVariablePositions();
+        displayCandidates();
+        //displayVariablePositions();
         mWindow->CapFrameRate(starting_tick);
+        
     }
     return true;
 }
 void Controller::handleKeyEvents(int selectedValue) {
-	int position = ((mWindow->getCursorPos(1) - 80) / mWindow->getCellSize()) * 9 + (mWindow->getCursorPos(0) - 80) / mWindow->getCellSize();
+	int position = ((mWindow->getCursorPos(1) - mWindow->m_margin) / mWindow->getCellSize()) * 9 + (mWindow->getCursorPos(0) - mWindow->m_margin) / mWindow->getCellSize();
 	if (!mModel->checkSelectedPosition(position)) {
         mModel->receiveInput(position, selectedValue);
 	}
@@ -104,7 +107,7 @@ void Controller::pollEvents() {
 void Controller:: displayMessage() {
     SDL_Color red = { 255,0,0,SDL_ALPHA_OPAQUE };
     Texture texture =Texture(mModel->getMessages(), "Roboto-Regular.ttf", 22, red);
-    texture.SetSrcRect(80, 640);
+    texture.SetSrcRect(mWindow->m_margin, mWindow->getCellSize()*9+100);
     texture.renderText();
     texture.Render();  
     SDL_RenderPresent(&mWindow->getRenderer());
@@ -121,7 +124,7 @@ void Controller::grayFixedCells() {
         if (col % 3 == 0) { y = 84 + col * mWindow->getCellSize(); }else{ y = 82 + col * mWindow->getCellSize(); }
         if (mModel->checkSelectedPosition(mModel->getFilledPosition(i))){
             mWindow->SetMemberOfGrayRects(i, y, x);
-            SDL_SetRenderDrawColor(&mWindow->getRenderer(), 240, 240, 240, 245); 
+            SDL_SetRenderDrawColor(&mWindow->getRenderer(), 240, 240, 240, 0); 
             SDL_RenderDrawRect(&mWindow->getRenderer(), &mWindow->GetMemberOfGrayRects(i)); 
             SDL_RenderFillRect(&mWindow->getRenderer(), &mWindow->GetMemberOfGrayRects(i));
         }
@@ -142,10 +145,10 @@ void Controller::displayFixedPositions() {
             Texture texture = Texture(text, "Roboto-Bold.ttf", 28, { 255,255,255,0 });
         }
         else {
-            Texture texture = Texture(text, "Roboto-Bold.ttf", 28, { 0,0,200,0 });
+            Texture texture = Texture(text, "Roboto-Bold.ttf", 28, { 200,200,200,0 });
             int hIndent = (mWindow->getCellSize() - texture.GetSurface()->w) * 0.5;
             int vIndent = (mWindow->getCellSize() - texture.GetSurface()->h) * 0.5;
-            texture.SetSrcRect(20 + mWindow->getCellSize() * (col + 1) + hIndent, 20 + mWindow->getCellSize() * (row + 1) + vIndent);
+            texture.SetSrcRect(mWindow->getCellSize() * (col + 1) + hIndent, mWindow->getCellSize() * (row + 1) + vIndent);
 
             texture.renderText();
         }
@@ -154,6 +157,7 @@ void Controller::displayFixedPositions() {
     mWindow->drawCursor();
     displayMessage();
     SDL_RenderPresent(&mWindow->getRenderer());
+    
 }
 void Controller::displayVariablePositions() {
 
@@ -166,14 +170,35 @@ void Controller::displayVariablePositions() {
         snprintf(text,sizeof(text), "%d", mModel->getMembers(row, col));
         snprintf(test,sizeof(test), "%d", 0);
        
-        Texture texture = Texture(text, "Roboto-Bold.ttf", 28, { 0,128,70,0 });
+        Texture texture = Texture(text, "Roboto-Bold.ttf", 28, { 228,228,70,0 });
         int hIndent = (mWindow->getCellSize() - texture.GetSurface()->w) * 0.5;
         int vIndent = (mWindow->getCellSize() - texture.GetSurface()->h) * 0.5;
-        texture.SetSrcRect(20 + mWindow->getCellSize() * (col + 1) + hIndent, 20 + mWindow->getCellSize() * (row + 1) + vIndent);
+        texture.SetSrcRect(mWindow->getCellSize() * (col + 1) + hIndent, mWindow->getCellSize() * (row + 1) + vIndent);
         texture.renderText();
     }
     mWindow->drawCursor();
     displayMessage();
     SDL_RenderPresent(&mWindow->getRenderer());
+}
+
+void Controller::displayCandidates(){
+//position,candidate value
+int position=10;
+int candidateValue=9;
+int col= position%9;
+int row= position/9;
+int candidateCol= candidateValue%3-1;
+int candidateRow= candidateValue/3;
+
+int x=mWindow->m_margin + col*mWindow->getCellSize() + candidateCol*((mWindow->getCellSize())/3);
+int y=mWindow->m_margin+ row*mWindow->getCellSize()+ candidateRow*(mWindow->getCellSize()/3);
+
+Texture texture = Texture(std::to_string(candidateValue), "Roboto-Regular.ttf", 20, { 111,156,193,SDL_ALPHA_OPAQUE});
+texture.SetSrcRect(x,y);
+texture.renderText();
+SDL_RenderPresent(&mWindow->getRenderer());
+
+  
+
 }
 

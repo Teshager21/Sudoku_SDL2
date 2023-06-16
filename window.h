@@ -7,19 +7,22 @@
 #include<SDL2/SDL_ttf.h>
 
 #define fps 2
-#define SCREEN_WIDTH 700
-#define SCREEN_HEIGHT 700
+#define SCREEN_WIDTH 1000
+#define SCREEN_HEIGHT 1000
 
 class Window {
 private:
 	Window(const std::string& title, int width, int height);
 	~Window();
+
+public:
+	int m_margin=80;
 public:
 	
 	bool init();
 	void CapFrameRate(Uint32 starting_tick);
 	inline bool isClosed() const { return m_running; };
-	double getCellSize();
+	int getCellSize();
 	int drawGrid();
 	void handleCursorKeys(SDL_Event& event);
 	SDL_Renderer& getRenderer();
@@ -42,8 +45,9 @@ private:
 		std::string m_title;
 		int m_width=700;
 		int m_height=700;
-		int m_cellSize=60;
-		int m_cursorPos[2] = { 20 + m_cellSize,20 + m_cellSize };
+		int m_cellSize=80;
+		
+		int m_cursorPos[2] = { m_margin,m_margin };
 
 		bool m_running = true;
 		SDL_Window *m_window=nullptr;

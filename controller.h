@@ -25,6 +25,7 @@ public:
 	void displayArray(SDL_Color color);
 	void displayFixedPositions();
 	void displayVariablePositions();
+	void displayCandidates();
 
 
 }; 

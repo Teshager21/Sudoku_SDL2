@@ -31,7 +31,7 @@ Window* Window::getInstance() {
 
 bool Window::getState() { return m_running; }
 void Window::setState(bool state) {m_running=state; }
-double Window::getCellSize() { return m_cellSize; }
+int Window::getCellSize() { return m_cellSize; }
 
 SDL_Renderer& Window::getRenderer() { 
     return *m_renderer;
@@ -88,16 +88,18 @@ void Window:: ClearBackBuffer() {
 int Window:: drawGrid() {
 
 //window background
-    SDL_Rect backgroundW{ 0,0,700,700 };
+    SDL_Rect backgroundW{ 0,0,SCREEN_WIDTH,SCREEN_HEIGHT };
     SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
     SDL_RenderDrawRect(m_renderer, &backgroundW);
-    SDL_SetRenderDrawColor(m_renderer, 235, 235, 255, SDL_ALPHA_OPAQUE);
+    SDL_SetRenderDrawColor(m_renderer, 30, 70, 81, SDL_ALPHA_OPAQUE);
+    SDL_SetRenderDrawColor(m_renderer, 38, 43, 61, SDL_ALPHA_OPAQUE);
     SDL_RenderFillRect(m_renderer, &backgroundW);
 //table background
-    SDL_Rect backgroundT{ 80,80,540,540 };
+    SDL_Rect backgroundT{ m_margin,m_margin,m_cellSize*9,m_cellSize*9 };
     SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
     SDL_RenderDrawRect(m_renderer, &backgroundT);
-    SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_TRANSPARENT);
+    //SDL_SetRenderDrawColor(m_renderer, 30, 70, 81, SDL_ALPHA_OPAQUE);
     SDL_RenderFillRect(m_renderer, &backgroundT);
 
 
@@ -105,42 +107,43 @@ int Window:: drawGrid() {
 
     //draw horizontal lines
     for (int i = 0; i <= 9; i++) {
-        SDL_SetRenderDrawColor(m_renderer, 150, 150, 150, SDL_ALPHA_OPAQUE);
+        SDL_SetRenderDrawColor(m_renderer, 250, 250, 250, SDL_ALPHA_OPAQUE);
         if ((i == 0 || i == 9) || (i + 3) % 3 == 0) {
-            SDL_RenderDrawLine(m_renderer, 21 + m_cellSize, 21 + m_cellSize * (i + 1), 21 + m_cellSize * 10, 21 + m_cellSize * ((i + 1)));
-            SDL_RenderDrawLine(m_renderer, 22 + m_cellSize, 22 + m_cellSize * (i + 1), 22 + m_cellSize * 10, 22 + m_cellSize * ((i + 1)));
-            SDL_RenderDrawLine(m_renderer, 20 + m_cellSize, 20 + m_cellSize * (i + 1), 20 + m_cellSize * 10, 20 + m_cellSize * ((i + 1)));
+            SDL_RenderDrawLine(m_renderer, m_cellSize, m_cellSize * (i + 1), m_cellSize * 10, m_cellSize * ((i + 1)));
+            SDL_RenderDrawLine(m_renderer, 1 + m_cellSize, 1 + m_cellSize * (i + 1), 1 + m_cellSize * 10, 1 + m_cellSize * ((i + 1)));
+            SDL_RenderDrawLine(m_renderer, -1 + m_cellSize, -1 + m_cellSize * (i + 1), -1 + m_cellSize * 10, -1+ m_cellSize * ((i + 1)));
         }
         else {
-            SDL_SetRenderDrawColor(m_renderer, 120, 120, 120, 120);
-            SDL_RenderDrawLine(m_renderer, 20 + m_cellSize, 18 + m_cellSize * (i + 1), 20 + m_cellSize * 10, 18 + m_cellSize * ((i + 1)));
+            SDL_SetRenderDrawColor(m_renderer, 200, 200, 200, 205);
+            SDL_RenderDrawLine(m_renderer, -1 + m_cellSize, -3 + m_cellSize * (i + 1), -1 + m_cellSize * 10, -3 + m_cellSize * ((i + 1)));
         }
     }
     //draw vertical lines
     for (int i = 0; i <= 9; i++) {
-        SDL_SetRenderDrawColor(m_renderer, 150, 150, 150, SDL_ALPHA_OPAQUE);
+        SDL_SetRenderDrawColor(m_renderer, 250, 250, 250, SDL_ALPHA_OPAQUE);
         if (i == 0 || i == 9 || (i + 3) % 3 == 0) {
 
-            SDL_RenderDrawLine(m_renderer, 21 + m_cellSize * (i + 1), 21 + m_cellSize, 21 + m_cellSize * (i + 1), 21 + m_cellSize * 10);
-            SDL_RenderDrawLine(m_renderer, 22 + m_cellSize * (i + 1), 22 + m_cellSize, 22 + m_cellSize * (i + 1), 22 + m_cellSize * 10);
-            SDL_RenderDrawLine(m_renderer, 20 + m_cellSize * (i + 1), 20 + m_cellSize, 20 + m_cellSize * (i + 1), 20 + m_cellSize * 10);
+            SDL_RenderDrawLine(m_renderer, m_cellSize * (i + 1), m_cellSize,m_cellSize * (i + 1), m_cellSize * 10);
+            SDL_RenderDrawLine(m_renderer, 1 + m_cellSize * (i + 1), 1 + m_cellSize, 1 + m_cellSize * (i + 1), 1 + m_cellSize * 10);
+            SDL_RenderDrawLine(m_renderer, -1 + m_cellSize * (i + 1), -1 + m_cellSize, -1 + m_cellSize * (i + 1), -1 + m_cellSize * 10);
         }
         else {
-            SDL_SetRenderDrawColor(m_renderer, 120, 120, 120, 120);
-            SDL_RenderDrawLine(m_renderer, 16 + m_cellSize * (i + 1), 20 + m_cellSize, 16 + m_cellSize * (i + 1), 20 + m_cellSize * 10);
+            SDL_SetRenderDrawColor(m_renderer, 200, 200, 200, 205);
+            SDL_RenderDrawLine(m_renderer, -5 + m_cellSize * (i + 1), -1 + m_cellSize, -5 + m_cellSize * (i + 1), -1 + m_cellSize * 10);
         }
 
     }
 
     //Title Background
-    SDL_Rect backgroundTitle{ 0,0,700,30 };
+    SDL_Rect backgroundTitle{ 0,0,SCREEN_WIDTH,30 };
     //SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
     SDL_RenderDrawRect(m_renderer, &backgroundTitle);
-    SDL_SetRenderDrawColor(m_renderer, 25, 2, 254, SDL_ALPHA_OPAQUE);
+    SDL_SetRenderDrawColor(m_renderer, 30, 70, 81, SDL_ALPHA_OPAQUE);
     SDL_RenderFillRect(m_renderer, &backgroundTitle);
     //Title
     //Texture texture = Texture("SUDOKU", "Roboto-Bold.ttf", 32, { 255,20,86,255 });
     Texture texture = Texture("SUDOKU", "Roboto-Bold.ttf", 16, { 255,255,255,255 });
+
     //texture.SetSrcRect((350-(texture.GetSurface()->w)/2), 0);
     texture.SetSrcRect(20,5);
     texture.renderText();
@@ -150,19 +153,19 @@ int Window:: drawGrid() {
 void Window::handleCursorKeys(SDL_Event& event) {
     switch (event.key.keysym.sym) {
     case SDLK_LEFT:
-        if(m_cursorPos[0]>80)
+        if(m_cursorPos[0]>m_margin)
          m_cursorPos[0] -= m_cellSize;
         break;
     case SDLK_RIGHT:
-        if(m_cursorPos[0]<540)
+        if(m_cursorPos[0]<m_cellSize*9)
             m_cursorPos[0] += m_cellSize;
         break;
     case SDLK_UP:
-        if (m_cursorPos[1] > 80)
+        if (m_cursorPos[1] > m_margin)
             m_cursorPos[1] -= m_cellSize;
         break;
     case SDLK_DOWN:
-        if (m_cursorPos[1] < 540)
+        if (m_cursorPos[1] < m_cellSize*9)
             m_cursorPos[1] += m_cellSize;
         break;
 
@@ -172,11 +175,11 @@ void Window::handleCursorKeys(SDL_Event& event) {
 void Window::handleMouseClicks(SDL_Event& event) {
     //std::cout << event.type<<std::endl;
     if (event.type == SDL_MOUSEBUTTONDOWN || event.type==SDL_FINGERDOWN) {
-        int col = (event.button.x - 80) / (60);
-        int row = (event.button.y - 80) / (60);
+        int col = (event.button.x - m_margin) / (m_cellSize);
+        int row = (event.button.y - m_margin) / (m_cellSize);
         if (col < 9 && row < 9 && col>=0 && row>=0) {
-            m_cursorPos[0] = 80 + col * 60;
-            m_cursorPos[1] = 80 + row * 60;
+            m_cursorPos[0] = m_margin + col * m_cellSize;
+            m_cursorPos[1] = m_margin + row * m_cellSize;
         }
        
     }
