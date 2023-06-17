@@ -9,6 +9,7 @@ Controller::Controller(){
     mAssetManager = AssetManager::GetInstance();
     mWindow = Window::getInstance(); 
     mModel= Model::getInstance();
+    mSolver= Solver::getInstance();
 }
 Controller::~Controller(){
     delete m_textTexture;
@@ -24,6 +25,7 @@ bool Controller::run() {
         displayVariablePositions();
         displayCandidates();
         mWindow->CapFrameRate(starting_tick);
+        mSolver->solve();
         
     }
     return true;
@@ -33,8 +35,11 @@ void Controller::handleKeyEvents(int selectedValue) {
 	int position = ((mWindow->getCursorPos(1) - mWindow->m_margin) / mWindow->getCellSize()) * 9 + (mWindow->getCursorPos(0) - mWindow->m_margin) / mWindow->getCellSize();
 	if(!mWindow->isCandidateMode){
         if (!mModel->checkSelectedPosition(position)) {
+             if(!mModel->repeatedValue(position,selectedValue)){
+                mModel->setCandidateVector(position,{0,0,0,0,0,0,0,0,0});
+            }
             mModel->receiveInput(position, selectedValue);
-            mModel->setCandidateVector(position,{0,0,0,0,0,0,0,0,0});
+           
         }
         else {
             mModel->setMessages( ("Cell "+ std::to_string(position) + " not Available! ")+std::to_string(mModel->getMembers(position/9,position%9)));
@@ -45,23 +50,22 @@ void Controller::handleKeyEvents(int selectedValue) {
         
         if (!mModel->checkSelectedPosition(position)) { 
             if (!mModel->repeatedValue(position,selectedValue)) {   
+                
                 if((*mModel->getCandidates()).count(position)){
                     (*candidates)[position].at(selectedValue-1)=selectedValue;
                 }else{
                     (*candidates)[position]={0,0,0,0,0,0,0,0,0};
                     (*candidates)[position].at(selectedValue-1)=selectedValue;
                 }
-                if(mModel->isPositionFilled(position)){
+                 if(mModel->isPositionFilled(position)){
                     mModel->receiveInput(position,0);
                 }
+               
             }
         }else {
             mModel->setMessages( ("Cell "+ std::to_string(position) + " not Available! ")+std::to_string(mModel->getMembers(position/9,position%9)));
         }
-         if(mModel->isPositionFilled(position)){
-                    mModel->receiveInput(position,0);
-                }
-
+    
     }
     
 }
@@ -118,7 +122,6 @@ void Controller:: handleKeyboardEvents(SDL_Event& event) {
         }
     }
 }
-
 void Controller::pollEvents() {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
@@ -132,7 +135,7 @@ void Controller::pollEvents() {
     SDL_SetRenderDrawColor(&mWindow->getRenderer(), 255, 255, 255, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(&mWindow->getRenderer());
 }
-void Controller:: displayMessage() {
+void Controller::displayMessage() {
     SDL_Color red = { 255,0,0,SDL_ALPHA_OPAQUE };
     Texture texture =Texture(mModel->getMessages(), "Roboto-Regular.ttf", 22, red);
     texture.SetSrcRect(mWindow->m_margin, mWindow->getCellSize()*9+100);
@@ -213,7 +216,6 @@ void Controller::displayVariablePositions() {
     displayMessage();
     SDL_RenderPresent(&mWindow->getRenderer());
 }
-
 void Controller::displayCandidates(){
 
 std::map<int,std::vector<int>> mapOfCandidates = *(mModel->getCandidates());
@@ -233,7 +235,6 @@ for( const auto cand : mapOfCandidates){
 }
 
 }
-
 void Controller::displayAcandidate(int position,int candidateValue){
     if(candidateValue!=0){
         int col= position%9;

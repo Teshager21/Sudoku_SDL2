@@ -4,6 +4,7 @@
 #include"texture.h"
 #include "AssetManager.h"
 #include <iostream>
+#include "solver.h"
 
 class Controller{
 
@@ -11,7 +12,7 @@ class Controller{
 	Window* mWindow;
 	Texture* m_textTexture;
 	AssetManager* mAssetManager;
-	
+	Solver* mSolver;
 
 public:
 	Controller();
