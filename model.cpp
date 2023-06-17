@@ -142,6 +142,19 @@ void Model::receiveInput( int position, int value) {
     }
 }
 
+bool Model::repeatedValue(int position,int value){
+
+    int i=0, j=0;
+    i = position / 9;
+    j = position % 9;
+
+  if (isItRepeated("row", i , value) || isItRepeated("col", j, value) || isItRepeated("block", (position / 27) * 3 + (position % 9) / 3, value)) {
+        messages = std::to_string(value) + ": already used!";
+        return true;
+    } 
+    return false; 
+}
+
 bool Model::checkSelectedPosition(int selectedPosition) {
 
    return isElementofArray(filledPositions,selectedPosition);

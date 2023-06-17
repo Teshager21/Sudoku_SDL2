@@ -43,15 +43,14 @@ void Controller::handleKeyEvents(int selectedValue) {
     } else{
         std::cout<<"Candidate Mode!";
         std::map<int,std::vector<int>>* candidates=mModel->getCandidates();
+     if (!mModel->repeatedValue(position,selectedValue)) {   
         if((*mModel->getCandidates()).count(position)){
-            
-            //std::vector<int>cands=(*candidates)[position];
              (*candidates)[position].at(selectedValue-1)=selectedValue;
         }else{
             (*candidates)[position]={0,0,0,0,0,0,0,0,0};
-            //  std::vector<int>cands=(*candidates)[position];
              (*candidates)[position].at(selectedValue-1)=selectedValue;
         }
+    }
     }
     
 }

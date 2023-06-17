@@ -21,6 +21,7 @@ public:
 	std::vector<int>getVariablePositions();
 	static Model* getInstance();
 	std::map<int,std::vector<int>>* getCandidates();
+	bool repeatedValue(int position,int value);
 private:
     static Model* sInstance;
 	int filledCells=30;
@@ -30,6 +31,7 @@ private:
 	int m_tableArray[9][9]{ {0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0} ,{0,0,0,0,0,0,0,0,0} ,{0,0,0,0,0,0,0,0,0} ,{0,0,0,0,0,0,0,0,0} ,{0,0,0,0,0,0,0,0,0} ,{0,0,0,0,0,0,0,0,0} ,{0,0,0,0,0,0,0,0,0} };
 	std::string messages;
 	std::map<int,std::vector<int>> mCandidatePositions;
+
 
 private:
 	Model();
