@@ -7,7 +7,7 @@
 #include<SDL2/SDL_ttf.h>
 
 #define fps 2
-#define SCREEN_WIDTH 1000
+#define SCREEN_WIDTH 1500
 #define SCREEN_HEIGHT 1000
 
 class Window {

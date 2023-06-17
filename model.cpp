@@ -31,9 +31,13 @@ std::map<int,std::vector<int>>* Model::getCandidates(){
     return &mCandidatePositions;
 }
 
+void Model::setCandidateVector(int position,std::vector<int> vec){
+      mCandidatePositions[position]=vec;    
+}
+
 std::string Model::getMessages() { return messages; }
 int Model::getMembers(int x, int y) {
-    return m_tableArray[x][y];
+    return mBoard[x][y];
 }
 
 int Model::getFilledPosition(int x) {
@@ -82,7 +86,7 @@ void Model::populateInitialCells( ) {
           fill = rand() % 9 + 1;
         }
         while(isItRepeated("row", row, fill) || isItRepeated("col", col, fill) || isItRepeated("block", block, fill));
-                m_tableArray[row][col] = fill; 
+                mBoard[row][col] = fill; 
     }
 }
 
@@ -92,7 +96,7 @@ bool Model::isItRepeated(std::string scope, int scopeSpecifier, double value) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (i == scopeSpecifier) {
-                    if (value == m_tableArray[i][j]) {
+                    if (value == mBoard[i][j]) {
                         return true;
                     }
                 }
@@ -104,7 +108,7 @@ bool Model::isItRepeated(std::string scope, int scopeSpecifier, double value) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (j == scopeSpecifier) {
-                    if (value == m_tableArray[i][j]) {
+                    if (value == mBoard[i][j]) {
                         return true;
                     }
                 }
@@ -117,7 +121,7 @@ bool Model::isItRepeated(std::string scope, int scopeSpecifier, double value) {
             for (int col = 0; col < 9; col++) {
                 int position = row * 9 + col;
                 if ((position / 27)*3+ (position % 9)/3 == scopeSpecifier) {
-                    if (value == m_tableArray[row][col]) {
+                    if (value == mBoard[row][col]) {
                         return true;
                     }
                 }
@@ -127,20 +131,35 @@ bool Model::isItRepeated(std::string scope, int scopeSpecifier, double value) {
     return false;
 }
 
+bool Model::isPositionFilled(int position){
+    int row= position/9;
+    int col=position%9;
+   if(mBoard[row][col]==0){
+    return false;
+   }  
+   return true; 
+}
+
 void Model::receiveInput( int position, int value) {
     int i=0, j=0;
     i = position / 9;
     j = position % 9;
 
+    if(value==0){
+       mBoard[i][j] = value;
+       return;  
+    }
+
     if (isItRepeated("row", i , value) || isItRepeated("col", j, value) || isItRepeated("block", (position / 27) * 3 + (position % 9) / 3, value)) {
         messages = std::to_string(value) + ": already used!";
     }
     else {
-        m_tableArray[i][j] = value;
+        mBoard[i][j] = value;
         variablePositions.push_back(position);
         messages = ".";
     }
 }
+
 
 bool Model::repeatedValue(int position,int value){
 
@@ -164,7 +183,7 @@ bool Model::checkSelectedPosition(int selectedPosition) {
 bool Model::isgameWon() {
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {      
-                    if (m_tableArray[i][j] == 0) {
+                    if (mBoard[i][j] == 0) {
                         return false;
                     }
                 }

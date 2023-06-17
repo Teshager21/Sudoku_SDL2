@@ -135,14 +135,14 @@ int Window:: drawGrid() {
     }
 
     //Title Background
-    SDL_Rect backgroundTitle{ 0,0,SCREEN_WIDTH,30 };
+    SDL_Rect backgroundTitle{ 0,0,SCREEN_WIDTH,50 };
     //SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
     SDL_RenderDrawRect(m_renderer, &backgroundTitle);
     SDL_SetRenderDrawColor(m_renderer, 30, 70, 81, SDL_ALPHA_OPAQUE);
     SDL_RenderFillRect(m_renderer, &backgroundTitle);
     //Title
     //Texture texture = Texture("SUDOKU", "Roboto-Bold.ttf", 32, { 255,20,86,255 });
-    Texture texture = Texture("SUDOKU", "Roboto-Bold.ttf", 16, { 255,255,255,255 });
+    Texture texture = Texture("SUDOKU", "Roboto-Bold.ttf", 20, { 255,255,255,255 });
 
     //texture.SetSrcRect((350-(texture.GetSurface()->w)/2), 0);
     texture.SetSrcRect(20,5);

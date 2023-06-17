@@ -23,34 +23,45 @@ bool Controller::run() {
         displayFixedPositions();
         displayVariablePositions();
         displayCandidates();
-        //displayVariablePositions();
         mWindow->CapFrameRate(starting_tick);
         
     }
     return true;
 }
 void Controller::handleKeyEvents(int selectedValue) {
-     std::cout<<std::endl<<"hey"<<std::endl;
 
 	int position = ((mWindow->getCursorPos(1) - mWindow->m_margin) / mWindow->getCellSize()) * 9 + (mWindow->getCursorPos(0) - mWindow->m_margin) / mWindow->getCellSize();
 	if(!mWindow->isCandidateMode){
         if (!mModel->checkSelectedPosition(position)) {
             mModel->receiveInput(position, selectedValue);
+            mModel->setCandidateVector(position,{0,0,0,0,0,0,0,0,0});
         }
         else {
             mModel->setMessages( ("Cell "+ std::to_string(position) + " not Available! ")+std::to_string(mModel->getMembers(position/9,position%9)));
         }
     } else{
-        std::cout<<"Candidate Mode!";
+        // std::cout<<"Candidate Mode!";
         std::map<int,std::vector<int>>* candidates=mModel->getCandidates();
-     if (!mModel->repeatedValue(position,selectedValue)) {   
-        if((*mModel->getCandidates()).count(position)){
-             (*candidates)[position].at(selectedValue-1)=selectedValue;
-        }else{
-            (*candidates)[position]={0,0,0,0,0,0,0,0,0};
-             (*candidates)[position].at(selectedValue-1)=selectedValue;
+        
+        if (!mModel->checkSelectedPosition(position)) { 
+            if (!mModel->repeatedValue(position,selectedValue)) {   
+                if((*mModel->getCandidates()).count(position)){
+                    (*candidates)[position].at(selectedValue-1)=selectedValue;
+                }else{
+                    (*candidates)[position]={0,0,0,0,0,0,0,0,0};
+                    (*candidates)[position].at(selectedValue-1)=selectedValue;
+                }
+                if(mModel->isPositionFilled(position)){
+                    mModel->receiveInput(position,0);
+                }
+            }
+        }else {
+            mModel->setMessages( ("Cell "+ std::to_string(position) + " not Available! ")+std::to_string(mModel->getMembers(position/9,position%9)));
         }
-    }
+         if(mModel->isPositionFilled(position)){
+                    mModel->receiveInput(position,0);
+                }
+
     }
     
 }
@@ -186,12 +197,17 @@ void Controller::displayVariablePositions() {
         char test[10];
         snprintf(text,sizeof(text), "%d", mModel->getMembers(row, col));
         snprintf(test,sizeof(test), "%d", 0);
-       
-        Texture texture = Texture(text, "Roboto-Bold.ttf", 28, { 228,228,70,0 });
-        int hIndent = (mWindow->getCellSize() - texture.GetSurface()->w) * 0.5;
-        int vIndent = (mWindow->getCellSize() - texture.GetSurface()->h) * 0.5;
-        texture.SetSrcRect(mWindow->getCellSize() * (col + 1) + hIndent, mWindow->getCellSize() * (row + 1) + vIndent);
-        texture.renderText();
+
+        if (mModel->getMembers(row, col) == 0) {
+            Texture texture = Texture(text, "Roboto-Bold.ttf", 28, { 255,255,255,0 });
+        }
+        else {
+            Texture texture = Texture(text, "Roboto-Bold.ttf", 28, { 228,228,70,0 });
+            int hIndent = (mWindow->getCellSize() - texture.GetSurface()->w) * 0.5;
+            int vIndent = (mWindow->getCellSize() - texture.GetSurface()->h) * 0.5;
+            texture.SetSrcRect(mWindow->getCellSize() * (col + 1) + hIndent, mWindow->getCellSize() * (row + 1) + vIndent);
+            texture.renderText();
+        }
     }
     mWindow->drawCursor();
     displayMessage();
