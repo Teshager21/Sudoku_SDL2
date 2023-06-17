@@ -3,6 +3,7 @@
 #include "model.h"
 #include"texture.h"
 #include "AssetManager.h"
+#include <iostream>
 
 class Controller{
 
@@ -10,6 +11,7 @@ class Controller{
 	Window* mWindow;
 	Texture* m_textTexture;
 	AssetManager* mAssetManager;
+	
 
 public:
 	Controller();
@@ -26,6 +28,7 @@ public:
 	void displayFixedPositions();
 	void displayVariablePositions();
 	void displayCandidates();
+	void displayAcandidate(int position,int candidateValue);
 
 
 }; 

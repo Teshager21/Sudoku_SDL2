@@ -155,18 +155,22 @@ void Window::handleCursorKeys(SDL_Event& event) {
     case SDLK_LEFT:
         if(m_cursorPos[0]>m_margin)
          m_cursorPos[0] -= m_cellSize;
+         isCandidateMode=false;
         break;
     case SDLK_RIGHT:
         if(m_cursorPos[0]<m_cellSize*9)
             m_cursorPos[0] += m_cellSize;
+            isCandidateMode=false;
         break;
     case SDLK_UP:
         if (m_cursorPos[1] > m_margin)
             m_cursorPos[1] -= m_cellSize;
+            isCandidateMode=false;
         break;
     case SDLK_DOWN:
         if (m_cursorPos[1] < m_cellSize*9)
             m_cursorPos[1] += m_cellSize;
+            isCandidateMode=false;
         break;
 
     }
@@ -174,15 +178,23 @@ void Window::handleCursorKeys(SDL_Event& event) {
 
 void Window::handleMouseClicks(SDL_Event& event) {
     //std::cout << event.type<<std::endl;
-    if (event.type == SDL_MOUSEBUTTONDOWN || event.type==SDL_FINGERDOWN) {
+    if ((event.type == SDL_MOUSEBUTTONDOWN || event.type==SDL_FINGERDOWN) && event.button.clicks==1) {
+        isCandidateMode=false;
         int col = (event.button.x - m_margin) / (m_cellSize);
         int row = (event.button.y - m_margin) / (m_cellSize);
         if (col < 9 && row < 9 && col>=0 && row>=0) {
             m_cursorPos[0] = m_margin + col * m_cellSize;
             m_cursorPos[1] = m_margin + row * m_cellSize;
         }
-       
+       std::cout<<std::endl<<"hey"<<std::endl;
     }
+
+    if(event.type==SDL_MOUSEBUTTONDOWN && event.button.clicks==2){
+        std::cout<<"Double clicked!";
+        isCandidateMode=true;
+    }
+     
+
 }
 
 void Window::drawCursor() {
@@ -191,7 +203,11 @@ void Window::drawCursor() {
     SDL_Rect cursor3{ m_cursorPos[0] + 2,m_cursorPos[1] + 2,m_cellSize - 4,m_cellSize - 4 };
 
     SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(m_renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
+    if(isCandidateMode)
+     SDL_SetRenderDrawColor(m_renderer, 255, 255, 0, SDL_ALPHA_OPAQUE);
+    else
+     SDL_SetRenderDrawColor(m_renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
+
     SDL_RenderDrawRect(m_renderer, &cursor);
     SDL_RenderDrawRect(m_renderer, &cursor2);
     SDL_RenderDrawRect(m_renderer, &cursor3);

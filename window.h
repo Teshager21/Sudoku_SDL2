@@ -17,6 +17,7 @@ private:
 
 public:
 	int m_margin=80;
+	bool isCandidateMode=false;
 public:
 	
 	bool init();

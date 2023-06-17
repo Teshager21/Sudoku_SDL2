@@ -4,6 +4,7 @@
 #include "AssetManager.h"
 #include "controller.h"
 
+
 Controller::Controller(){
     mAssetManager = AssetManager::GetInstance();
     mWindow = Window::getInstance(); 
@@ -29,13 +30,30 @@ bool Controller::run() {
     return true;
 }
 void Controller::handleKeyEvents(int selectedValue) {
+     std::cout<<std::endl<<"hey"<<std::endl;
+
 	int position = ((mWindow->getCursorPos(1) - mWindow->m_margin) / mWindow->getCellSize()) * 9 + (mWindow->getCursorPos(0) - mWindow->m_margin) / mWindow->getCellSize();
-	if (!mModel->checkSelectedPosition(position)) {
-        mModel->receiveInput(position, selectedValue);
-	}
-	else {
-		mModel->setMessages( ("Cell "+ std::to_string(position) + " not Available! ")+std::to_string(mModel->getMembers(position/9,position%9)));
-	}
+	if(!mWindow->isCandidateMode){
+        if (!mModel->checkSelectedPosition(position)) {
+            mModel->receiveInput(position, selectedValue);
+        }
+        else {
+            mModel->setMessages( ("Cell "+ std::to_string(position) + " not Available! ")+std::to_string(mModel->getMembers(position/9,position%9)));
+        }
+    } else{
+        std::cout<<"Candidate Mode!";
+        std::map<int,std::vector<int>>* candidates=mModel->getCandidates();
+        if((*mModel->getCandidates()).count(position)){
+            
+            //std::vector<int>cands=(*candidates)[position];
+             (*candidates)[position].at(selectedValue-1)=selectedValue;
+        }else{
+            (*candidates)[position]={0,0,0,0,0,0,0,0,0};
+            //  std::vector<int>cands=(*candidates)[position];
+             (*candidates)[position].at(selectedValue-1)=selectedValue;
+        }
+    }
+    
 }
 void Controller:: handleKeyboardEvents(SDL_Event& event) {
     if (SDL_KEYDOWN == event.type) {
@@ -182,23 +200,41 @@ void Controller::displayVariablePositions() {
 }
 
 void Controller::displayCandidates(){
-//position,candidate value
-int position=10;
-int candidateValue=9;
-int col= position%9;
-int row= position/9;
-int candidateCol= candidateValue%3-1;
-int candidateRow= candidateValue/3;
 
-int x=mWindow->m_margin + col*mWindow->getCellSize() + candidateCol*((mWindow->getCellSize())/3);
-int y=mWindow->m_margin+ row*mWindow->getCellSize()+ candidateRow*(mWindow->getCellSize()/3);
+std::map<int,std::vector<int>> mapOfCandidates = *(mModel->getCandidates());
 
-Texture texture = Texture(std::to_string(candidateValue), "Roboto-Regular.ttf", 20, { 111,156,193,SDL_ALPHA_OPAQUE});
-texture.SetSrcRect(x,y);
-texture.renderText();
-SDL_RenderPresent(&mWindow->getRenderer());
+int position;
 
-  
+for( const auto cand : mapOfCandidates){
+    std::cout<<"Candidate: "<< cand.first;
+    position=cand.first;
+
+    for(const auto candidateValue :cand.second){
+      std::cout<<" Value: "<< candidateValue; 
+      displayAcandidate(position,candidateValue) ;
+    }
+    std::cout<<std::endl;
+
+}
+
+}
+
+void Controller::displayAcandidate(int position,int candidateValue){
+    if(candidateValue!=0){
+        int col= position%9;
+        int row= position/9;
+        int candidateCol= (candidateValue-1)%3;
+        int candidateRow= (candidateValue-1)/3;
+
+        int x=mWindow->m_margin + col*mWindow->getCellSize() + (candidateCol)*((mWindow->getCellSize())/3);
+        int y=mWindow->m_margin+ row*mWindow->getCellSize()+ (candidateRow)*(mWindow->getCellSize()/3);
+
+        Texture texture = Texture(std::to_string(candidateValue), "Roboto-Regular.ttf", 20, { 111,156,193,SDL_ALPHA_OPAQUE});
+        texture.SetSrcRect(x,y);
+        texture.renderText();
+        SDL_RenderPresent(&mWindow->getRenderer());
+    }
+
 
 }
 

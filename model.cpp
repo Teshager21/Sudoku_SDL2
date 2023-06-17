@@ -9,7 +9,6 @@ Model::Model() {
     if (init()) {
         messages = ".";
     }
-
 }
 Model::~Model() {
 
@@ -26,6 +25,10 @@ bool Model::init() {
     generateFilledPositions();
     populateInitialCells();
     return true;
+}
+
+std::map<int,std::vector<int>>* Model::getCandidates(){
+    return &mCandidatePositions;
 }
 
 std::string Model::getMessages() { return messages; }

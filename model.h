@@ -2,6 +2,7 @@
 #include<string.h>
 #include<string>
 #include<vector>
+#include<map>
 class Model {
 public:
 	bool init();
@@ -19,6 +20,7 @@ public:
 	int GetFilledCells();
 	std::vector<int>getVariablePositions();
 	static Model* getInstance();
+	std::map<int,std::vector<int>>* getCandidates();
 private:
     static Model* sInstance;
 	int filledCells=30;
@@ -27,6 +29,7 @@ private:
 	std::vector<int> variablePositions;
 	int m_tableArray[9][9]{ {0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0} ,{0,0,0,0,0,0,0,0,0} ,{0,0,0,0,0,0,0,0,0} ,{0,0,0,0,0,0,0,0,0} ,{0,0,0,0,0,0,0,0,0} ,{0,0,0,0,0,0,0,0,0} ,{0,0,0,0,0,0,0,0,0} };
 	std::string messages;
+	std::map<int,std::vector<int>> mCandidatePositions;
 
 private:
 	Model();
