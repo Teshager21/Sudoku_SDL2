@@ -45,26 +45,10 @@ void Controller::handleKeyEvents(int selectedValue) {
             mModel->setMessages( ("Cell "+ std::to_string(position) + " not Available! ")+std::to_string(mModel->getMembers(position/9,position%9)));
         }
     } else{
-        // std::cout<<"Candidate Mode!";
         std::map<int,std::vector<int>>* candidates=mModel->getCandidates();
+        mModel->setCandidateValue(position,selectedValue);
         
-        if (!mModel->checkSelectedPosition(position)) { 
-            if (!mModel->repeatedValue(position,selectedValue)) {   
-                
-                if((*mModel->getCandidates()).count(position)){
-                    (*candidates)[position].at(selectedValue-1)=selectedValue;
-                }else{
-                    (*candidates)[position]={0,0,0,0,0,0,0,0,0};
-                    (*candidates)[position].at(selectedValue-1)=selectedValue;
-                }
-                 if(mModel->isPositionFilled(position)){
-                    mModel->receiveInput(position,0);
-                }
-               
-            }
-        }else {
-            mModel->setMessages( ("Cell "+ std::to_string(position) + " not Available! ")+std::to_string(mModel->getMembers(position/9,position%9)));
-        }
+        
     
     }
     
@@ -223,14 +207,12 @@ std::map<int,std::vector<int>> mapOfCandidates = *(mModel->getCandidates());
 int position;
 
 for( const auto cand : mapOfCandidates){
-    std::cout<<"Candidate: "<< cand.first;
+    
     position=cand.first;
 
     for(const auto candidateValue :cand.second){
-      std::cout<<" Value: "<< candidateValue; 
       displayAcandidate(position,candidateValue) ;
     }
-    std::cout<<std::endl;
 
 }
 

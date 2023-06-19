@@ -35,6 +35,27 @@ void Model::setCandidateVector(int position,std::vector<int> vec){
       mCandidatePositions[position]=vec;    
 }
 
+void Model::setCandidateValue( int position,int value){
+    if (!checkSelectedPosition(position)) { 
+            if (!repeatedValue(position,value)) {   
+                
+                if(mCandidatePositions.count(position)){
+                    (mCandidatePositions)[position].at(value-1)=value;
+                }else{
+                    (mCandidatePositions)[position]={0,0,0,0,0,0,0,0,0};
+                    (mCandidatePositions)[position].at(value-1)=value;
+                }
+                 if(isPositionFilled(position)){
+                    receiveInput(position,0);
+                }
+               
+            }
+        }else {
+            setMessages( ("Cell "+ std::to_string(position) + " not Available! ")+std::to_string(getMembers(position/9,position%9)));
+        }
+
+}
+
 std::string Model::getMessages() { return messages; }
 int Model::getMembers(int x, int y) {
     return mBoard[x][y];

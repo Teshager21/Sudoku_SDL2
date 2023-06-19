@@ -186,11 +186,9 @@ void Window::handleMouseClicks(SDL_Event& event) {
             m_cursorPos[0] = m_margin + col * m_cellSize;
             m_cursorPos[1] = m_margin + row * m_cellSize;
         }
-       std::cout<<std::endl<<"hey"<<std::endl;
     }
 
     if(event.type==SDL_MOUSEBUTTONDOWN && event.button.clicks==2){
-        std::cout<<"Double clicked!";
         isCandidateMode=true;
     }
      

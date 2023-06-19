@@ -22,6 +22,7 @@ public:
 	static Model* getInstance();
 	std::map<int,std::vector<int>>* getCandidates();
 	void setCandidateVector(int position,std::vector<int> vec);
+	void setCandidateValue( int position,int value);
 	bool repeatedValue(int position,int value);
 	bool isPositionFilled(int position);
 
