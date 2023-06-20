@@ -26,26 +26,27 @@ void Solver::solve(){
 }
 
 void Solver::generateBlocks(){
-int position,row,col,blockNum,value;
+   int position,row,col,blockNum,value;
+   std::map<int,std::map<int,int>>b;
+   for(int m=0;m<9;m++){
+      std::map<int,int>block;
+         for(int i=0;i<9;i++){
+            for(int j=0;j<9;j++){
+               position= i*9 + j;
+                  blockNum = (position / 27)*3+ (position % 9)/3;
 
-std::map<int,std::map<int,int>>b;
-for(int m=0;m<9;m++){
-   std::map<int,int>block;
-      for(int i=0;i<9;i++){
-         for(int j=0;j<9;j++){
-            position= i*9 + j;
-               blockNum = (position / 27)*3+ (position % 9)/3;
-
-               if (blockNum==m){
-                  value=Model::getInstance()->getMembers(i,j);
-                  block[position]=value;
-               }
+                  if (blockNum==m){
+                     value=Model::getInstance()->getMembers(i,j);
+                     block[position]=value;
+                  }
+            }
          }
-      }
-b[m]=(block);
-}
-  logMapofMaps(b);
-  checkRepeatitionAcrossBlocks(b,"Rank",0);
+   b[m]=(block);
+   }
+   logMapofMaps(b);
+   checkRepeatitionAcrossBlocks(b,"Rank",0);
+   checkRepeatitionAcrossBlocks(b,"Rank",1);
+   checkRepeatitionAcrossBlocks(b,"Rank",2);
 
 
 }
@@ -55,11 +56,11 @@ void Solver::checkRepeatitionAcrossBlocks(std::map<int,std::map<int,int>>blocks,
 std::map<int,int>repeats;
 std::map<int, std::map<int,std::vector<int>>>existingValues;
 if (scope=="Rank"){
- if(scopeSpecifier==0){
+ //if(scopeSpecifier==0){
       for(int i=0;i<3;i++){
          for (int j=1;j<=9;j++){
-            if(existsInMap(j,blocks[i])){
-               existingValues[j][j].push_back(positionInMap(j,blocks[i]));
+            if(existsInMap(j,blocks[i+scopeSpecifier*3])){
+               existingValues[j][j].push_back(positionInMap(j,blocks[i+scopeSpecifier*3]));
                if(repeats.count(j)==0)
                   repeats[j]=1;
                else
@@ -75,7 +76,7 @@ if (scope=="Rank"){
 
        std::cout<<std::endl<<"Values\n";
        logMapofMapsV(existingValues);
-//remove elements that are repeated twice
+ //remove elements that are repeated twice
       for(const auto& pair:existingValues){
          if(repeats[pair.first]==2){}
          else{
@@ -91,7 +92,7 @@ if (scope=="Rank"){
 
    }
 
-}
+//}
 
 
 }
@@ -195,7 +196,7 @@ void Solver::figureSpecificPosition(std::map<int, std::map<int,std::vector<int>>
 
          std::cout<<"select row is "<<row<<" select block is: "<<block<<std::endl;
          //three potential columns
-         int col0= block*3;
+         int col0= block%3*3;
          int col1= col0+1;
          int col2=col1+1;
          int pos0 = row*9+col0;
