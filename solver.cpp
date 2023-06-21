@@ -56,7 +56,6 @@ void Solver::checkRepeatitionAcrossBlocks(std::map<int,std::map<int,int>>blocks,
 std::map<int,int>repeats;
 std::map<int, std::map<int,std::vector<int>>>existingValues;
 if (scope=="Rank"){
- //if(scopeSpecifier==0){
       for(int i=0;i<3;i++){
          for (int j=1;j<=9;j++){
             if(existsInMap(j,blocks[i+scopeSpecifier*3])){
@@ -91,8 +90,6 @@ if (scope=="Rank"){
       std::cout<<"no more\n";
 
    }
-
-//}
 
 
 }
@@ -149,6 +146,7 @@ void Solver::logMapofMaps(std::map<int,std::map<int,int>>b){
 void Solver::figureSpecificPosition(std::map<int, std::map<int,std::vector<int>>>existingValues){
   
    int row,block;
+   
    for(const auto& mp:existingValues){
       for(const auto& pair:mp.second){
          std::cout<<pair.first<<"["<<pair.second[0]<<","<<pair.second[1]<<"], ";
@@ -207,7 +205,6 @@ void Solver::figureSpecificPosition(std::map<int, std::map<int,std::vector<int>>
 
          //narrow down to empty positions
          std::vector<int> cands {0,0,0};
-         std::cout<<"the value at postion: "<<pos0<<" is: "<<Model::getInstance()->getMembers(row,col0)<<std::endl;
          if(!Model::getInstance()->isPositionFilled(pos0))
                cands[0]=(pos0);
          if(!Model::getInstance()->isPositionFilled(pos1))
@@ -218,6 +215,7 @@ void Solver::figureSpecificPosition(std::map<int, std::map<int,std::vector<int>>
          //check which of the empty positions are viable and fill them
          if(cands.size()==1){
             Model::getInstance()->receiveInput(cands[0],pair.first);
+            std::cout<<"certain fill: "<<cands[0]<<" @ "<<pair.first<<std::endl;
          }
          if (cands.size()>1){
             for ( int i=0;i<cands.size();i++){
@@ -225,11 +223,69 @@ void Solver::figureSpecificPosition(std::map<int, std::map<int,std::vector<int>>
             }
          }
          //change single pencil markings into pen markings
+                //candidates
+  
+
+
       } 
+
+
+ 
    }
+   //CHANGE PENCIL MARKINGS INTO PEN-MARKINGS
+   std::map<int,std::vector<int>> *CandidatePositions;// key=postions, values=candidate values
+   CandidatePositions=Model::getInstance()->getCandidates();
+   std::map<int,int>candpos={{1,0},{2,0},{3,0},{4,0},{5,0},{6,0},{7,0},{8,0},{9,0}}; //candidatevalues: their frequency in a block
+    for(const auto& pair:*CandidatePositions){
+      
+      for(int b=0;b<9;b++){
+            if(Block(pair.first)==b){
+         //for 1-9 go through candidate of each position then then count its occurence- change the value to pen-marking if it is not repeated
+         //loop through 1-9
+         for(int i=1;i<=9;i++){
+            //loop through the candidate values at the position and count them
+               for(int j=0;j<9;j++){
+                  if (pair.second[j]==i){
+                     candpos[i]=candpos[i]+1;
+                  }
+               }
+         
+            }
+    
+      }
+         
+      }
+   
+
+   }
+std::cout<<"List of cands with frequency"<<std::endl;
+   for(const auto& pair:candpos){
+      if(pair.second==1){
+        
+         for(const auto& cand:*CandidatePositions){
+            if(std::find(cand.second.begin(), cand.second.end(), pair.first) != cand.second.end()){
+            
+               for(int i=0;i<9;i++){
+                  if(Block(cand.first)==i){
+                     std::cout<<pair.first<<"["<<pair.second<<"]@"<<cand.first<<", ";
+                     Model::getInstance()->receiveInput(cand.first,pair.first);
+                     Model::getInstance()->setCandidateVector(cand.first,{0,0,0,0,0,0,0,0,0});
+                  }
+                  
+               }
+             
+            }
+         }
+      }
+   }
+
+
+//logMap(candpos);
+
+
 }
 
 int Solver::Block(int position){
-   return (position / 27)*3+ (position % 9)/3; ;
+   return (position / 27)*3+ (position % 9)/3;
 }
 

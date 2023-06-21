@@ -1,6 +1,6 @@
 #include "model.h"
 #include "iostream"
-
+#include <algorithm>
 class Solver{
 
 private:
