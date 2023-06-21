@@ -266,6 +266,54 @@ void Solver::figureSpecificPosition(std::map<int, std::map<int,std::vector<int>>
          } 
       }
       //CHANGE PENCIL MARKINGS INTO PEN-MARKINGS
+      pencilToPenMarking();
+      // std::map<int,std::vector<int>> *CandidatePositions;// key=postions, values=candidate values
+      // CandidatePositions=Model::getInstance()->getCandidates();
+      // std::map<int,int>candpos={{1,0},{2,0},{3,0},{4,0},{5,0},{6,0},{7,0},{8,0},{9,0}}; //candidatevalues: their frequency in a block
+
+      // for(const auto& pair:*CandidatePositions){
+      //    for(int b=0;b<9;b++){
+      //       if(Block(pair.first)==b){
+      //          //for 1-9 go through candidate of each position then then count its occurence- change the value to pen-marking if it is not repeated
+      //          //loop through 1-9
+      //       for(int i=1;i<=9;i++){
+      //          //loop through the candidate values at the position and count them
+      //             for(int j=0;j<9;j++){
+      //                if (pair.second[j]==i){
+      //                   candpos[i]=candpos[i]+1;
+      //                }
+      //             }
+      //          }
+      
+      //       }
+      //    }
+      // }
+      // std::cout<<"List of cands with frequency"<<std::endl;
+      // for(const auto& pair:candpos){
+      //    if(pair.second==1){
+         
+      //       for(const auto& cand:*CandidatePositions){
+      //          if(std::find(cand.second.begin(), cand.second.end(), pair.first) != cand.second.end()){
+               
+      //             for(int i=0;i<9;i++){
+      //                if(Block(cand.first)==i){
+      //                   std::cout<<pair.first<<"["<<pair.second<<"]@"<<cand.first<<", ";
+      //                   Model::getInstance()->receiveInput(cand.first,pair.first);
+      //                   Model::getInstance()->setCandidateVector(cand.first,{0,0,0,0,0,0,0,0,0});
+      //                }
+                     
+      //             }
+               
+      //          }
+      //       }
+      //    }
+      // }
+
+}
+
+void Solver::pencilToPenMarking(){
+
+      //CHANGE PENCIL MARKINGS INTO PEN-MARKINGS
       std::map<int,std::vector<int>> *CandidatePositions;// key=postions, values=candidate values
       CandidatePositions=Model::getInstance()->getCandidates();
       std::map<int,int>candpos={{1,0},{2,0},{3,0},{4,0},{5,0},{6,0},{7,0},{8,0},{9,0}}; //candidatevalues: their frequency in a block
@@ -287,6 +335,7 @@ void Solver::figureSpecificPosition(std::map<int, std::map<int,std::vector<int>>
             }
          }
       }
+
       std::cout<<"List of cands with frequency"<<std::endl;
       for(const auto& pair:candpos){
          if(pair.second==1){
@@ -308,7 +357,6 @@ void Solver::figureSpecificPosition(std::map<int, std::map<int,std::vector<int>>
          }
       }
 
-      //logMap(candpos);
 }
 
 
@@ -392,49 +440,50 @@ void Solver::figureSpecificPositionS(std::map<int, std::map<int,std::vector<int>
          } 
       }
       //CHANGE PENCIL MARKINGS INTO PEN-MARKINGS
-      std::map<int,std::vector<int>> *CandidatePositions;// key=postions, values=candidate values
-      CandidatePositions=Model::getInstance()->getCandidates();
-      std::map<int,int>candpos={{1,0},{2,0},{3,0},{4,0},{5,0},{6,0},{7,0},{8,0},{9,0}}; //candidatevalues: their frequency in a block
+      pencilToPenMarking();
+      // std::map<int,std::vector<int>> *CandidatePositions;// key=postions, values=candidate values
+      // CandidatePositions=Model::getInstance()->getCandidates();
+      // std::map<int,int>candpos={{1,0},{2,0},{3,0},{4,0},{5,0},{6,0},{7,0},{8,0},{9,0}}; //candidatevalues: their frequency in a block
 
-      for(const auto& pair:*CandidatePositions){
-         for(int b=0;b<9;b++){
-            if(Block(pair.first)==b){
-               //for 1-9 go through candidate of each position then then count its occurence- change the value to pen-marking if it is not repeated
-               //loop through 1-9
-            for(int i=1;i<=9;i++){
-               //loop through the candidate values at the position and count them
-                  for(int j=0;j<9;j++){
-                     if (pair.second[j]==i){
-                        candpos[i]=candpos[i]+1;
-                     }
-                  }
-               }
+      // for(const auto& pair:*CandidatePositions){
+      //    for(int b=0;b<9;b++){
+      //       if(Block(pair.first)==b){
+      //          //for 1-9 go through candidate of each position then then count its occurence- change the value to pen-marking if it is not repeated
+      //          //loop through 1-9
+      //       for(int i=1;i<=9;i++){
+      //          //loop through the candidate values at the position and count them
+      //             for(int j=0;j<9;j++){
+      //                if (pair.second[j]==i){
+      //                   candpos[i]=candpos[i]+1;
+      //                }
+      //             }
+      //          }
       
-            }
-         }
-      }
-      std::cout<<"List of cands with frequency"<<std::endl;
-      for(const auto& pair:candpos){
-         if(pair.second==1){
+      //       }
+      //    }
+      // }
+      // std::cout<<"List of cands with frequency"<<std::endl;
+      // for(const auto& pair:candpos){
+      //    if(pair.second==1){
          
-            for(const auto& cand:*CandidatePositions){
-               if(std::find(cand.second.begin(), cand.second.end(), pair.first) != cand.second.end()){
+      //       for(const auto& cand:*CandidatePositions){
+      //          if(std::find(cand.second.begin(), cand.second.end(), pair.first) != cand.second.end()){
                
-                  for(int i=0;i<9;i++){
-                     if(Block(cand.first)==i){
-                        std::cout<<pair.first<<"["<<pair.second<<"]@"<<cand.first<<", ";
-                        Model::getInstance()->receiveInput(cand.first,pair.first);
-                        Model::getInstance()->setCandidateVector(cand.first,{0,0,0,0,0,0,0,0,0});
-                     }
+      //             for(int i=0;i<9;i++){
+      //                if(Block(cand.first)==i){
+      //                   std::cout<<pair.first<<"["<<pair.second<<"]@"<<cand.first<<", ";
+      //                   Model::getInstance()->receiveInput(cand.first,pair.first);
+      //                   Model::getInstance()->setCandidateVector(cand.first,{0,0,0,0,0,0,0,0,0});
+      //                }
                      
-                  }
+      //             }
 
-               }
+      //          }
 
-            }
+      //       }
 
-         }
-      }
+      //    }
+      // }
 
       //logMap(candpos);
 }
