@@ -35,5 +35,7 @@ void logMap(std::map<int,int>map);
 void logMapofMapsV(std::map<int,std::map<int,std::vector<int>>>map);
 void logMapofMaps(std::map<int,std::map<int,int>>map);
 void figureSpecificPosition(std::map<int, std::map<int,std::vector<int>>>existingValues);
+void figureSpecificPositionS(std::map<int, std::map<int,std::vector<int>>>existingValues);
 int Block(int position);
+void checkRepeatition(std::map<int,std::map<int,int>>blocks);
 };
