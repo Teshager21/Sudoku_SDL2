@@ -1,0 +1,235 @@
+#include "window.h"
+#include<SDL2/SDL.h>
+#include<iostream>
+#include "texture.h"
+
+Window* Window::sInstance = NULL;
+
+Window::Window(const std::string &title, int width, int height):
+	m_title(title), m_width(width),m_height(height)
+{
+	if (!init()) {
+		m_running = true; 
+	}
+    TTF_Init();
+}
+
+Window::~Window() {
+	SDL_DestroyRenderer(m_renderer);
+    delete sInstance;
+    TTF_Quit();
+	SDL_Quit(); 
+}
+
+Window* Window::getInstance() {
+    if (!sInstance) {
+        sInstance = new Window("SUDOKU", SCREEN_WIDTH, SCREEN_HEIGHT);
+    }
+    return sInstance;
+
+}
+
+bool Window::getState() { return m_running; }
+void Window::setState(bool state) {m_running=state; }
+int Window::getCellSize() { return m_cellSize; }
+
+SDL_Renderer& Window::getRenderer() { 
+    return *m_renderer;
+}
+
+ void Window:: Render() {
+     SDL_RenderPresent(m_renderer);
+}
+
+int Window::getCursorPos(int x) { return m_cursorPos[x]; }
+
+bool Window::init() {
+	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
+		std::cerr << "Failed to initialize\n";
+		return 0;
+	}
+	m_window = SDL_CreateWindow(m_title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height, SDL_WINDOW_BORDERLESS);
+	if (&sInstance == nullptr) {
+		std::cerr << "Failed to initialize window\n";
+    }
+    SDL_Surface* screen = NULL;
+     m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_PRESENTVSYNC);
+    screen = SDL_GetWindowSurface(m_window);
+    Uint32 white = SDL_MapRGB(screen->format, 255, 255, 255);
+    SDL_FillRect(screen, NULL, white);
+
+    for (int i = 0; i < 30; i++) {
+        m_grayRects[i].x = 0; // x position
+        m_grayRects[i].y =0; // y position
+        m_grayRects[i].w = m_cellSize-8; // width
+        m_grayRects[i].h = m_cellSize-8; // height
+    }
+
+	return true;
+}
+
+SDL_Texture* Window::CreateTextTexture(TTF_Font* font, std::string text,SDL_Color color) {
+    SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), color);
+    if (surface == NULL) {
+        printf("Erro in text render:%s\n", TTF_GetError());
+        return NULL;
+    }
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(m_renderer, surface);
+    if (texture == NULL) {
+        printf("Error in creating texture:%s\n", SDL_GetError());
+    }
+    return texture;
+}
+
+void Window:: ClearBackBuffer() {
+    SDL_RenderClear(m_renderer);
+}
+
+int Window:: drawGrid() {
+
+//window background
+    SDL_Rect backgroundW{ 0,0,SCREEN_WIDTH,SCREEN_HEIGHT };
+    SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_RenderDrawRect(m_renderer, &backgroundW);
+    SDL_SetRenderDrawColor(m_renderer, 30, 70, 81, SDL_ALPHA_OPAQUE);
+    SDL_SetRenderDrawColor(m_renderer, 38, 43, 61, SDL_ALPHA_OPAQUE);
+    SDL_RenderFillRect(m_renderer, &backgroundW);
+//table background
+    SDL_Rect backgroundT{ m_margin,m_margin,m_cellSize*9,m_cellSize*9 };
+    SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_RenderDrawRect(m_renderer, &backgroundT);
+    SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_TRANSPARENT);
+    //SDL_SetRenderDrawColor(m_renderer, 30, 70, 81, SDL_ALPHA_OPAQUE);
+    SDL_RenderFillRect(m_renderer, &backgroundT);
+
+
+
+
+    //draw horizontal lines
+    for (int i = 0; i <= 9; i++) {
+        SDL_SetRenderDrawColor(m_renderer, 250, 250, 250, SDL_ALPHA_OPAQUE);
+        if ((i == 0 || i == 9) || (i + 3) % 3 == 0) {
+            SDL_RenderDrawLine(m_renderer, m_cellSize, m_cellSize * (i + 1), m_cellSize * 10, m_cellSize * ((i + 1)));
+            SDL_RenderDrawLine(m_renderer, 1 + m_cellSize, 1 + m_cellSize * (i + 1), 1 + m_cellSize * 10, 1 + m_cellSize * ((i + 1)));
+            SDL_RenderDrawLine(m_renderer, -1 + m_cellSize, -1 + m_cellSize * (i + 1), -1 + m_cellSize * 10, -1+ m_cellSize * ((i + 1)));
+        }
+        else {
+            SDL_SetRenderDrawColor(m_renderer, 200, 200, 200, 205);
+            SDL_RenderDrawLine(m_renderer, -1 + m_cellSize, -3 + m_cellSize * (i + 1), -1 + m_cellSize * 10, -3 + m_cellSize * ((i + 1)));
+        }
+    }
+    //draw vertical lines
+    for (int i = 0; i <= 9; i++) {
+        SDL_SetRenderDrawColor(m_renderer, 250, 250, 250, SDL_ALPHA_OPAQUE);
+        if (i == 0 || i == 9 || (i + 3) % 3 == 0) {
+
+            SDL_RenderDrawLine(m_renderer, m_cellSize * (i + 1), m_cellSize,m_cellSize * (i + 1), m_cellSize * 10);
+            SDL_RenderDrawLine(m_renderer, 1 + m_cellSize * (i + 1), 1 + m_cellSize, 1 + m_cellSize * (i + 1), 1 + m_cellSize * 10);
+            SDL_RenderDrawLine(m_renderer, -1 + m_cellSize * (i + 1), -1 + m_cellSize, -1 + m_cellSize * (i + 1), -1 + m_cellSize * 10);
+        }
+        else {
+            SDL_SetRenderDrawColor(m_renderer, 200, 200, 200, 205);
+            SDL_RenderDrawLine(m_renderer, -5 + m_cellSize * (i + 1), -1 + m_cellSize, -5 + m_cellSize * (i + 1), -1 + m_cellSize * 10);
+        }
+
+    }
+
+    //Title Background
+    SDL_Rect backgroundTitle{ 0,0,SCREEN_WIDTH,50 };
+    //SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+    SDL_RenderDrawRect(m_renderer, &backgroundTitle);
+    SDL_SetRenderDrawColor(m_renderer, 30, 70, 81, SDL_ALPHA_OPAQUE);
+    SDL_RenderFillRect(m_renderer, &backgroundTitle);
+    //Title
+    //Texture texture = Texture("SUDOKU", "Roboto-Bold.ttf", 32, { 255,20,86,255 });
+    Texture texture = Texture("SUDOKU", "Roboto-Bold.ttf", 20, { 255,255,255,255 });
+
+    //texture.SetSrcRect((350-(texture.GetSurface()->w)/2), 0);
+    texture.SetSrcRect(20,5);
+    texture.renderText();
+    texture.Render();
+    return 0;
+}
+void Window::handleCursorKeys(SDL_Event& event) {
+    switch (event.key.keysym.sym) {
+    case SDLK_LEFT:
+        if(m_cursorPos[0]>m_margin)
+         m_cursorPos[0] -= m_cellSize;
+         isCandidateMode=false;
+        break;
+    case SDLK_RIGHT:
+        if(m_cursorPos[0]<m_cellSize*9)
+            m_cursorPos[0] += m_cellSize;
+            isCandidateMode=false;
+        break;
+    case SDLK_UP:
+        if (m_cursorPos[1] > m_margin)
+            m_cursorPos[1] -= m_cellSize;
+            isCandidateMode=false;
+        break;
+    case SDLK_DOWN:
+        if (m_cursorPos[1] < m_cellSize*9)
+            m_cursorPos[1] += m_cellSize;
+            isCandidateMode=false;
+        break;
+
+    }
+}
+
+void Window::handleMouseClicks(SDL_Event& event) {
+    //std::cout << event.type<<std::endl;
+    if ((event.type == SDL_MOUSEBUTTONDOWN || event.type==SDL_FINGERDOWN) && event.button.clicks==1) {
+        isCandidateMode=false;
+        int col = (event.button.x - m_margin) / (m_cellSize);
+        int row = (event.button.y - m_margin) / (m_cellSize);
+        if (col < 9 && row < 9 && col>=0 && row>=0) {
+            m_cursorPos[0] = m_margin + col * m_cellSize;
+            m_cursorPos[1] = m_margin + row * m_cellSize;
+        }
+    }
+
+    if(event.type==SDL_MOUSEBUTTONDOWN && event.button.clicks==2){
+        isCandidateMode=true;
+    }
+     
+
+}
+
+void Window::drawCursor() {
+    SDL_Rect cursor{ m_cursorPos[0],m_cursorPos[1],m_cellSize,m_cellSize };
+    SDL_Rect cursor2{ m_cursorPos[0] + 1,m_cursorPos[1] + 1,m_cellSize - 2,m_cellSize - 2 };
+    SDL_Rect cursor3{ m_cursorPos[0] + 2,m_cursorPos[1] + 2,m_cellSize - 4,m_cellSize - 4 };
+
+    SDL_SetRenderDrawBlendMode(m_renderer, SDL_BLENDMODE_BLEND);
+    if(isCandidateMode)
+     SDL_SetRenderDrawColor(m_renderer, 255, 255, 0, SDL_ALPHA_OPAQUE);
+    else
+     SDL_SetRenderDrawColor(m_renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
+
+    SDL_RenderDrawRect(m_renderer, &cursor);
+    SDL_RenderDrawRect(m_renderer, &cursor2);
+    SDL_RenderDrawRect(m_renderer, &cursor3);
+
+    SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_TRANSPARENT);
+    SDL_RenderFillRect(m_renderer, &cursor);
+    SDL_RenderFillRect(m_renderer, &cursor2);
+    SDL_RenderFillRect(m_renderer, &cursor3);
+
+}
+
+void Window::CapFrameRate(Uint32 starting_tick) {
+    Uint32 frameTime = SDL_GetTicks() - starting_tick;
+    Uint32 frameDelay = 1000 / fps;
+    if (frameDelay > frameTime) {
+        SDL_Delay(frameDelay - frameTime);
+    }
+}
+
+SDL_Rect& Window::GetMemberOfGrayRects(int x) {
+    return m_grayRects[x];
+}
+
+void Window::SetMemberOfGrayRects(int pos,int x, int y) {
+    m_grayRects[pos].x=x;
+    m_grayRects[pos].y = y;
+}
