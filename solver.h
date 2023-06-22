@@ -39,4 +39,5 @@ void figureSpecificPositionS(std::map<int, std::map<int,std::vector<int>>>existi
 int Block(int position);
 void checkRepeatition(std::map<int,std::map<int,int>>blocks);
 void pencilToPenMarking();
+void patternRecognition(std::map<int,std::map<int,int>>blocks);
 };

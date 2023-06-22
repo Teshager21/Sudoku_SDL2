@@ -21,13 +21,12 @@ Solver* Solver::getInstance(){
     return sInstance;}
 
 void Solver::solve(){
-  std::cout<<"Problem solved!";
   generateBlocks();
 }
 
 void Solver::generateBlocks(){
    int position,row,col,blockNum,value;
-   std::map<int,std::map<int,int>>b;
+   std::map<int,std::map<int,int>>b; //blockNum:{position:value}
    for(int m=0;m<9;m++){
       std::map<int,int>block;
          for(int i=0;i<9;i++){
@@ -44,8 +43,12 @@ void Solver::generateBlocks(){
    b[m]=(block);
    }
    logMapofMaps(b);
+   //PENCIL MARKING CANDIDATES
    checkRepeatition(b);
    checkRepeatition(b);
+   //PATTERN RECOGNITION USING GHOST/PHANTOM NUMBERS
+   patternRecognition(b);
+
 }
 
 void Solver::checkRepeatition(std::map<int,std::map<int,int>>blocks){
@@ -123,8 +126,6 @@ if (scope=="Rank"){
       }
       std::cout<<std::endl<<"Revised Values\n";
       logMapofMapsV(existingValues);
-      std::cout<<"some more\n";
- //figureSpecificPosition(existingValues);
       figureSpecificPositionS(existingValues);
       std::cout<<"no more\n";
 
@@ -267,47 +268,6 @@ void Solver::figureSpecificPosition(std::map<int, std::map<int,std::vector<int>>
       }
       //CHANGE PENCIL MARKINGS INTO PEN-MARKINGS
       pencilToPenMarking();
-      // std::map<int,std::vector<int>> *CandidatePositions;// key=postions, values=candidate values
-      // CandidatePositions=Model::getInstance()->getCandidates();
-      // std::map<int,int>candpos={{1,0},{2,0},{3,0},{4,0},{5,0},{6,0},{7,0},{8,0},{9,0}}; //candidatevalues: their frequency in a block
-
-      // for(const auto& pair:*CandidatePositions){
-      //    for(int b=0;b<9;b++){
-      //       if(Block(pair.first)==b){
-      //          //for 1-9 go through candidate of each position then then count its occurence- change the value to pen-marking if it is not repeated
-      //          //loop through 1-9
-      //       for(int i=1;i<=9;i++){
-      //          //loop through the candidate values at the position and count them
-      //             for(int j=0;j<9;j++){
-      //                if (pair.second[j]==i){
-      //                   candpos[i]=candpos[i]+1;
-      //                }
-      //             }
-      //          }
-      
-      //       }
-      //    }
-      // }
-      // std::cout<<"List of cands with frequency"<<std::endl;
-      // for(const auto& pair:candpos){
-      //    if(pair.second==1){
-         
-      //       for(const auto& cand:*CandidatePositions){
-      //          if(std::find(cand.second.begin(), cand.second.end(), pair.first) != cand.second.end()){
-               
-      //             for(int i=0;i<9;i++){
-      //                if(Block(cand.first)==i){
-      //                   std::cout<<pair.first<<"["<<pair.second<<"]@"<<cand.first<<", ";
-      //                   Model::getInstance()->receiveInput(cand.first,pair.first);
-      //                   Model::getInstance()->setCandidateVector(cand.first,{0,0,0,0,0,0,0,0,0});
-      //                }
-                     
-      //             }
-               
-      //          }
-      //       }
-      //    }
-      // }
 
 }
 
@@ -441,53 +401,63 @@ void Solver::figureSpecificPositionS(std::map<int, std::map<int,std::vector<int>
       }
       //CHANGE PENCIL MARKINGS INTO PEN-MARKINGS
       pencilToPenMarking();
-      // std::map<int,std::vector<int>> *CandidatePositions;// key=postions, values=candidate values
-      // CandidatePositions=Model::getInstance()->getCandidates();
-      // std::map<int,int>candpos={{1,0},{2,0},{3,0},{4,0},{5,0},{6,0},{7,0},{8,0},{9,0}}; //candidatevalues: their frequency in a block
-
-      // for(const auto& pair:*CandidatePositions){
-      //    for(int b=0;b<9;b++){
-      //       if(Block(pair.first)==b){
-      //          //for 1-9 go through candidate of each position then then count its occurence- change the value to pen-marking if it is not repeated
-      //          //loop through 1-9
-      //       for(int i=1;i<=9;i++){
-      //          //loop through the candidate values at the position and count them
-      //             for(int j=0;j<9;j++){
-      //                if (pair.second[j]==i){
-      //                   candpos[i]=candpos[i]+1;
-      //                }
-      //             }
-      //          }
-      
-      //       }
-      //    }
-      // }
-      // std::cout<<"List of cands with frequency"<<std::endl;
-      // for(const auto& pair:candpos){
-      //    if(pair.second==1){
-         
-      //       for(const auto& cand:*CandidatePositions){
-      //          if(std::find(cand.second.begin(), cand.second.end(), pair.first) != cand.second.end()){
-               
-      //             for(int i=0;i<9;i++){
-      //                if(Block(cand.first)==i){
-      //                   std::cout<<pair.first<<"["<<pair.second<<"]@"<<cand.first<<", ";
-      //                   Model::getInstance()->receiveInput(cand.first,pair.first);
-      //                   Model::getInstance()->setCandidateVector(cand.first,{0,0,0,0,0,0,0,0,0});
-      //                }
-                     
-      //             }
-
-      //          }
-
-      //       }
-
-      //    }
-      // }
-
-      //logMap(candpos);
+    
 }
 
 
+void Solver::patternRecognition(std::map<int,std::map<int,int>>blocks){
 
+//loop through each block
+
+for(int i=0;i<9;i++){
+  // for( const auto& block:blocks[i]){
+      //find a  completed segment ( row segment/col segment)
+      //row completed segment
+
+      //first row of the block
+      auto firstPosition =blocks[i].begin()->first; 
+      if(blocks[i][firstPosition]!=0 &&blocks[i][firstPosition+1]!=0 && blocks[i][firstPosition+2]!=0 ){
+         std::cout<<"Found a segment: ["<<blocks[i][firstPosition]<<", "<<blocks[i][firstPosition+1]<<", "<<blocks[i][firstPosition+2]<<"]"<<std::endl;
+
+      }
+
+      if(blocks[i][firstPosition+9]!=0 &&blocks[i][firstPosition+10]!=0 && blocks[i][firstPosition+11]!=0 ){
+         std::cout<<"Found a segment: ["<<blocks[i][firstPosition+9]<<", "<<blocks[i][firstPosition+10]<<", "<<blocks[i][firstPosition+11]<<"]"<<std::endl;
+
+      }
+       if(blocks[i][firstPosition+18]!=0 &&blocks[i][firstPosition+19]!=0 && blocks[i][firstPosition+20]!=0 ){
+         std::cout<<"Found a segment: ["<<blocks[i][firstPosition+18]<<", "<<blocks[i][firstPosition+19]<<", "<<blocks[i][firstPosition+20]<<"]"<<std::endl;
+
+      }
+
+      //column segment
+
+      if(blocks[i][firstPosition]!=0 &&blocks[i+9][firstPosition+9]!=0 && blocks[i+18][firstPosition+18]!=0 ){
+         std::cout<<"Found a col segment: ["<<blocks[i][firstPosition]<<", "<<blocks[i][firstPosition+9]<<", "<<blocks[i][firstPosition+18]<<"]"<<std::endl;
+
+      }
+
+      if(blocks[i][firstPosition+1]!=0 &&blocks[i][firstPosition+10]!=0 && blocks[i][firstPosition+19]!=0 ){
+         std::cout<<"Found a col segment: ["<<blocks[i][firstPosition+1]<<", "<<blocks[i][firstPosition+10]<<", "<<blocks[i][firstPosition+19]<<"]"<<std::endl;
+
+      }
+       if(blocks[i][firstPosition+2]!=0 &&blocks[i][firstPosition+11]!=0 && blocks[i][firstPosition+20]!=0 ){
+         std::cout<<"Found a  col segment: ["<<blocks[i][firstPosition+2]<<", "<<blocks[i][firstPosition+11]<<", "<<blocks[i][firstPosition+20]<<"]"<<std::endl;
+
+      }
+
+      
+
+  }
+
+std::cout<<"The end!\n";
+
+//look for a value in the stack/rank not in the completed segment , not the same block as the completed segment, not in the same row/col as the completed segment
+//fill in ghost numbers in the row/col that is neither same as the completed segement or the value
+//identify the three candidate positons in the block not the same as completed segment or the value and the same row/col as the segment
+//check and fill candidates in this positions
+//run pentoPencil function
+
+// after doing it for all blocks -run check repetition function
+}
 
