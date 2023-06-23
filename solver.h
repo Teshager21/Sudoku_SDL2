@@ -41,4 +41,5 @@ void checkRepeatition(std::map<int,std::map<int,int>>blocks);
 void pencilToPenMarking();
 void patternRecognition(std::map<int,std::map<int,int>>blocks);
 std::vector<int> valuesForPatternRecognition(int blockNum,int firstPosition);
+std::vector<int> valuesForPatternRecognitionC(int blockNum,int firstPosition);
 };
