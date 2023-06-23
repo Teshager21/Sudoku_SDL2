@@ -32,7 +32,7 @@ std::map<int,std::vector<int>>* Model::getCandidates(){
 }
 
 void Model::setCandidateVector(int position,std::vector<int> vec){
-      mCandidatePositions[position]=vec;    
+    mCandidatePositions[position]=vec;    
 }
 
 void Model::setCandidateValue( int position,int value){

@@ -407,27 +407,87 @@ void Solver::figureSpecificPositionS(std::map<int, std::map<int,std::vector<int>
 
 void Solver::patternRecognition(std::map<int,std::map<int,int>>blocks){
 
-//loop through each block
 
-for(int i=0;i<9;i++){
-  // for( const auto& block:blocks[i]){
+
+for(int i=0;i<9;i++){ //loop through each block
+ 
       //find a  completed segment ( row segment/col segment)
       //row completed segment
-
-      //first row of the block
+      //First row of a block
       auto firstPosition =blocks[i].begin()->first; 
       if(blocks[i][firstPosition]!=0 &&blocks[i][firstPosition+1]!=0 && blocks[i][firstPosition+2]!=0 ){
          std::cout<<"Found a segment: ["<<blocks[i][firstPosition]<<", "<<blocks[i][firstPosition+1]<<", "<<blocks[i][firstPosition+2]<<"]"<<std::endl;
+       //look for a value in the stack/rank not in the completed segment , not the same block as the completed segment, not in the same row/col as the completed segment
+      //the two possible blocks
+      int firstCell=firstPosition;
+      int blocknum1,blocknum2,row1,row2;
+      if(i%3==0){
+         blocknum1=i+1;
+         blocknum2=i+2;
+      }
+      if(i%3==1){
+         blocknum1=i-1;
+         blocknum2=i+1;
+      }
+       if(i%3==2){
+         blocknum1=i-1;
+         blocknum2=i-2;
+      }
+      std::cout<<"Pattern Recognition: the two blocks are: "<< blocknum1<<", "<<blocknum2<<std::endl;
+      //the two possible rows
+      if((firstCell/9)%3==0){//segment is in the fist row of a rank
+        row1= (firstCell/9)+1;
+        row2= (firstCell/9)+2;
+      }
+      if((firstCell/9)%3==1){//segment is in the fist row of a rank
+        row1= (firstCell/9)-1;
+        row2= (firstCell/9)+1;
+      }
+      if((firstCell/9)%3==2){//segment is in the fist row of a rank
+        row1= (firstCell/9)-1;
+        row2= (firstCell/9)-2;
+      }
+
+      std::cout<<"Pattern recognition: rows"<<row1<<", "<<row2<<std::endl;
+
+      //12 POSSIBLE POSITIONS FOR THE VALUE
+      std::vector<int>pos;
+      for(int i=0;i<3;i++){
+         if((Model::getInstance()->isPositionFilled(9*row1+i+3*(blocknum1%3))) && find(pos.begin(),pos.end(),9*row1+i+3*(blocknum1%3))==pos.end())
+            pos.push_back(9*row1+i+3*(blocknum1%3));
+         if(Model::getInstance()->isPositionFilled(9*row2+i+3*(blocknum1%3))&&find(pos.begin(),pos.end(),9*row1+i+3*(blocknum1%3))==pos.end()) 
+            pos.push_back(9*row2+i+3*(blocknum1%3));
+
+      
+         if(Model::getInstance()->isPositionFilled(9*row1+i+3*(blocknum2%3)))
+            pos.push_back(9*row1+i+3*(blocknum2%3));
+         if(Model::getInstance()->isPositionFilled(9*row2+i+3*(blocknum2%3))) 
+            pos.push_back(9*row2+i+3*(blocknum2%3));
+      }
+
+      //Exclude these values that are shared by the completed segment
+
+      for(int i=0;i<pos.size();i++){
+         if(pos[i]==firstPosition || pos[i]==(firstPosition+1) || pos[i]==(firstPosition+2)){
+            pos.erase(pos.begin() + i);
+         }
+      }
+      //print out the values
+      std::cout<<"The potential values for PR are: "<<std::endl;
+      for(auto& item:pos){
+         std::cout<<item<<std::endl;
+      }
+
 
       }
 
       if(blocks[i][firstPosition+9]!=0 &&blocks[i][firstPosition+10]!=0 && blocks[i][firstPosition+11]!=0 ){
          std::cout<<"Found a segment: ["<<blocks[i][firstPosition+9]<<", "<<blocks[i][firstPosition+10]<<", "<<blocks[i][firstPosition+11]<<"]"<<std::endl;
-
+         valuesForPatternRecognition(i,blocks[i].begin()->first+9);
       }
        if(blocks[i][firstPosition+18]!=0 &&blocks[i][firstPosition+19]!=0 && blocks[i][firstPosition+20]!=0 ){
          std::cout<<"Found a segment: ["<<blocks[i][firstPosition+18]<<", "<<blocks[i][firstPosition+19]<<", "<<blocks[i][firstPosition+20]<<"]"<<std::endl;
-
+         valuesForPatternRecognition(i,blocks[i].begin()->first+18);
       }
 
       //column segment
@@ -452,7 +512,6 @@ for(int i=0;i<9;i++){
 
 std::cout<<"The end!\n";
 
-//look for a value in the stack/rank not in the completed segment , not the same block as the completed segment, not in the same row/col as the completed segment
 //fill in ghost numbers in the row/col that is neither same as the completed segement or the value
 //identify the three candidate positons in the block not the same as completed segment or the value and the same row/col as the segment
 //check and fill candidates in this positions
@@ -460,4 +519,71 @@ std::cout<<"The end!\n";
 
 // after doing it for all blocks -run check repetition function
 }
+
+std::vector<int> Solver::valuesForPatternRecognition(int blockNum,int firstPosition){
+    //look for a value in the stack/rank not in the completed segment , not the same block as the completed segment, not in the same row/col as the completed segment
+      //the two possible blocks
+      int firstCell=firstPosition;
+      int blocknum1,blocknum2,row1,row2;
+      if(blockNum%3==0){
+         blocknum1=blockNum+1;
+         blocknum2=blockNum+2;
+      }
+      if(blockNum%3==1){
+         blocknum1=blockNum-1;
+         blocknum2=blockNum+1;
+      }
+       if(blockNum%3==2){
+         blocknum1=blockNum-1;
+         blocknum2=blockNum-2;
+      }
+      std::cout<<"Pattern Recognition: the two blocks are: "<< blocknum1<<", "<<blocknum2<<std::endl;
+      //the two possible rows
+      if((firstCell/9)%3==0){//segment is in the fist row of a rank
+        row1= (firstCell/9)+1;
+        row2= (firstCell/9)+2;
+      }
+      if((firstCell/9)%3==1){//segment is in the fist row of a rank
+        row1= (firstCell/9)-1;
+        row2= (firstCell/9)+1;
+      }
+      if((firstCell/9)%3==2){//segment is in the fist row of a rank
+        row1= (firstCell/9)-1;
+        row2= (firstCell/9)-2;
+      }
+
+      std::cout<<"Pattern recognition: rows"<<row1<<", "<<row2<<std::endl;
+
+      //12 POSSIBLE POSITIONS FOR THE VALUE
+      std::vector<int>pos;
+      for(int i=0;i<3;i++){
+         if((Model::getInstance()->isPositionFilled(9*row1+i+3*(blocknum1%3))) && find(pos.begin(),pos.end(),9*row1+i+3*(blocknum1%3))==pos.end())
+            pos.push_back(9*row1+i+3*(blocknum1%3));
+         if(Model::getInstance()->isPositionFilled(9*row2+i+3*(blocknum1%3))&&find(pos.begin(),pos.end(),9*row1+i+3*(blocknum1%3))==pos.end()) 
+            pos.push_back(9*row2+i+3*(blocknum1%3));
+
+      
+         if(Model::getInstance()->isPositionFilled(9*row1+i+3*(blocknum2%3)))
+            pos.push_back(9*row1+i+3*(blocknum2%3));
+         if(Model::getInstance()->isPositionFilled(9*row2+i+3*(blocknum2%3))) 
+            pos.push_back(9*row2+i+3*(blocknum2%3));
+      }
+
+      //Exclude these values that are shared by the completed segment
+
+      for(int i=0;i<pos.size();i++){
+         if(pos[i]==firstPosition || pos[i]==(firstPosition+1) || pos[i]==(firstPosition+2)){
+            pos.erase(pos.begin() + i);
+         }
+      }
+      //print out the values
+      std::cout<<"The potential values for PR are: "<<std::endl;
+      for(auto& item:pos){
+         std::cout<<item<<std::endl;
+      }
+
+      return pos;
+      }
+
+
 
