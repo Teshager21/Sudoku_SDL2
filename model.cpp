@@ -212,3 +212,9 @@ bool Model::isgameWon() {
     return true;
 }
 
+int Model::getValueAtPosition(int position){
+ int row= position/9;
+ int col= position%9;
+ return mBoard[row][col];
+}
+

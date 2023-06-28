@@ -48,11 +48,12 @@ void Solver::generateBlocks(){
    checkRepeatition(b);
    //PATTERN RECOGNITION USING GHOST/PHANTOM NUMBERS
    patternRecognition(b);
+   checkRepeatition(b);
 
 }
-
+   
+//Looks across stacks and ranks and calculates pen-marked and pencilmarked values for values that are repeated twice across a rank or a stack
 void Solver::checkRepeatition(std::map<int,std::map<int,int>>blocks){
-   //Looks across stacks and ranks and calculates pen-marked and pencilmarked values for values that are repeated twice across a rank or a stack
    checkRepeatitionAcrossBlocks(blocks,"Rank",0);
    checkRepeatitionAcrossBlocks(blocks,"Rank",1);
    checkRepeatitionAcrossBlocks(blocks,"Rank",2);
@@ -60,9 +61,9 @@ void Solver::checkRepeatition(std::map<int,std::map<int,int>>blocks){
    checkRepeatitionAcrossBlocks(blocks,"Stack",1);
    checkRepeatitionAcrossBlocks(blocks,"Stack",2);
 }
-
+  
+//calculates values that are repeated twice in a stack or a rank along with their position
 void Solver::checkRepeatitionAcrossBlocks(std::map<int,std::map<int,int>>blocks,std::string scope, int scopeSpecifier){
-   //calculates values that are repeated twice in a stack or a rank along with their position
 std::map<int,int>repeats;
 std::map<int, std::map<int,std::vector<int>>>existingValues; //value:{pos:freq}
 //RANKS
@@ -153,7 +154,6 @@ int Solver::positionInMap(int value,std::map<int,int>mp){
   return r;
 }
 
-
 void Solver::logMap(std::map<int,int>map){
     for (auto& pair : map) {
       std::cout << pair.first<<"["<<pair.second<<"], ";
@@ -185,7 +185,7 @@ int Solver::Block(int position){
    return (position / 27)*3+ (position % 9)/3;
 }
 
-void Solver::figureSpecificPosition(std::map<int, std::map<int,std::vector<int>>>existingValues){
+void Solver::figureSpecificPosition(std::map<int, std::map<int,std::vector<int>>>existingValues){ //existing values: value: {pos1,pos2}
   
    int row,block;
    
@@ -270,10 +270,8 @@ void Solver::figureSpecificPosition(std::map<int, std::map<int,std::vector<int>>
       pencilToPenMarking();
 
 }
-
+ //CHANGE PENCIL MARKINGS INTO PEN-MARKINGS
 void Solver::pencilToPenMarking(){
-
-      //CHANGE PENCIL MARKINGS INTO PEN-MARKINGS
       std::map<int,std::vector<int>> *CandidatePositions;// key=postions, values=candidate values
       CandidatePositions=Model::getInstance()->getCandidates();
       std::map<int,int>candpos={{1,0},{2,0},{3,0},{4,0},{5,0},{6,0},{7,0},{8,0},{9,0}}; //candidatevalues: their frequency in a block
@@ -406,17 +404,16 @@ void Solver::figureSpecificPositionS(std::map<int, std::map<int,std::vector<int>
 
 
 void Solver::patternRecognition(std::map<int,std::map<int,int>>blocks){
-
-
-
 for(int i=0;i<9;i++){ //loop through each block
- 
       //find a  completed segment ( row segment/col segment)
       //row completed segment
+      std::vector<int>pos;
       auto firstPosition =blocks[i].begin()->first; 
       if(blocks[i][firstPosition]!=0 &&blocks[i][firstPosition+1]!=0 && blocks[i][firstPosition+2]!=0 ){
          std::cout<<"Found a segment: ["<<blocks[i][firstPosition]<<", "<<blocks[i][firstPosition+1]<<", "<<blocks[i][firstPosition+2]<<"]"<<std::endl;
-         valuesForPatternRecognition(i,blocks[i].begin()->first);
+         pos=valuesForPatternRecognition(i,blocks[i].begin()->first);
+         //figure out the row for the candidates for each pos above
+         //fill in if position is empty
 
       }
 
@@ -426,41 +423,32 @@ for(int i=0;i<9;i++){ //loop through each block
       }
        if(blocks[i][firstPosition+18]!=0 &&blocks[i][firstPosition+19]!=0 && blocks[i][firstPosition+20]!=0 ){
          std::cout<<"Found a segment: ["<<blocks[i][firstPosition+18]<<", "<<blocks[i][firstPosition+19]<<", "<<blocks[i][firstPosition+20]<<"]"<<std::endl;
-         valuesForPatternRecognition(i,blocks[i].begin()->first+18);
+         pos=valuesForPatternRecognition(i,blocks[i].begin()->first+18);
       }
 
       //column segment
 
       if(blocks[i][firstPosition]!=0 &&blocks[i+9][firstPosition+9]!=0 && blocks[i+18][firstPosition+18]!=0 ){
          std::cout<<"Found a col segment: ["<<blocks[i][firstPosition]<<", "<<blocks[i][firstPosition+9]<<", "<<blocks[i][firstPosition+18]<<"]"<<std::endl;
-         valuesForPatternRecognitionC(i,blocks[i].begin()->first);
-         std::cout<<"shoooooooooooooooooot"<<std::endl;
+         pos=valuesForPatternRecognitionC(i,blocks[i].begin()->first);
+         std::cout<<"shooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooot"<<std::endl;
       }
 
       if(blocks[i][firstPosition+1]!=0 &&blocks[i][firstPosition+10]!=0 && blocks[i][firstPosition+19]!=0 ){
          std::cout<<"Found a col segment: ["<<blocks[i][firstPosition+1]<<", "<<blocks[i][firstPosition+10]<<", "<<blocks[i][firstPosition+19]<<"]"<<std::endl;
-          valuesForPatternRecognitionC(i,blocks[i].begin()->first+1);
+         pos=valuesForPatternRecognitionC(i,blocks[i].begin()->first+1);
       }
        if(blocks[i][firstPosition+2]!=0 &&blocks[i][firstPosition+11]!=0 && blocks[i][firstPosition+20]!=0 ){
          std::cout<<"Found a  col segment: ["<<blocks[i][firstPosition+2]<<", "<<blocks[i][firstPosition+11]<<", "<<blocks[i][firstPosition+20]<<"]"<<std::endl;
-          valuesForPatternRecognitionC(i,blocks[i].begin()->first+2);
+          pos=valuesForPatternRecognitionC(i,blocks[i].begin()->first+2);
       }
 
-      
+   pencilToPenMarking();   
 
   }
-
-std::cout<<"The end!\n";
-
-//fill in ghost numbers in the row/col that is neither same as the completed segement or the value
-//identify the three candidate positons in the block not the same as completed segment or the value and the same row/col as the segment
-//check and fill candidates in this positions
-//run pentoPencil function
-
-// after doing it for all blocks -run check repetition function
 }
-
-std::vector<int> Solver::valuesForPatternRecognition(int blockNum,int firstPosition){
+//Identify values that will be used with the completed segment
+std::vector<int> Solver::valuesForPatternRecognition(int blockNum,int firstPosition){//blockNUm=block containing segment
     //look for a value in the stack/rank not in the completed segment , not the same block as the completed segment, not in the same row/col as the completed segment
       //the two possible blocks
       int firstCell=firstPosition;
@@ -483,11 +471,11 @@ std::vector<int> Solver::valuesForPatternRecognition(int blockNum,int firstPosit
         row1= (firstCell/9)+1;
         row2= (firstCell/9)+2;
       }
-      if((firstCell/9)%3==1){//segment is in the fist row of a rank
+      if((firstCell/9)%3==1){//segment is in the 2nd row of a rank
         row1= (firstCell/9)-1;
         row2= (firstCell/9)+1;
       }
-      if((firstCell/9)%3==2){//segment is in the fist row of a rank
+      if((firstCell/9)%3==2){//segment is in the 3rd row of a rank
         row1= (firstCell/9)-1;
         row2= (firstCell/9)-2;
       }
@@ -521,6 +509,40 @@ std::vector<int> Solver::valuesForPatternRecognition(int blockNum,int firstPosit
       for(auto& item:pos){
          std::cout<<item<<std::endl;
       }
+      //figure out the row for candidates
+      for(int i=0;i<pos.size();i++){
+         int rowSegment= firstPosition/9;
+         int rowValue= pos[i]/9;
+         int rowCandidates;
+         if(abs(rowSegment-rowValue)==2){
+               rowCandidates=(rowSegment+rowValue)/2;
+         }else{
+            if(rowSegment>rowValue){
+               if(rowValue%3==0){
+                  rowCandidates=rowSegment+1;
+               }else{
+                  rowCandidates=rowValue-1;
+               }
+            }else{
+               if(rowSegment%3==0){
+                  rowCandidates=rowValue+1;
+               }else{
+                  rowCandidates=rowSegment-1;
+               }
+
+            }
+
+         }
+         //block of the candidates
+       int block= thirdBlockOfRank(Block(pos[i]),blockNum);
+      std::cout<<"The candidate row for "<<pos[i]<<" is: "<<rowCandidates<<" @block"<<block<<std::endl;
+      //The three potential candidate positons
+      int value=Model::getInstance()->getValueAtPosition(pos[i]);
+      std::cout<<"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<std::endl;
+      std::vector<int>cands=candidatesFromBlockandRow(block,rowCandidates,value);
+      std::cout<<"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<std::endl;
+      }
+     
 
       return pos;
       }
@@ -528,7 +550,6 @@ std::vector<int> Solver::valuesForPatternRecognition(int blockNum,int firstPosit
 std::vector<int> Solver::valuesForPatternRecognitionC(int blockNum,int firstPosition){
     //look for a value in the stack/rank not in the completed segment , not the same block as the completed segment, not in the same row/col as the completed segment
       //the two possible blocks
-      std::cout<<"LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL"<<std::endl;
       int firstCell=firstPosition;
       int blocknum1,blocknum2,col1,col2;
       if(blockNum/3==0){
@@ -576,8 +597,7 @@ std::vector<int> Solver::valuesForPatternRecognitionC(int blockNum,int firstPosi
             pos.push_back(27*(blocknum2/3)+col2+9*i);
       }
 
-      //Exclude these values that are shared by the completed segment
-
+      //Exclude those values that are shared by the completed segment
       for(int i=0;i<pos.size();i++){
          if(pos[i]==firstPosition || pos[i]==(firstPosition+1) || pos[i]==(firstPosition+2)){
             pos.erase(pos.begin() + i);
@@ -589,9 +609,157 @@ std::vector<int> Solver::valuesForPatternRecognitionC(int blockNum,int firstPosi
          std::cout<<item<<std::endl;
       }
 
+       //figure out the col for candidates
+       for(int i=0;i<pos.size();i++){
+         int colSegment= firstPosition%9;
+         int colValue= pos[i]%9;
+         int colCandidates;
+         if(abs(colSegment-colValue)==2){
+               colCandidates=(colSegment+colValue)/2;
+         }else{
+            if(colSegment>colValue){
+               if(colValue%3==0){
+                  colCandidates=colSegment+1;
+               }else{
+                  colCandidates=colValue-1;
+               }
+            }else{
+               if(colSegment%3==0){
+                  colCandidates=colValue+1;
+               }else{
+                  colCandidates=colSegment-1;
+               }
+
+            }
+
+         }
+         //block of the candidates
+         int block= thirdBlockOfRank(Block(pos[i]),blockNum);
+         std::cout<<"The candidate col for "<<pos[i]<<" is: "<<colCandidates<<" @block"<<block<<std::endl;
+         //The three potential candidate positons
+         int value=Model::getInstance()->getValueAtPosition(pos[i]);
+         std::cout<<"********************************************************************"<<std::endl;
+         std::vector<int>cands=candidatesFromBlockandCol(block,colCandidates,value);
+         std::cout<<"********************************************************************"<<std::endl;
+       }
+
+      
+
       return pos;
       }
+//calculate candidates from a given block and row
+std::vector<int> Solver::candidatesFromBlockandRow(int block,int row,int value){
+   //three potential columns
+      int col0= block%3*3;
+      int col1= col0+1;
+      int col2=col1+1;
+      int pos0 = row*9+col0;
+      int pos1= row*9 +col1;
+      int pos2= row*9 +col2;
+      std::cout<<"list of columns "<<col0<<", "<<col1<<", "<<col2<<std::endl;
+      std::cout<<"list of positions "<<pos0<<", "<<pos1<<", "<<pos2<<std::endl;
 
+      //narrow down to empty positions
+      std::vector<int> cands {0,0,0};
+      if(!Model::getInstance()->isPositionFilled(pos0))
+         cands[0]=(pos0);
+      if(!Model::getInstance()->isPositionFilled(pos1))
+         cands[1]=(pos1);
+      if(!Model::getInstance()->isPositionFilled(pos2))
+         cands[2]=(pos2);
 
+      //check which of the empty positions are viable and fill them
+      if(cands.size()==1){
+         Model::getInstance()->receiveInput(cands[0],value);
+         std::cout<<"certain candidate (PR) fill: "<<cands[0]<<" @ "<<value<<std::endl;
+      }
+      if (cands.size()>1){
+         for ( int i=0;i<cands.size();i++){
+            Model::getInstance()->setCandidateValue(cands[i],value);
+            std::cout<<"successfully filled candidate value: "<<value<<" @ "<<cands[i]<<std::endl;
+         }
+      }
+      return cands;
+}
 
+//figures out the # of third block of a rank given the # of two of the block in rank
+int Solver::thirdBlockOfRank(int block0, int block1){
+   int blockMin,block;
+            if(abs(block0-block1)==2){
+               block=(block0+block1)/2;
+            }else{
+                  if(block0>block1){
+                     blockMin =block1;
+                  }else{blockMin=block0;}
 
+                  if(blockMin==0 || blockMin==3 || blockMin==6){
+                     block= blockMin+2;
+                  }else{
+                     block= blockMin-1;
+                  }
+
+            }
+ return block;
+}
+//figure out the third column of a segment
+int Solver::thirdColumnOfSegment(std::vector<int>pos, int firstPosition){
+    int colCandidates;
+   for(int i=0;i<pos.size();i++){
+      int colSegment= firstPosition%9;
+      int colValue= pos[i]%9;
+   
+      if(abs(colSegment-colValue)==2){
+            colCandidates=(colSegment+colValue)/2;
+      }else{
+         if(colSegment>colValue){
+            if(colValue%3==0){
+               colCandidates=colSegment+1;
+            }else{
+               colCandidates=colValue-1;
+            }
+         }else{
+            if(colSegment%3==0){
+               colCandidates=colValue+1;
+            }else{
+               colCandidates=colSegment-1;
+            }
+
+         }
+
+      }  
+   }
+return colCandidates;
+}
+//calculate candidates from a given block and column
+std::vector<int> Solver::candidatesFromBlockandCol(int block,int col,int value){
+   //three potential rows
+      int row0= (block/3)*3;
+      // int row1= row0+1;
+      // int row2=row1+1;
+   //three potential cells
+      int pos0= row0*9+col;
+      int pos1= pos0+9;
+      int pos2= pos1+9;
+      std::cout<<"list of rows "<<row0<<", "<<row0+1<<", "<<row0+2<<std::endl;
+      std::cout<<"list of positions "<<pos0<<", "<<pos1<<", "<<pos2<<std::endl;
+   //narrow down to empty positions
+      std::vector<int> cands {0,0,0};
+      if(!Model::getInstance()->isPositionFilled(pos0))
+         cands[0]=(pos0);
+      if(!Model::getInstance()->isPositionFilled(pos1))
+         cands[1]=(pos1);
+      if(!Model::getInstance()->isPositionFilled(pos2))
+         cands[2]=(pos2);
+   //check which of the empty positions are viable and fill them
+      if(cands.size()==1){
+         Model::getInstance()->receiveInput(cands[0],value);
+         std::cout<<"certain candidate (PR) fill: "<<cands[0]<<" @ "<<value<<std::endl;
+      }
+      if (cands.size()>1){
+         for ( int i=0;i<cands.size();i++){
+            Model::getInstance()->setCandidateValue(cands[i],value);
+            std::cout<<"successfully filled candidate value: "<<value<<" @ "<<cands[i]<<std::endl;
+         }
+      }
+      return cands;
+}

@@ -42,4 +42,8 @@ void pencilToPenMarking();
 void patternRecognition(std::map<int,std::map<int,int>>blocks);
 std::vector<int> valuesForPatternRecognition(int blockNum,int firstPosition);
 std::vector<int> valuesForPatternRecognitionC(int blockNum,int firstPosition);
+ std::vector<int> candidatesFromBlockandRow(int block,int row,int value);
+ int thirdBlockOfRank(int block0, int block1);
+ int thirdColumnOfSegment(std::vector<int>pos, int firstPosition);
+ std::vector<int>candidatesFromBlockandCol(int block,int row,int value);
 };

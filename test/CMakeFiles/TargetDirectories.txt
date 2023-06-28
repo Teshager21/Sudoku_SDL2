@@ -1,0 +1,3 @@
+/home/teshager/Dev/cpp/Sudoku_SDL2/test/CMakeFiles/tests.dir
+/home/teshager/Dev/cpp/Sudoku_SDL2/test/CMakeFiles/edit_cache.dir
+/home/teshager/Dev/cpp/Sudoku_SDL2/test/CMakeFiles/rebuild_cache.dir

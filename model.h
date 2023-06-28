@@ -16,6 +16,7 @@ public:
 	std::string getMessages();
 	void setMessages(std::string message);
 	int getMembers(int x, int y);
+	int getValueAtPosition(int position);
 	int getFilledPosition(int x);
 	int GetFilledCells();
 	std::vector<int>getVariablePositions();
