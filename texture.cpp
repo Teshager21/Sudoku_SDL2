@@ -47,20 +47,7 @@ void Texture::SetDrawColor(SDL_Color color) {
 void Texture::renderText() {
 	m_renderRect.w = m_surface->w;
 	m_renderRect.h = m_surface->h;
-	//if(&m_drawColor==nullptr)
-		SDL_SetRenderDrawColor(&m_window->getRenderer(), 255, 255, 255, 0);
-		
-	//else {
-		///*Uint8 r, g, b, a;
-		
-		/*Uint32 pixel = SDL_MapRGBA(m_surface->format, m_drawColor.r, m_drawColor.g, m_drawColor.b, m_drawColor.a);
-		std::cout << std::endl << "Colors are: " << m_drawColor.b << std::endl; */
-		/*SDL_GetRGBA(pixel, m_surface->format, &r, &g, &b, &a);*/
-		/*SDL_SetRenderDrawColor(&m_window->getRenderer(), 0, 0, 0, 0);
-		std::cout << std::endl<<"Colors are: " << r << " " << g << " " << b << " " << a << std::endl;*/
-	//}
-		/*SDL_FillRect(m_surface, NULL, pixel);*/
-	
+	SDL_SetRenderDrawColor(&m_window->getRenderer(), 255, 255, 255, 0);
 	SDL_RenderDrawRect(&m_window->getRenderer(), &m_renderRect);
 	m_textTexture = SDL_CreateTextureFromSurface(&m_window->getRenderer(), m_surface);
 	SDL_RenderCopy(&m_window->getRenderer(), m_textTexture, NULL, &m_renderRect);

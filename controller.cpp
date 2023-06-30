@@ -25,7 +25,7 @@ bool Controller::run() {
         displayVariablePositions();
         displayCandidates();
         mWindow->CapFrameRate(starting_tick);
-        mSolver->solve();
+        //mSolver->solve();
         
     }
     return true;
@@ -115,6 +115,10 @@ void Controller::pollEvents() {
         }
         handleKeyboardEvents(event);
         mWindow->handleMouseClicks(event);
+        if(mWindow->mRun==true){
+            mSolver->solve();
+            mWindow->mRun=false;
+        }
     }
     SDL_SetRenderDrawColor(&mWindow->getRenderer(), 255, 255, 255, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(&mWindow->getRenderer());

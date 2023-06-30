@@ -3,10 +3,8 @@
 Solver* Solver::sInstance = nullptr;
 
 Solver::Solver(){
-
    mModel= Model::getInstance();
-   std::map<int,std::map<int,int>>mblocks={};
-   
+   std::map<int,std::map<int,int>>mblocks={}; 
 
 }
 
@@ -45,9 +43,9 @@ void Solver::generateBlocks(){
    logMapofMaps(b);
    //PENCIL MARKING CANDIDATES
    checkRepeatition(b);
-   checkRepeatition(b);
    //PATTERN RECOGNITION USING GHOST/PHANTOM NUMBERS
    patternRecognition(b);
+   pencilToPenMarking();
    checkRepeatition(b);
 
 }
@@ -448,10 +446,7 @@ for(int i=0;i<9;i++){ //loop through each block
          std::cout<<"Found a  col segment: ["<<blocks[i][firstPosition+2]<<", "<<blocks[i][firstPosition+11]<<", "<<blocks[i][firstPosition+20]<<"]"<<std::endl;
           pos=valuesForPatternRecognitionC(i,blocks[i].begin()->first+2);
           candidatesFromValues(pos,firstPosition,i);
-      }
-
-   pencilToPenMarking();   
-
+      } 
   }
 }
 //Identify values that will be used with the completed segment

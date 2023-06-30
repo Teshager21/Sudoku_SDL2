@@ -102,9 +102,6 @@ int Window:: drawGrid() {
     //SDL_SetRenderDrawColor(m_renderer, 30, 70, 81, SDL_ALPHA_OPAQUE);
     SDL_RenderFillRect(m_renderer, &backgroundT);
 
-
-
-
     //draw horizontal lines
     for (int i = 0; i <= 9; i++) {
         SDL_SetRenderDrawColor(m_renderer, 250, 250, 250, SDL_ALPHA_OPAQUE);
@@ -140,14 +137,27 @@ int Window:: drawGrid() {
     SDL_RenderDrawRect(m_renderer, &backgroundTitle);
     SDL_SetRenderDrawColor(m_renderer, 30, 70, 81, SDL_ALPHA_OPAQUE);
     SDL_RenderFillRect(m_renderer, &backgroundTitle);
-    //Title
-    //Texture texture = Texture("SUDOKU", "Roboto-Bold.ttf", 32, { 255,20,86,255 });
-    Texture texture = Texture("SUDOKU", "Roboto-Bold.ttf", 20, { 255,255,255,255 });
+    
 
-    //texture.SetSrcRect((350-(texture.GetSurface()->w)/2), 0);
+    //Run btn
+    SDL_Rect run{850,100,100,40};
+    SDL_RenderDrawRect(m_renderer,&run);
+    SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_RenderFillRect(m_renderer, &run);
+
+    //Title
+    Texture texture = Texture("SUDOKU", "Roboto-Bold.ttf", 20, { 255,255,255,255 });
     texture.SetSrcRect(20,5);
     texture.renderText();
     texture.Render();
+    
+     //solve btn
+    Texture tex = Texture("SOLVE", "Roboto-Bold.ttf", 20, { 30,70,81,255 });
+    tex.SetSrcRect(870,110);
+    tex.renderText();
+    tex.Render();
+    
+
     return 0;
 }
 void Window::handleCursorKeys(SDL_Event& event) {
@@ -185,6 +195,10 @@ void Window::handleMouseClicks(SDL_Event& event) {
         if (col < 9 && row < 9 && col>=0 && row>=0) {
             m_cursorPos[0] = m_margin + col * m_cellSize;
             m_cursorPos[1] = m_margin + row * m_cellSize;
+        }
+        if(event.button.x>850 && event.button.x<1000 &&event.button.y>100 && event.button.y<160){
+            std::cout<<"Run runnnnnnn...."<<std::endl;
+            mRun= true;
         }
     }
 
