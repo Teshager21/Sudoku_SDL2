@@ -6,19 +6,25 @@
 //unit test = arrange, act,assert
 using namespace std;
 
-TEST(TestName,SubTest_1){
+//TESTING THE SOLVER CLASS
+TEST(TestSuite,SubTest_1){
     ASSERT_FALSE(1==2);
 }
 //check if the model class intializes correclty
-TEST(SolverClass,Block){
+TEST(TestSuite,Block){
     //arrange
  Solver* s = Solver::getInstance();
   EXPECT_EQ(s->Block(0),0);
 }
-TEST(SolverClass,Block2){
+TEST(TestSuite,Block2){
     //arrange
  Solver* s = Solver::getInstance();
   EXPECT_EQ(s->Block(35),1);
+}
+TEST(TestSuite,Block3){
+    //arrange
+ Solver* s = Solver::getInstance();
+  EXPECT_EQ(s->Block(35),5);
 }
 
 int main(int argc, char **argv){

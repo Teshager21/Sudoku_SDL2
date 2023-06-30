@@ -127,6 +127,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named mylib
+
+# Build rule for target.
+mylib: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 mylib
+.PHONY : mylib
+
+# fast build rule for target.
+mylib/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mylib.dir/build.make CMakeFiles/mylib.dir/build
+.PHONY : mylib/fast
+
+#=============================================================================
 # Target rules for targets named tests
 
 # Build rule for target.
@@ -138,6 +151,150 @@ tests: cmake_check_build_system
 tests/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/build
 .PHONY : tests/fast
+
+home/teshager/Dev/cpp/Sudoku_SDL2/AssetManager.o: home/teshager/Dev/cpp/Sudoku_SDL2/AssetManager.cpp.o
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/AssetManager.o
+
+# target to build an object file
+home/teshager/Dev/cpp/Sudoku_SDL2/AssetManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mylib.dir/build.make CMakeFiles/mylib.dir/home/teshager/Dev/cpp/Sudoku_SDL2/AssetManager.cpp.o
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/AssetManager.cpp.o
+
+home/teshager/Dev/cpp/Sudoku_SDL2/AssetManager.i: home/teshager/Dev/cpp/Sudoku_SDL2/AssetManager.cpp.i
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/AssetManager.i
+
+# target to preprocess a source file
+home/teshager/Dev/cpp/Sudoku_SDL2/AssetManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mylib.dir/build.make CMakeFiles/mylib.dir/home/teshager/Dev/cpp/Sudoku_SDL2/AssetManager.cpp.i
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/AssetManager.cpp.i
+
+home/teshager/Dev/cpp/Sudoku_SDL2/AssetManager.s: home/teshager/Dev/cpp/Sudoku_SDL2/AssetManager.cpp.s
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/AssetManager.s
+
+# target to generate assembly for a file
+home/teshager/Dev/cpp/Sudoku_SDL2/AssetManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mylib.dir/build.make CMakeFiles/mylib.dir/home/teshager/Dev/cpp/Sudoku_SDL2/AssetManager.cpp.s
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/AssetManager.cpp.s
+
+home/teshager/Dev/cpp/Sudoku_SDL2/GameEntity.o: home/teshager/Dev/cpp/Sudoku_SDL2/GameEntity.cpp.o
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/GameEntity.o
+
+# target to build an object file
+home/teshager/Dev/cpp/Sudoku_SDL2/GameEntity.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mylib.dir/build.make CMakeFiles/mylib.dir/home/teshager/Dev/cpp/Sudoku_SDL2/GameEntity.cpp.o
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/GameEntity.cpp.o
+
+home/teshager/Dev/cpp/Sudoku_SDL2/GameEntity.i: home/teshager/Dev/cpp/Sudoku_SDL2/GameEntity.cpp.i
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/GameEntity.i
+
+# target to preprocess a source file
+home/teshager/Dev/cpp/Sudoku_SDL2/GameEntity.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mylib.dir/build.make CMakeFiles/mylib.dir/home/teshager/Dev/cpp/Sudoku_SDL2/GameEntity.cpp.i
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/GameEntity.cpp.i
+
+home/teshager/Dev/cpp/Sudoku_SDL2/GameEntity.s: home/teshager/Dev/cpp/Sudoku_SDL2/GameEntity.cpp.s
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/GameEntity.s
+
+# target to generate assembly for a file
+home/teshager/Dev/cpp/Sudoku_SDL2/GameEntity.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mylib.dir/build.make CMakeFiles/mylib.dir/home/teshager/Dev/cpp/Sudoku_SDL2/GameEntity.cpp.s
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/GameEntity.cpp.s
+
+home/teshager/Dev/cpp/Sudoku_SDL2/model.o: home/teshager/Dev/cpp/Sudoku_SDL2/model.cpp.o
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/model.o
+
+# target to build an object file
+home/teshager/Dev/cpp/Sudoku_SDL2/model.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mylib.dir/build.make CMakeFiles/mylib.dir/home/teshager/Dev/cpp/Sudoku_SDL2/model.cpp.o
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/model.cpp.o
+
+home/teshager/Dev/cpp/Sudoku_SDL2/model.i: home/teshager/Dev/cpp/Sudoku_SDL2/model.cpp.i
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/model.i
+
+# target to preprocess a source file
+home/teshager/Dev/cpp/Sudoku_SDL2/model.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mylib.dir/build.make CMakeFiles/mylib.dir/home/teshager/Dev/cpp/Sudoku_SDL2/model.cpp.i
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/model.cpp.i
+
+home/teshager/Dev/cpp/Sudoku_SDL2/model.s: home/teshager/Dev/cpp/Sudoku_SDL2/model.cpp.s
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/model.s
+
+# target to generate assembly for a file
+home/teshager/Dev/cpp/Sudoku_SDL2/model.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mylib.dir/build.make CMakeFiles/mylib.dir/home/teshager/Dev/cpp/Sudoku_SDL2/model.cpp.s
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/model.cpp.s
+
+home/teshager/Dev/cpp/Sudoku_SDL2/solver.o: home/teshager/Dev/cpp/Sudoku_SDL2/solver.cpp.o
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/solver.o
+
+# target to build an object file
+home/teshager/Dev/cpp/Sudoku_SDL2/solver.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mylib.dir/build.make CMakeFiles/mylib.dir/home/teshager/Dev/cpp/Sudoku_SDL2/solver.cpp.o
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/solver.cpp.o
+
+home/teshager/Dev/cpp/Sudoku_SDL2/solver.i: home/teshager/Dev/cpp/Sudoku_SDL2/solver.cpp.i
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/solver.i
+
+# target to preprocess a source file
+home/teshager/Dev/cpp/Sudoku_SDL2/solver.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mylib.dir/build.make CMakeFiles/mylib.dir/home/teshager/Dev/cpp/Sudoku_SDL2/solver.cpp.i
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/solver.cpp.i
+
+home/teshager/Dev/cpp/Sudoku_SDL2/solver.s: home/teshager/Dev/cpp/Sudoku_SDL2/solver.cpp.s
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/solver.s
+
+# target to generate assembly for a file
+home/teshager/Dev/cpp/Sudoku_SDL2/solver.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mylib.dir/build.make CMakeFiles/mylib.dir/home/teshager/Dev/cpp/Sudoku_SDL2/solver.cpp.s
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/solver.cpp.s
+
+home/teshager/Dev/cpp/Sudoku_SDL2/texture.o: home/teshager/Dev/cpp/Sudoku_SDL2/texture.cpp.o
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/texture.o
+
+# target to build an object file
+home/teshager/Dev/cpp/Sudoku_SDL2/texture.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mylib.dir/build.make CMakeFiles/mylib.dir/home/teshager/Dev/cpp/Sudoku_SDL2/texture.cpp.o
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/texture.cpp.o
+
+home/teshager/Dev/cpp/Sudoku_SDL2/texture.i: home/teshager/Dev/cpp/Sudoku_SDL2/texture.cpp.i
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/texture.i
+
+# target to preprocess a source file
+home/teshager/Dev/cpp/Sudoku_SDL2/texture.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mylib.dir/build.make CMakeFiles/mylib.dir/home/teshager/Dev/cpp/Sudoku_SDL2/texture.cpp.i
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/texture.cpp.i
+
+home/teshager/Dev/cpp/Sudoku_SDL2/texture.s: home/teshager/Dev/cpp/Sudoku_SDL2/texture.cpp.s
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/texture.s
+
+# target to generate assembly for a file
+home/teshager/Dev/cpp/Sudoku_SDL2/texture.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mylib.dir/build.make CMakeFiles/mylib.dir/home/teshager/Dev/cpp/Sudoku_SDL2/texture.cpp.s
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/texture.cpp.s
+
+home/teshager/Dev/cpp/Sudoku_SDL2/window.o: home/teshager/Dev/cpp/Sudoku_SDL2/window.cpp.o
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/window.o
+
+# target to build an object file
+home/teshager/Dev/cpp/Sudoku_SDL2/window.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mylib.dir/build.make CMakeFiles/mylib.dir/home/teshager/Dev/cpp/Sudoku_SDL2/window.cpp.o
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/window.cpp.o
+
+home/teshager/Dev/cpp/Sudoku_SDL2/window.i: home/teshager/Dev/cpp/Sudoku_SDL2/window.cpp.i
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/window.i
+
+# target to preprocess a source file
+home/teshager/Dev/cpp/Sudoku_SDL2/window.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mylib.dir/build.make CMakeFiles/mylib.dir/home/teshager/Dev/cpp/Sudoku_SDL2/window.cpp.i
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/window.cpp.i
+
+home/teshager/Dev/cpp/Sudoku_SDL2/window.s: home/teshager/Dev/cpp/Sudoku_SDL2/window.cpp.s
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/window.s
+
+# target to generate assembly for a file
+home/teshager/Dev/cpp/Sudoku_SDL2/window.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mylib.dir/build.make CMakeFiles/mylib.dir/home/teshager/Dev/cpp/Sudoku_SDL2/window.cpp.s
+.PHONY : home/teshager/Dev/cpp/Sudoku_SDL2/window.cpp.s
 
 test.o: test.cpp.o
 .PHONY : test.o
@@ -172,7 +329,26 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... test"
+	@echo "... mylib"
 	@echo "... tests"
+	@echo "... home/teshager/Dev/cpp/Sudoku_SDL2/AssetManager.o"
+	@echo "... home/teshager/Dev/cpp/Sudoku_SDL2/AssetManager.i"
+	@echo "... home/teshager/Dev/cpp/Sudoku_SDL2/AssetManager.s"
+	@echo "... home/teshager/Dev/cpp/Sudoku_SDL2/GameEntity.o"
+	@echo "... home/teshager/Dev/cpp/Sudoku_SDL2/GameEntity.i"
+	@echo "... home/teshager/Dev/cpp/Sudoku_SDL2/GameEntity.s"
+	@echo "... home/teshager/Dev/cpp/Sudoku_SDL2/model.o"
+	@echo "... home/teshager/Dev/cpp/Sudoku_SDL2/model.i"
+	@echo "... home/teshager/Dev/cpp/Sudoku_SDL2/model.s"
+	@echo "... home/teshager/Dev/cpp/Sudoku_SDL2/solver.o"
+	@echo "... home/teshager/Dev/cpp/Sudoku_SDL2/solver.i"
+	@echo "... home/teshager/Dev/cpp/Sudoku_SDL2/solver.s"
+	@echo "... home/teshager/Dev/cpp/Sudoku_SDL2/texture.o"
+	@echo "... home/teshager/Dev/cpp/Sudoku_SDL2/texture.i"
+	@echo "... home/teshager/Dev/cpp/Sudoku_SDL2/texture.s"
+	@echo "... home/teshager/Dev/cpp/Sudoku_SDL2/window.o"
+	@echo "... home/teshager/Dev/cpp/Sudoku_SDL2/window.i"
+	@echo "... home/teshager/Dev/cpp/Sudoku_SDL2/window.s"
 	@echo "... test.o"
 	@echo "... test.i"
 	@echo "... test.s"

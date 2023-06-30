@@ -92,7 +92,7 @@ tests_EXTERNAL_OBJECTS =
 
 tests: CMakeFiles/tests.dir/test.cpp.o
 tests: CMakeFiles/tests.dir/build.make
-tests: /usr/lib/x86_64-linux-gnu/libgtest.a
+tests: libmylib.a
 tests: CMakeFiles/tests.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/teshager/Dev/cpp/Sudoku_SDL2/test/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable tests"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/tests.dir/link.txt --verbose=$(VERBOSE)

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libmylib.a CMakeFiles/mylib.dir/home/teshager/Dev/cpp/Sudoku_SDL2/model.cpp.o CMakeFiles/mylib.dir/home/teshager/Dev/cpp/Sudoku_SDL2/solver.cpp.o CMakeFiles/mylib.dir/home/teshager/Dev/cpp/Sudoku_SDL2/window.cpp.o CMakeFiles/mylib.dir/home/teshager/Dev/cpp/Sudoku_SDL2/texture.cpp.o CMakeFiles/mylib.dir/home/teshager/Dev/cpp/Sudoku_SDL2/AssetManager.cpp.o CMakeFiles/mylib.dir/home/teshager/Dev/cpp/Sudoku_SDL2/GameEntity.cpp.o
+/usr/bin/ranlib libmylib.a

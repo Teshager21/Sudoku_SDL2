@@ -334,366 +334,14 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
   /home/teshager/Dev/cpp/Sudoku_SDL2/solver.h \
   /home/teshager/Dev/cpp/Sudoku_SDL2/model.h \
   /usr/include/c++/11/algorithm \
-  /usr/include/c++/11/pstl/glue_algorithm_defs.h \
-  /home/teshager/Dev/cpp/Sudoku_SDL2/controller.h \
-  /home/teshager/Dev/cpp/Sudoku_SDL2/window.h \
-  /usr/include/SDL2/SDL.h \
-  /usr/include/SDL2/SDL_main.h \
-  /usr/include/SDL2/SDL_stdinc.h \
-  /usr/include/SDL2/SDL_config.h \
-  /usr/include/x86_64-linux-gnu/SDL2/_real_SDL_config.h \
-  /usr/include/SDL2/SDL_platform.h \
-  /usr/include/SDL2/begin_code.h \
-  /usr/include/SDL2/close_code.h \
-  /usr/include/inttypes.h \
-  /usr/include/c++/11/math.h \
-  /usr/include/c++/11/cmath \
-  /usr/include/math.h \
-  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
-  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
-  /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
-  /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
-  /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
-  /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
-  /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
-  /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
-  /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
-  /usr/include/c++/11/bits/specfun.h \
-  /usr/include/c++/11/tr1/gamma.tcc \
-  /usr/include/c++/11/tr1/special_function_util.h \
-  /usr/include/c++/11/tr1/bessel_function.tcc \
-  /usr/include/c++/11/tr1/beta_function.tcc \
-  /usr/include/c++/11/tr1/ell_integral.tcc \
-  /usr/include/c++/11/tr1/exp_integral.tcc \
-  /usr/include/c++/11/tr1/hypergeometric.tcc \
-  /usr/include/c++/11/tr1/legendre_function.tcc \
-  /usr/include/c++/11/tr1/modified_bessel_func.tcc \
-  /usr/include/c++/11/tr1/poly_hermite.tcc \
-  /usr/include/c++/11/tr1/poly_laguerre.tcc \
-  /usr/include/c++/11/tr1/riemann_zeta.tcc \
-  /usr/include/SDL2/SDL_assert.h \
-  /usr/include/SDL2/SDL_atomic.h \
-  /usr/include/SDL2/SDL_platform.h \
-  /usr/include/SDL2/SDL_audio.h \
-  /usr/include/SDL2/SDL_error.h \
-  /usr/include/SDL2/SDL_endian.h \
-  /usr/include/SDL2/SDL_mutex.h \
-  /usr/include/SDL2/SDL_thread.h \
-  /usr/include/SDL2/SDL_rwops.h \
-  /usr/include/SDL2/SDL_clipboard.h \
-  /usr/include/SDL2/SDL_cpuinfo.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/immintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/x86gprintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/ia32intrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/adxintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/bmiintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/bmi2intrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/cetintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/cldemoteintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/clflushoptintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/clwbintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/clzerointrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/enqcmdintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/fxsrintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/lzcntintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/lwpintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/movdirintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/mwaitintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/mwaitxintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/pconfigintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/popcntintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/pkuintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/rdseedintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/rtmintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/serializeintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/sgxintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/tbmintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/tsxldtrkintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/uintrintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/waitpkgintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/wbnoinvdintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/xsaveintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/xsavecintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/xsaveoptintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/xsavesintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/xtestintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/hresetintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/mmintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/xmmintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/mm_malloc.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/emmintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/pmmintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/tmmintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/smmintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/wmmintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avxintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avxvnniintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx2intrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512fintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512erintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512pfintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512cdintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vlintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512bwintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512dqintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vlbwintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vldqintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512ifmaintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512ifmavlintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vbmiintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vbmivlintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx5124fmapsintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx5124vnniwintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vpopcntdqintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vbmi2intrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vbmi2vlintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vnniintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vnnivlintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vpopcntdqvlintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512bitalgintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vp2intersectintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vp2intersectvlintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/shaintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/fmaintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/f16cintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/gfniintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/vaesintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/vpclmulqdqintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512bf16vlintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/avx512bf16intrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/amxtileintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/amxint8intrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/amxbf16intrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/prfchwintrin.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/keylockerintrin.h \
-  /usr/include/SDL2/SDL_events.h \
-  /usr/include/SDL2/SDL_video.h \
-  /usr/include/SDL2/SDL_pixels.h \
-  /usr/include/SDL2/SDL_rect.h \
-  /usr/include/SDL2/SDL_surface.h \
-  /usr/include/SDL2/SDL_blendmode.h \
-  /usr/include/SDL2/SDL_keyboard.h \
-  /usr/include/SDL2/SDL_keycode.h \
-  /usr/include/SDL2/SDL_scancode.h \
-  /usr/include/SDL2/SDL_mouse.h \
-  /usr/include/SDL2/SDL_joystick.h \
-  /usr/include/SDL2/SDL_gamecontroller.h \
-  /usr/include/SDL2/SDL_sensor.h \
-  /usr/include/SDL2/SDL_quit.h \
-  /usr/include/SDL2/SDL_gesture.h \
-  /usr/include/SDL2/SDL_touch.h \
-  /usr/include/SDL2/SDL_filesystem.h \
-  /usr/include/SDL2/SDL_haptic.h \
-  /usr/include/SDL2/SDL_hidapi.h \
-  /usr/include/SDL2/SDL_hints.h \
-  /usr/include/SDL2/SDL_loadso.h \
-  /usr/include/SDL2/SDL_log.h \
-  /usr/include/SDL2/SDL_messagebox.h \
-  /usr/include/SDL2/SDL_metal.h \
-  /usr/include/SDL2/SDL_power.h \
-  /usr/include/SDL2/SDL_render.h \
-  /usr/include/SDL2/SDL_shape.h \
-  /usr/include/SDL2/SDL_system.h \
-  /usr/include/SDL2/SDL_timer.h \
-  /usr/include/SDL2/SDL_version.h \
-  /usr/include/SDL2/SDL_locale.h \
-  /usr/include/SDL2/SDL_misc.h \
-  /usr/include/SDL2/SDL_ttf.h \
-  /usr/include/SDL2/SDL.h \
-  /home/teshager/Dev/cpp/Sudoku_SDL2/texture.h \
-  /home/teshager/Dev/cpp/Sudoku_SDL2/GameEntity.h \
-  /home/teshager/Dev/cpp/Sudoku_SDL2/AssetManager.h
+  /usr/include/c++/11/pstl/glue_algorithm_defs.h
 
-
-/usr/include/SDL2/SDL_locale.h:
-
-/usr/include/SDL2/SDL_metal.h:
-
-/usr/include/SDL2/SDL_haptic.h:
-
-/usr/include/SDL2/SDL_filesystem.h:
-
-/usr/include/SDL2/SDL_shape.h:
-
-/usr/include/SDL2/SDL_quit.h:
-
-/usr/include/SDL2/SDL_sensor.h:
-
-/usr/include/SDL2/SDL_keyboard.h:
-
-/usr/include/SDL2/SDL_blendmode.h:
-
-/usr/include/SDL2/SDL_rect.h:
-
-/usr/include/SDL2/SDL_pixels.h:
-
-/usr/include/SDL2/SDL_video.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/keylockerintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/amxbf16intrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/amxtileintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avx512bf16vlintrin.h:
-
-/usr/include/SDL2/SDL_loadso.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/vaesintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/gfniintrin.h:
-
-/usr/include/SDL2/SDL_system.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/shaintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vp2intersectvlintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vp2intersectintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vnniintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vbmi2vlintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vpopcntdqintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avx5124vnniwintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avx5124fmapsintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vbmiintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avx512ifmaintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vldqintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avx512dqintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vlintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avx512fintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/pmmintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/xmmintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/mmintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/xsavecintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/xsaveintrin.h:
-
-/usr/include/SDL2/SDL_log.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avx512pfintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/wbnoinvdintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/waitpkgintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/tsxldtrkintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/tbmintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/sgxintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/serializeintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/rtmintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/pkuintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/mwaitintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/movdirintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/lwpintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/lzcntintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/enqcmdintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/clzerointrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/bmi2intrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/ia32intrin.h:
-
-/usr/include/SDL2/SDL_cpuinfo.h:
-
-/usr/include/SDL2/SDL_thread.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avx512cdintrin.h:
-
-/usr/include/SDL2/SDL_mutex.h:
-
-/usr/include/SDL2/SDL_endian.h:
-
-/usr/include/SDL2/SDL_error.h:
-
-/usr/include/SDL2/SDL_audio.h:
-
-/usr/include/SDL2/SDL_assert.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/x86gprintrin.h:
-
-/usr/include/c++/11/tr1/riemann_zeta.tcc:
-
-/usr/include/c++/11/tr1/poly_laguerre.tcc:
-
-/usr/include/c++/11/tr1/poly_hermite.tcc:
-
-/usr/include/c++/11/tr1/modified_bessel_func.tcc:
-
-/usr/include/c++/11/tr1/exp_integral.tcc:
-
-/usr/include/c++/11/tr1/ell_integral.tcc:
-
-/usr/include/c++/11/tr1/bessel_function.tcc:
-
-/usr/include/c++/11/bits/specfun.h:
-
-/usr/include/x86_64-linux-gnu/bits/iscanonical.h:
-
-/usr/include/x86_64-linux-gnu/bits/mathcalls.h:
-
-/usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vbmi2intrin.h:
-
-/usr/include/x86_64-linux-gnu/bits/fp-logb.h:
-
-/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
-
-/usr/include/x86_64-linux-gnu/bits/math-vector.h:
-
-/usr/include/c++/11/math.h:
-
-/usr/include/SDL2/SDL_ttf.h:
-
-/usr/include/inttypes.h:
-
-/usr/include/SDL2/close_code.h:
-
-/home/teshager/Dev/cpp/Sudoku_SDL2/GameEntity.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/cldemoteintrin.h:
-
-/usr/include/SDL2/SDL_platform.h:
-
-/usr/include/SDL2/SDL_stdinc.h:
-
-/home/teshager/Dev/cpp/Sudoku_SDL2/controller.h:
 
 /usr/include/c++/11/algorithm:
 
 /usr/include/gtest/gtest_pred_impl.h:
 
-/usr/include/SDL2/SDL_joystick.h:
-
 /usr/include/assert.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/pconfigintrin.h:
 
 /usr/include/c++/11/cassert:
 
@@ -701,19 +349,11 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 
 /usr/include/c++/11/bits/stream_iterator.h:
 
-/usr/include/c++/11/tr1/hypergeometric.tcc:
-
-/home/teshager/Dev/cpp/Sudoku_SDL2/window.h:
-
 /usr/include/gtest/gtest-param-test.h:
 
 /usr/include/gtest/internal/custom/gtest-printers.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/11/include/tmmintrin.h:
-
 /usr/include/c++/11/bits/unordered_map.h:
-
-/usr/include/SDL2/SDL_scancode.h:
 
 /usr/include/c++/11/bits/hashtable.h:
 
@@ -721,37 +361,23 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 
 /usr/include/gtest/gtest-printers.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/11/include/adxintrin.h:
-
 /usr/include/c++/11/atomic:
 
-/usr/include/SDL2/SDL_power.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avx512bitalgintrin.h:
-
 /usr/include/gtest/gtest-matchers.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avx512erintrin.h:
 
 /usr/include/gtest/internal/gtest-death-test-internal.h:
 
 /usr/include/gtest/gtest-death-test.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/11/include/rdseedintrin.h:
-
 /usr/include/x86_64-linux-gnu/c++/11/bits/cxxabi_tweaks.h:
 
 /usr/include/gtest/internal/gtest-type-util.h:
-
-/usr/include/SDL2/SDL_messagebox.h:
 
 /usr/include/c++/11/bits/stl_multiset.h:
 
 /usr/include/c++/11/set:
 
 /usr/include/c++/11/bits/stl_multimap.h:
-
-/usr/include/SDL2/SDL_render.h:
 
 /usr/include/c++/11/bits/stl_map.h:
 
@@ -763,23 +389,15 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/float.h:
 
-/usr/include/SDL2/SDL_touch.h:
-
 /usr/include/x86_64-linux-gnu/bits/signal_ext.h:
 
 /usr/include/x86_64-linux-gnu/bits/sigthread.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/wmmintrin.h:
 
 /usr/include/x86_64-linux-gnu/sys/ucontext.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/stack_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/sigcontext.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/emmintrin.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/hresetintrin.h:
 
 /usr/include/x86_64-linux-gnu/bits/sigaction.h:
 
@@ -790,8 +408,6 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 /usr/include/x86_64-linux-gnu/bits/types/sigevent_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/sigval_t.h:
-
-/usr/include/c++/11/tr1/special_function_util.h:
 
 /usr/include/x86_64-linux-gnu/bits/siginfo-consts-arch.h:
 
@@ -807,17 +423,11 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/signum-generic.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/11/include/clflushoptintrin.h:
-
 /usr/include/c++/11/bits/parse_numbers.h:
 
 /usr/include/c++/11/variant:
 
-/usr/include/SDL2/SDL.h:
-
 /usr/include/c++/11/optional:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/fxsrintrin.h:
 
 /usr/include/c++/11/bits/cxxabi_forced.h:
 
@@ -825,13 +435,9 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 
 /usr/include/x86_64-linux-gnu/gnu/stubs.h:
 
-/usr/include/x86_64-linux-gnu/bits/fp-fast.h:
-
 /usr/include/c++/11/bits/node_handle.h:
 
 /usr/include/c++/11/iostream:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/popcntintrin.h:
 
 /usr/include/c++/11/bits/stl_set.h:
 
@@ -863,8 +469,6 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 
 /usr/include/c++/11/bits/allocated_ptr.h:
 
-/usr/include/SDL2/SDL_gamecontroller.h:
-
 /usr/include/x86_64-linux-gnu/bits/types/timer_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/select.h:
@@ -879,11 +483,7 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 
 /usr/include/c++/11/bits/locale_facets_nonio.tcc:
 
-/usr/include/SDL2/SDL_hints.h:
-
 /usr/include/pthread.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vlbwintrin.h:
 
 /usr/include/gtest/gtest_prod.h:
 
@@ -913,15 +513,11 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 
 /usr/include/x86_64-linux-gnu/sys/select.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avxvnniintrin.h:
-
 /usr/include/c++/11/iomanip:
 
 /usr/include/c++/11/cctype:
 
 /usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/bmiintrin.h:
 
 /usr/include/x86_64-linux-gnu/bits/types.h:
 
@@ -938,8 +534,6 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 /usr/include/x86_64-linux-gnu/bits/sigstack.h:
 
 /usr/include/c++/11/clocale:
-
-/usr/include/SDL2/SDL_mouse.h:
 
 /usr/include/c++/11/bits/ostream.tcc:
 
@@ -959,13 +553,9 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avx512bwintrin.h:
-
 /usr/include/wchar.h:
 
 /usr/include/c++/11/bits/cxxabi_init_exception.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/clwbintrin.h:
 
 /usr/include/c++/11/string:
 
@@ -979,21 +569,13 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/cpu_defines.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vpopcntdqvlintrin.h:
-
 /usr/include/gtest/internal/gtest-string.h:
 
 /usr/include/c++/11/exception:
 
-/usr/include/SDL2/SDL_keycode.h:
-
 /usr/include/c++/11/bits/invoke.h:
 
-/usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h:
-
 /usr/include/c++/11/bits/postypes.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/xtestintrin.h:
 
 /usr/include/c++/11/cstdint:
 
@@ -1009,11 +591,7 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 
 /usr/include/features-time64.h:
 
-/usr/include/SDL2/SDL_rwops.h:
-
 /usr/include/c++/11/bits/stringfwd.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avxintrin.h:
 
 /usr/include/gtest/gtest.h:
 
@@ -1021,13 +599,9 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 
 /usr/include/asm-generic/posix_types.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/11/include/prfchwintrin.h:
-
 /usr/include/c++/11/bits/memoryfwd.h:
 
 /usr/include/c++/11/bits/stl_function.h:
-
-/usr/include/c++/11/tr1/gamma.tcc:
 
 /usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
 
@@ -1036,8 +610,6 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 /usr/include/x86_64-linux-gnu/bits/time64.h:
 
 /usr/include/c++/11/ctime:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vnnivlintrin.h:
 
 /usr/include/c++/11/ext/type_traits.h:
 
@@ -1055,15 +627,11 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/11/include/mwaitxintrin.h:
-
 /usr/include/c++/11/type_traits:
 
 /usr/include/x86_64-linux-gnu/sys/single_threaded.h:
 
 /usr/include/c++/11/pstl/pstl_config.h:
-
-/usr/include/c++/11/cmath:
 
 /usr/include/c++/11/bits/allocator.h:
 
@@ -1083,8 +651,6 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/wordsize.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/11/include/xsavesintrin.h:
-
 /usr/include/c++/11/bits/algorithmfwd.h:
 
 /usr/include/c++/11/pstl/execution_defs.h:
@@ -1103,23 +669,13 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 
 /usr/include/c++/11/bits/ostream_insert.h:
 
-/usr/include/c++/11/tr1/legendre_function.tcc:
-
-/usr/include/x86_64-linux-gnu/SDL2/_real_SDL_config.h:
-
 /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h:
 
-/home/teshager/Dev/cpp/Sudoku_SDL2/texture.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/fmaintrin.h:
-
 /usr/include/x86_64-linux-gnu/bits/confname.h:
 
 /usr/include/c++/11/ostream:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/vpclmulqdqintrin.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
 
@@ -1129,11 +685,7 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/11/include/amxint8intrin.h:
-
 /usr/include/x86_64-linux-gnu/bits/long-double.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/uintrintrin.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h:
 
@@ -1144,8 +696,6 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 /usr/include/c++/11/bits/nested_exception.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/clock_t.h:
-
-/usr/include/math.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
 
@@ -1158,8 +708,6 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h:
 
 /usr/include/c++/11/bits/stl_iterator_base_types.h:
-
-/usr/include/SDL2/SDL_atomic.h:
 
 /usr/include/c++/11/cstdlib:
 
@@ -1175,15 +723,11 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 
 /usr/include/c++/11/bits/exception_ptr.h:
 
-/usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
-
 /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h:
 
 /usr/include/c++/11/string_view:
-
-/usr/include/SDL2/SDL_misc.h:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/atomic_word.h:
 
@@ -1205,8 +749,6 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 
 /usr/include/c++/11/bits/string_view.tcc:
 
-/usr/include/SDL2/SDL_surface.h:
-
 /usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/__sigval_t.h:
@@ -1214,8 +756,6 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 /usr/include/c++/11/bits/functexcept.h:
 
 /usr/include/c++/11/streambuf:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/smmintrin.h:
 
 /usr/include/c++/11/iosfwd:
 
@@ -1226,8 +766,6 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 /usr/include/x86_64-linux-gnu/bits/sigstksz.h:
 
 /usr/include/x86_64-linux-gnu/bits/stat.h:
-
-/usr/include/SDL2/SDL_gesture.h:
 
 /usr/include/c++/11/locale:
 
@@ -1244,8 +782,6 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 /usr/include/stdlib.h:
 
 /usr/include/x86_64-linux-gnu/bits/waitflags.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avx2intrin.h:
 
 /usr/include/c++/11/bits/erase_if.h:
 
@@ -1267,13 +803,9 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 
 /usr/include/c++/11/bits/shared_ptr.h:
 
-/usr/include/SDL2/SDL_timer.h:
-
 /usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avx512ifmavlintrin.h:
 
 /usr/include/alloca.h:
 
@@ -1299,8 +831,6 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 
 /usr/include/wctype.h:
 
-/usr/include/SDL2/SDL_main.h:
-
 /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_base.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h:
@@ -1315,13 +845,7 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 
 /usr/include/c++/11/bits/locale_classes.tcc:
 
-/usr/lib/gcc/x86_64-linux-gnu/11/include/mm_malloc.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/cetintrin.h:
-
 /usr/include/c++/11/system_error:
-
-/usr/include/SDL2/SDL_hidapi.h:
 
 /usr/include/c++/11/cstddef:
 
@@ -1349,15 +873,11 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 
 /usr/include/x86_64-linux-gnu/asm/types.h:
 
-/usr/include/SDL2/SDL_config.h:
-
 /usr/include/c++/11/bits/streambuf_iterator.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h:
 
 /usr/include/c++/11/bits/locale_facets.tcc:
-
-/usr/include/SDL2/SDL_events.h:
 
 /usr/include/c++/11/bits/enable_special_members.h:
 
@@ -1375,8 +895,6 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 
 /usr/include/c++/11/bits/stl_uninitialized.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avx512bf16intrin.h:
-
 /usr/include/c++/11/backward/auto_ptr.h:
 
 /usr/include/c++/11/bits/stl_raw_storage_iter.h:
@@ -1391,15 +909,11 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 
 /usr/include/c++/11/bits/stl_relops.h:
 
-/usr/include/c++/11/tr1/beta_function.tcc:
-
 /usr/include/c++/11/array:
 
 /usr/include/linux/stddef.h:
 
 /usr/include/c++/11/bits/refwrap.h:
-
-/usr/include/SDL2/SDL_clipboard.h:
 
 /usr/include/c++/11/bits/shared_ptr_atomic.h:
 
@@ -1409,19 +923,11 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 
 /usr/include/c++/11/bits/stl_bvector.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/11/include/xsaveoptintrin.h:
-
 /usr/include/c++/11/bits/vector.tcc:
-
-/home/teshager/Dev/cpp/Sudoku_SDL2/AssetManager.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/avx512vbmivlintrin.h:
 
 /usr/include/gtest/gtest-test-part.h:
 
 /usr/include/gtest/internal/gtest-internal.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/f16cintrin.h:
 
 /usr/include/gtest/internal/gtest-port.h:
 
@@ -1457,10 +963,6 @@ CMakeFiles/tests.dir/test.cpp.o: test.cpp \
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_statx_timestamp.h:
 
-/usr/include/SDL2/SDL_version.h:
-
-/usr/include/SDL2/begin_code.h:
-
 /usr/include/x86_64-linux-gnu/asm/posix_types.h:
 
 /usr/include/c++/11/bits/hashtable_policy.h:
@@ -1474,8 +976,6 @@ test.cpp:
 /usr/include/x86_64-linux-gnu/bits/unistd_ext.h:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h:
-
-/usr/lib/gcc/x86_64-linux-gnu/11/include/immintrin.h:
 
 /usr/include/c++/11/cxxabi.h:
 
