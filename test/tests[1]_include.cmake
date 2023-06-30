@@ -1,0 +1,5 @@
+if(EXISTS "/home/teshager/Dev/cpp/Sudoku_SDL2/test/tests[1]_tests.cmake")
+  include("/home/teshager/Dev/cpp/Sudoku_SDL2/test/tests[1]_tests.cmake")
+else()
+  add_test(tests_NOT_BUILT tests_NOT_BUILT)
+endif()

@@ -412,6 +412,7 @@ for(int i=0;i<9;i++){ //loop through each block
       if(blocks[i][firstPosition]!=0 &&blocks[i][firstPosition+1]!=0 && blocks[i][firstPosition+2]!=0 ){
          std::cout<<"Found a segment: ["<<blocks[i][firstPosition]<<", "<<blocks[i][firstPosition+1]<<", "<<blocks[i][firstPosition+2]<<"]"<<std::endl;
          pos=valuesForPatternRecognition(i,blocks[i].begin()->first);
+         candidatesFromValues(pos,firstPosition,i);
          //figure out the row for the candidates for each pos above
          //fill in if position is empty
 
@@ -419,28 +420,34 @@ for(int i=0;i<9;i++){ //loop through each block
 
       if(blocks[i][firstPosition+9]!=0 &&blocks[i][firstPosition+10]!=0 && blocks[i][firstPosition+11]!=0 ){
          std::cout<<"Found a segment: ["<<blocks[i][firstPosition+9]<<", "<<blocks[i][firstPosition+10]<<", "<<blocks[i][firstPosition+11]<<"]"<<std::endl;
-         valuesForPatternRecognition(i,blocks[i].begin()->first+9);
+         pos = valuesForPatternRecognition(i,blocks[i].begin()->first+9);
+         candidatesFromValues(pos,firstPosition,i);
+         
       }
        if(blocks[i][firstPosition+18]!=0 &&blocks[i][firstPosition+19]!=0 && blocks[i][firstPosition+20]!=0 ){
          std::cout<<"Found a segment: ["<<blocks[i][firstPosition+18]<<", "<<blocks[i][firstPosition+19]<<", "<<blocks[i][firstPosition+20]<<"]"<<std::endl;
          pos=valuesForPatternRecognition(i,blocks[i].begin()->first+18);
+         candidatesFromValues(pos,firstPosition,i);
       }
 
-      //column segment
+      //column completed segment
 
       if(blocks[i][firstPosition]!=0 &&blocks[i+9][firstPosition+9]!=0 && blocks[i+18][firstPosition+18]!=0 ){
          std::cout<<"Found a col segment: ["<<blocks[i][firstPosition]<<", "<<blocks[i][firstPosition+9]<<", "<<blocks[i][firstPosition+18]<<"]"<<std::endl;
          pos=valuesForPatternRecognitionC(i,blocks[i].begin()->first);
+         candidatesFromValues(pos,firstPosition,i);
          std::cout<<"shooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooot"<<std::endl;
       }
 
       if(blocks[i][firstPosition+1]!=0 &&blocks[i][firstPosition+10]!=0 && blocks[i][firstPosition+19]!=0 ){
          std::cout<<"Found a col segment: ["<<blocks[i][firstPosition+1]<<", "<<blocks[i][firstPosition+10]<<", "<<blocks[i][firstPosition+19]<<"]"<<std::endl;
          pos=valuesForPatternRecognitionC(i,blocks[i].begin()->first+1);
+         candidatesFromValues(pos,firstPosition,i);
       }
        if(blocks[i][firstPosition+2]!=0 &&blocks[i][firstPosition+11]!=0 && blocks[i][firstPosition+20]!=0 ){
          std::cout<<"Found a  col segment: ["<<blocks[i][firstPosition+2]<<", "<<blocks[i][firstPosition+11]<<", "<<blocks[i][firstPosition+20]<<"]"<<std::endl;
           pos=valuesForPatternRecognitionC(i,blocks[i].begin()->first+2);
+          candidatesFromValues(pos,firstPosition,i);
       }
 
    pencilToPenMarking();   
@@ -509,6 +516,10 @@ std::vector<int> Solver::valuesForPatternRecognition(int blockNum,int firstPosit
       for(auto& item:pos){
          std::cout<<item<<std::endl;
       }
+      return pos;
+      }
+//find candidate positions from values of Pattern Recognition
+void Solver::candidatesFromValues(std::vector<int>pos, int firstPosition, int blockNum){
       //figure out the row for candidates
       for(int i=0;i<pos.size();i++){
          int rowSegment= firstPosition/9;
@@ -534,18 +545,15 @@ std::vector<int> Solver::valuesForPatternRecognition(int blockNum,int firstPosit
 
          }
          //block of the candidates
-       int block= thirdBlockOfRank(Block(pos[i]),blockNum);
-      std::cout<<"The candidate row for "<<pos[i]<<" is: "<<rowCandidates<<" @block"<<block<<std::endl;
-      //The three potential candidate positons
-      int value=Model::getInstance()->getValueAtPosition(pos[i]);
-      std::cout<<"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<std::endl;
-      std::vector<int>cands=candidatesFromBlockandRow(block,rowCandidates,value);
-      std::cout<<"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<std::endl;
-      }
-     
-
-      return pos;
-      }
+         int block= thirdBlockOfRank(Block(pos[i]),blockNum);
+         std::cout<<"The candidate row for "<<pos[i]<<" is: "<<rowCandidates<<" @block"<<block<<std::endl;
+         //The three potential candidate positons
+         int value=Model::getInstance()->getValueAtPosition(pos[i]);
+         std::cout<<"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<std::endl;
+         std::vector<int>cands=candidatesFromBlockandRow(block,rowCandidates,value);
+         std::cout<<"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<std::endl;
+      }  
+}
 
 std::vector<int> Solver::valuesForPatternRecognitionC(int blockNum,int firstPosition){
     //look for a value in the stack/rank not in the completed segment , not the same block as the completed segment, not in the same row/col as the completed segment

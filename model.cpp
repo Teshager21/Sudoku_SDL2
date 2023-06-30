@@ -160,7 +160,7 @@ bool Model::isPositionFilled(int position){
    }  
    return true; 
 }
-
+//Receives a position on a board and a value and populates the board accordingly
 void Model::receiveInput( int position, int value) {
     int i=0, j=0;
     i = position / 9;
@@ -181,7 +181,7 @@ void Model::receiveInput( int position, int value) {
     }
 }
 
-
+//returns true if a value will be a repeatetion
 bool Model::repeatedValue(int position,int value){
 
     int i=0, j=0;

@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = 
+CXX_INCLUDES = -I/home/teshager/Dev/cpp/Sudoku_SDL2/test/.. -I/include
 
-CXX_FLAGS = 
+CXX_FLAGS = -DGTEST_HAS_PTHREAD=1
 

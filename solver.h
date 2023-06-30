@@ -1,3 +1,4 @@
+#pragma once
 #include "model.h"
 #include "iostream"
 #include <algorithm>
@@ -46,4 +47,5 @@ std::vector<int> valuesForPatternRecognitionC(int blockNum,int firstPosition);
  int thirdBlockOfRank(int block0, int block1);
  int thirdColumnOfSegment(std::vector<int>pos, int firstPosition);
  std::vector<int>candidatesFromBlockandCol(int block,int row,int value);
+ void candidatesFromValues(std::vector<int>pos, int firstPosition,int blockNum);
 };

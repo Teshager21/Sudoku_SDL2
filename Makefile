@@ -13,5 +13,4 @@ all:
 # clean :
 # 	rm	-f	$(TESTS) *.o 
 
-all:
-	g++	test/test.cpp -lgtest -lgtest_main -pthread
+	g++	test/*.cpp controller.cpp texture.cpp window.cpp model.cpp AssetManager.cpp GameEntity.cpp solver.cpp -lgtest -lgtest_main -pthread  -lSDL2 -lSDL2main -lSDL2_ttf -o test.out
