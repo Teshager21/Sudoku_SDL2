@@ -145,6 +145,12 @@ int Window:: drawGrid() {
     SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
     SDL_RenderFillRect(m_renderer, &run);
 
+    //new game btn
+    SDL_Rect newGame{850,200,150,40};
+    SDL_RenderDrawRect(m_renderer,&newGame);
+    SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_RenderFillRect(m_renderer, &newGame);
+
     //Title
     Texture texture = Texture("SUDOKU", "Roboto-Bold.ttf", 20, { 255,255,255,255 });
     texture.SetSrcRect(20,5);
@@ -156,6 +162,19 @@ int Window:: drawGrid() {
     tex.SetSrcRect(870,110);
     tex.renderText();
     tex.Render();
+
+     //close btn
+    Texture texclose = Texture("X", "Roboto-Bold.ttf", 20, { 255,255,255,255 });
+    texclose.SetSrcRect(1460,15);
+    texclose.renderText();
+    texclose.Render();
+
+    //new Game btn
+    Texture newGamebtn = Texture("NEW GAME", "Roboto-Bold.ttf", 20, { 30,70,81,255 });
+    newGamebtn.SetSrcRect(870,210);
+    newGamebtn.renderText();
+    newGamebtn.Render();
+    
     
 
     return 0;
@@ -196,10 +215,23 @@ void Window::handleMouseClicks(SDL_Event& event) {
             m_cursorPos[0] = m_margin + col * m_cellSize;
             m_cursorPos[1] = m_margin + row * m_cellSize;
         }
+
+        //click the solve btn
         if(event.button.x>850 && event.button.x<1000 &&event.button.y>100 && event.button.y<160){
-            std::cout<<"Run runnnnnnn...."<<std::endl;
             mRun= true;
         }
+
+         //click the close btn
+        if(event.button.x>1460 && event.button.x<1500 &&event.button.y>0 && event.button.y<50){
+            setState(false);
+        }
+
+        // SDL_Rect newGame{850,200,150,40};
+        
+       //click the newgame btn
+        if(event.button.x>850 && event.button.x<1000 &&event.button.y>200 && event.button.y<240){
+            mRestart=true;
+        } 
     }
 
     if(event.type==SDL_MOUSEBUTTONDOWN && event.button.clicks==2){
