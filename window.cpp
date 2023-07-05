@@ -151,6 +151,12 @@ int Window:: drawGrid() {
     SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
     SDL_RenderFillRect(m_renderer, &newGame);
 
+    //new pattern Recognition
+    SDL_Rect pttrnRecognition{850,250,250,40};
+    SDL_RenderDrawRect(m_renderer,&pttrnRecognition);
+    SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_RenderFillRect(m_renderer, &pttrnRecognition);
+
     //Title
     Texture texture = Texture("SUDOKU", "Roboto-Bold.ttf", 20, { 255,255,255,255 });
     texture.SetSrcRect(20,5);
@@ -168,6 +174,12 @@ int Window:: drawGrid() {
     texclose.SetSrcRect(1460,15);
     texclose.renderText();
     texclose.Render();
+
+      //pattern recognition
+    Texture texpttrn = Texture("PATTERN RECOGNITION", "Roboto-Bold.ttf", 20, { 30,70,81,255 });
+    texpttrn.SetSrcRect(870,260);
+    texpttrn.renderText();
+    texpttrn.Render();
 
     //new Game btn
     Texture newGamebtn = Texture("NEW GAME", "Roboto-Bold.ttf", 20, { 30,70,81,255 });
@@ -232,6 +244,12 @@ void Window::handleMouseClicks(SDL_Event& event) {
         if(event.button.x>850 && event.button.x<1000 &&event.button.y>200 && event.button.y<240){
             mRestart=true;
         } 
+        //pattern recogniton
+        //{850,250,250,40};
+         if(event.button.x>850 && event.button.x<1100 &&event.button.y>250 && event.button.y<290){
+            mpatternRecognition=true;
+        } 
+
     }
 
     if(event.type==SDL_MOUSEBUTTONDOWN && event.button.clicks==2){

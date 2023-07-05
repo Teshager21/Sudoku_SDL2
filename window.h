@@ -20,6 +20,7 @@ public:
 	bool isCandidateMode=false;			
 	bool mRun=false;
 	bool mRestart=false;
+	bool mpatternRecognition=false;
 public:
 	
 	bool init();

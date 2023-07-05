@@ -133,9 +133,12 @@ void Controller::pollEvents() {
             mWindow->mRun=false;
         }
         if(mWindow->mRestart==true){
-            std::cout<<"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH"<<std::endl;
             newGame();
             mWindow->mRestart=false;
+        }
+        if(mWindow->mpatternRecognition==true){
+            //mSolver->patternRecognition();
+            mWindow->mpatternRecognition=false;
         }
     }
     SDL_SetRenderDrawColor(&mWindow->getRenderer(), 255, 255, 255, SDL_ALPHA_OPAQUE);
