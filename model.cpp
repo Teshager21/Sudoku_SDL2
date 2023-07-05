@@ -35,14 +35,27 @@ void Model::setCandidateVector(int position,std::vector<int> vec){
     mCandidatePositions[position]=vec;    
 }
 
+//sets candidate value at a position
 void Model::setCandidateValue( int position,int value){
     if (!checkSelectedPosition(position)) { 
-            if (!repeatedValue(position,value)) {   
-                
+        std::cout<<"the position: "<<position<<" is not fixed!"<<std::endl;
+            if (!isItRepeatedValue(position,value)) {   
+                std::cout<<"the value: "<<value<<" is not repeated"<<std::endl;
+                std::cout<<"The candidate count of position: "<<position<<" is: "<<mCandidatePositions.count(position)<<std::endl;
                 if(mCandidatePositions.count(position)){
+                    std::cout<<"The size of the candidate vector is: "<<mCandidatePositions[position].size()<<std::endl;
+                    for(int i=0;i<mCandidatePositions[position].size();i++){
+                        std::cout<<mCandidatePositions[position][i]<<std::endl;
+                    }
+                    if(mCandidatePositions[position].size()==8 && value==9){
+                        mCandidatePositions[position].push_back(value);
+                    }
                     (mCandidatePositions)[position].at(value-1)=value;
                 }else{
+                    
+
                     (mCandidatePositions)[position]={0,0,0,0,0,0,0,0,0};
+                    std::cout<<"All candiddate positions set to zero"<<std::endl;
                     (mCandidatePositions)[position].at(value-1)=value;
                 }
                  if(isPositionFilled(position)){
@@ -181,8 +194,8 @@ void Model::receiveInput( int position, int value) {
     }
 }
 
-//returns true if a value will be a repeatetion
-bool Model::repeatedValue(int position,int value){
+//returns true if a value will be a repeated
+bool Model::isItRepeatedValue(int position,int value){
 
     int i=0, j=0;
     i = position / 9;
@@ -194,7 +207,7 @@ bool Model::repeatedValue(int position,int value){
     } 
     return false; 
 }
-
+//checks if a positions is filled
 bool Model::checkSelectedPosition(int selectedPosition) {
 
    return isElementofArray(filledPositions,selectedPosition);
