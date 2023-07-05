@@ -7,7 +7,7 @@ class Solver{
 private:
     Model* mModel;
     static Solver* sInstance;
-    std::map<int,std::map<int,int>>mblocks;//block, {pos,value}
+    
     //std::map<int,std::vector<int>>rows;
     std::map<int,std::vector<int>>cols;
     std::map<int,std::vector<int>>ranks;
@@ -15,7 +15,7 @@ private:
 
 
 public:
-
+std::map<int,std::map<int,int>>mblocks; //block, {pos,value} 
 
 private:
  Solver();

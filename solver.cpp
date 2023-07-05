@@ -4,7 +4,7 @@ Solver* Solver::sInstance = nullptr;
 
 Solver::Solver(){
    mModel= Model::getInstance();
-   std::map<int,std::map<int,int>>mblocks; 
+   //std::map<int,std::map<int,int>>mblocks; 
 
 }
 
@@ -41,6 +41,8 @@ void Solver::generateBlocks(){
          }
    b[m]=(block);
    }
+   //assign b to mblocks
+
    std::cout<<"blocks successfully generated"<<std::endl;
    //PENCIL MARKING CANDIDATES
    checkRepeatition(b);
@@ -88,31 +90,19 @@ if (scope=="Rank"){
          }
       }
       std::cout<<"Existing Values successfully generated"<<std::endl;
-       logMapofMapsV(existingValues);
+      
+        std::cout<<"Existing Values successfully Logged"<<std::endl;
+         logMapofMapsV(existingValues);
  //remove elements that are repeated twice
-
-   // std::cout<<std::endl<<"Existing Values Before\n";
-   // logMapofMapsV(existingValues);
+ std::map<int, std::map<int,std::vector<int>>>existingValues2; //value:value: {positions}
       for(const auto& pair:existingValues){
-         if(repeats[pair.first]==2){}
-         else{
-         if(existingValues.find(pair.first)!=existingValues.end()){
-            existingValues.erase(pair.first);  
-         }
-            
+         if(repeats[pair.first]==2){
+         existingValues2[pair.first]=existingValues[pair.first];
          }
       }
-//   std::cout<<std::endl<<"Existing Values After\n";
-//   logMapofMapsV(existingValues);
   std::cout<<"Double Repetition in existingvalues successfully erased!"<<std::endl;
-
-
-      // std::cout<<std::endl<<"Revised Values\n";
-      // logMapofMapsV(existingValues);
-      // std::cout<<"some more\n";
-      figureSpecificPosition(existingValues);
-      // std::cout<<"no more\n";
-      //  std::cout<<std::endl<<"========================================================================================================\n";
+      figureSpecificPosition(existingValues2);
+      std::cout<<std::endl<<"========================================================================================================\n";
     std::cout<<std::endl<<"Successfully figured specific positions for rank: "<<scopeSpecifier<<"\n";
 
    }
@@ -452,7 +442,6 @@ for(int i=0;i<9;i++){ //loop through each block
          // std::cout<<"Found a col segment: ["<<blocks[i][firstPosition]<<", "<<blocks[i][firstPosition+9]<<", "<<blocks[i][firstPosition+18]<<"]"<<std::endl;
          pos=valuesForPatternRecognitionC(i,blocks[i].begin()->first);
          candidatesFromValues(pos,firstPosition,i);
-         // std::cout<<"shooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooot"<<std::endl;
       }
 
       if(blocks[i][firstPosition+1]!=0 &&blocks[i][firstPosition+10]!=0 && blocks[i][firstPosition+19]!=0 ){
