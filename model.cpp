@@ -45,8 +45,9 @@ void Model::setCandidateValue( int position,int value){
                 if(mCandidatePositions.count(position)){
                     std::cout<<"The size of the candidate vector is: "<<mCandidatePositions[position].size()<<std::endl;
                     for(int i=0;i<mCandidatePositions[position].size();i++){
-                        std::cout<<mCandidatePositions[position][i]<<std::endl;
+                        std::cout<<mCandidatePositions[position][i];
                     }
+                    std::cout<<std::endl;
                     if(mCandidatePositions[position].size()==8 && value==9){
                         mCandidatePositions[position].push_back(value);
                     }

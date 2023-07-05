@@ -18,6 +18,7 @@ public:
 	Controller();
 	~Controller(); 
 	bool run();
+	void newGame();
 	void handleKeyEvents(int selectedValue);
 	void handleKeyboardEvents(SDL_Event& event);
 	void pollEvents();

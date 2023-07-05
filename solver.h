@@ -7,7 +7,7 @@ class Solver{
 private:
     Model* mModel;
     static Solver* sInstance;
-    std::map<int,std::map<int,int>>mblocks;
+    std::map<int,std::map<int,int>>mblocks;//block, {pos,value}
     //std::map<int,std::vector<int>>rows;
     std::map<int,std::vector<int>>cols;
     std::map<int,std::vector<int>>ranks;
@@ -25,7 +25,8 @@ private:
 
 public:
 void generateBlocks();
-
+void clearBlocks();
+void clear();
 static Solver* getInstance();
 bool existsInMap(int value,std::map<int,int>mp);
 

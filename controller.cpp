@@ -24,18 +24,31 @@ bool Controller::run() {
         displayFixedPositions();
         displayVariablePositions();
         displayCandidates();
-        mWindow->CapFrameRate(starting_tick);
-        //mSolver->solve();
-        
+        mWindow->CapFrameRate(starting_tick);   
     }
     return true;
+}
+void Controller::newGame(){
+    //clear the board of penmarking and fixed values
+    for(int i=0;i<81;i++){
+        mModel->receiveInput( i, 0);
+    }
+
+   //clear candidate values
+  for(int i=0;i<81;i++){
+       mModel->setCandidateVector(i,{0,0,0,0,0,0,0,0});
+    }
+//board populated again
+  Model::getInstance()->init();
+
+
 }
 void Controller::handleKeyEvents(int selectedValue) {
 
 	int position = ((mWindow->getCursorPos(1) - mWindow->m_margin) / mWindow->getCellSize()) * 9 + (mWindow->getCursorPos(0) - mWindow->m_margin) / mWindow->getCellSize();
 	if(!mWindow->isCandidateMode){
         if (!mModel->checkSelectedPosition(position)) {
-             if(!mModel->repeatedValue(position,selectedValue)){
+             if(!mModel->isItRepeatedValue(position,selectedValue)){
                 mModel->setCandidateVector(position,{0,0,0,0,0,0,0,0,0});
             }
             mModel->receiveInput(position, selectedValue);
@@ -118,6 +131,11 @@ void Controller::pollEvents() {
         if(mWindow->mRun==true){
             mSolver->solve();
             mWindow->mRun=false;
+        }
+        if(mWindow->mRestart==true){
+            std::cout<<"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH"<<std::endl;
+            newGame();
+            mWindow->mRestart=false;
         }
     }
     SDL_SetRenderDrawColor(&mWindow->getRenderer(), 255, 255, 255, SDL_ALPHA_OPAQUE);
