@@ -48,13 +48,14 @@ void Solver::generateBlocks(){
 
    std::cout<<"blocks successfully generated"<<std::endl;
    //PENCIL MARKING CANDIDATES
-   //checkRepeatition(b);
-   //pencilToPenMarking();
+   checkRepeatition(b);
+   pencilToPenMarking();
     std::cout<<"Repetiton successfully checked-round one"<<std::endl;
    //PATTERN RECOGNITION USING GHOST/PHANTOM NUMBERS
    patternRecognition(b);
-   //pencilToPenMarking();
-   //checkRepeatition(b);
+   pencilToPenMarking();
+   checkRepeatition(b);
+   //fillAllPossibleCandidateValues();
 
 }
    
@@ -828,4 +829,21 @@ std::vector<int> Solver::candidatesFromBlockandCol(int block,int col,int value){
          }
       }
       return cands;
+}
+
+//fills all the possible candidate values
+void Solver:: fillAllPossibleCandidateValues(){
+std::cout<<"Filling possible candidates......"<<std::endl;
+std::map<int,std::vector<int>> mCandPositions;
+for(int pos=0;pos<81;pos++){
+   for( int value=1;value<9;value++){
+      if(!Model::getInstance()->isPositionFilled(pos)){
+        std::cout<<"Value: "<<value<<" pos: "<<pos<<std::endl;
+        Model::getInstance()->setCandidateValue(pos,value);
+      }
+     
+   }
+  
+}
+
 }

@@ -37,11 +37,12 @@ void Model::setCandidateVector(int position,std::vector<int> vec){
 
 //sets candidate value at a position
 void Model::setCandidateValue( int position,int value){
+    //check if the position is that of fixed
     if (!checkSelectedPosition(position)) { 
         //std::cout<<"the position: "<<position<<" is not fixed!"<<std::endl;
             if (!isItRepeatedValue(position,value)) {   
-                //std::cout<<"the value: "<<value<<" is not repeated"<<std::endl;
-               // std::cout<<"The candidate count of position: "<<position<<" is: "<<mCandidatePositions.count(position)<<std::endl;
+                // std::cout<<"the value: "<<value<<" is not repeated"<<std::endl;
+                // std::cout<<"The candidate count of position: "<<position<<" is: "<<mCandidatePositions.count(position)<<std::endl;
                 if(mCandidatePositions.count(position)){
                     if(mCandidatePositions[position].size()==8 && value==9){
                         mCandidatePositions[position].push_back(value);
@@ -59,7 +60,7 @@ void Model::setCandidateValue( int position,int value){
                
             }
         }else {
-            setMessages( ("Cell "+ std::to_string(position) + " not Available! ")+std::to_string(getMembers(position/9,position%9)));
+            //setMessages( ("Cell "+ std::to_string(position) + " not Available! ")+std::to_string(getMembers(position/9,position%9)));
         }
 
 }
