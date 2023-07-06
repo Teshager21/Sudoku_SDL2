@@ -22,6 +22,7 @@ public:
 	bool mRestart=false;
 	bool mpatternRecognition=false;
 	bool mpossibleCandidates=false;
+	bool mPentoPencil=false;
 public:
 	
 	bool init();

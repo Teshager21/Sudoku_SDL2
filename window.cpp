@@ -163,6 +163,12 @@ int Window:: drawGrid() {
     SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
     SDL_RenderFillRect(m_renderer, &possibleCandidates);
 
+    //populate possible Candidates
+    SDL_Rect pen2pencil{850,350,250,40};
+    SDL_RenderDrawRect(m_renderer,&pen2pencil);
+    SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_RenderFillRect(m_renderer, &pen2pencil);
+
     //Title
     Texture texture = Texture("SUDOKU", "Roboto-Bold.ttf", 20, { 255,255,255,255 });
     texture.SetSrcRect(20,5);
@@ -192,6 +198,12 @@ int Window:: drawGrid() {
     texPossibleCands.SetSrcRect(870,310);
     texPossibleCands.renderText();
     texPossibleCands.Render();
+
+    //pencil to pen marking
+    Texture pencilToPen = Texture("PENCIL TO PEN", "Roboto-Bold.ttf", 20, { 30,70,81,255 });
+    pencilToPen.SetSrcRect(870,360);
+    pencilToPen.renderText();
+    pencilToPen.Render();
 
     //new Game btn
     Texture newGamebtn = Texture("NEW GAME", "Roboto-Bold.ttf", 20, { 30,70,81,255 });
@@ -262,6 +274,10 @@ void Window::handleMouseClicks(SDL_Event& event) {
        // SDL_Rect possibleCandidates{850,300,250,40};
         if(event.button.x>850 && event.button.x<1150 &&event.button.y>300 && event.button.y<340){
             mpossibleCandidates=true;
+        } 
+     //{850,350,250,40};
+     if(event.button.x>850 && event.button.x<1300 &&event.button.y>350 && event.button.y<390){
+            mPentoPencil=true;
         } 
 
 

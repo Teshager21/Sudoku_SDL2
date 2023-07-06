@@ -836,7 +836,7 @@ void Solver:: fillAllPossibleCandidateValues(){
 std::cout<<"Filling possible candidates......"<<std::endl;
 std::map<int,std::vector<int>> mCandPositions;
 for(int pos=0;pos<81;pos++){
-   for( int value=1;value<9;value++){
+   for( int value=1;value<=9;value++){
       if(!Model::getInstance()->isPositionFilled(pos)){
         std::cout<<"Value: "<<value<<" pos: "<<pos<<std::endl;
         Model::getInstance()->setCandidateValue(pos,value);

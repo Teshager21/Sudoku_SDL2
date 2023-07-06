@@ -144,6 +144,10 @@ void Controller::pollEvents() {
             mSolver->fillAllPossibleCandidateValues();
             mWindow->mpossibleCandidates=false;
         }
+         if(mWindow->mPentoPencil==true){
+            mSolver->pencilToPenMarking();
+            mWindow->mPentoPencil=false;
+        }
     }
     SDL_SetRenderDrawColor(&mWindow->getRenderer(), 255, 255, 255, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(&mWindow->getRenderer());
