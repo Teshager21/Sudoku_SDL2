@@ -140,6 +140,10 @@ void Controller::pollEvents() {
             //mSolver->patternRecognition();
             mWindow->mpatternRecognition=false;
         }
+         if(mWindow->mpossibleCandidates==true){
+            mSolver->fillAllPossibleCandidateValues();
+            mWindow->mpossibleCandidates=false;
+        }
     }
     SDL_SetRenderDrawColor(&mWindow->getRenderer(), 255, 255, 255, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(&mWindow->getRenderer());

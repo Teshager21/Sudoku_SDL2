@@ -21,6 +21,7 @@ public:
 	bool mRun=false;
 	bool mRestart=false;
 	bool mpatternRecognition=false;
+	bool mpossibleCandidates=false;
 public:
 	
 	bool init();
