@@ -157,6 +157,12 @@ int Window:: drawGrid() {
     SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
     SDL_RenderFillRect(m_renderer, &pttrnRecognition);
 
+     //populate possible Candidates
+    SDL_Rect possibleCandidates{850,300,250,40};
+    SDL_RenderDrawRect(m_renderer,&possibleCandidates);
+    SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_RenderFillRect(m_renderer, &possibleCandidates);
+
     //Title
     Texture texture = Texture("SUDOKU", "Roboto-Bold.ttf", 20, { 255,255,255,255 });
     texture.SetSrcRect(20,5);
@@ -175,11 +181,17 @@ int Window:: drawGrid() {
     texclose.renderText();
     texclose.Render();
 
-      //pattern recognition
+    //pattern recognition
     Texture texpttrn = Texture("PATTERN RECOGNITION", "Roboto-Bold.ttf", 20, { 30,70,81,255 });
     texpttrn.SetSrcRect(870,260);
     texpttrn.renderText();
     texpttrn.Render();
+
+       //possilbe candidates
+    Texture texPossibleCands = Texture("POSSIBLE CANDS", "Roboto-Bold.ttf", 20, { 30,70,81,255 });
+    texPossibleCands.SetSrcRect(870,310);
+    texPossibleCands.renderText();
+    texPossibleCands.Render();
 
     //new Game btn
     Texture newGamebtn = Texture("NEW GAME", "Roboto-Bold.ttf", 20, { 30,70,81,255 });
@@ -238,17 +250,20 @@ void Window::handleMouseClicks(SDL_Event& event) {
             setState(false);
         }
 
-        // SDL_Rect newGame{850,200,150,40};
-        
        //click the newgame btn
         if(event.button.x>850 && event.button.x<1000 &&event.button.y>200 && event.button.y<240){
             mRestart=true;
         } 
         //pattern recogniton
-        //{850,250,250,40};
          if(event.button.x>850 && event.button.x<1100 &&event.button.y>250 && event.button.y<290){
             mpatternRecognition=true;
         } 
+        //populate all possible candidates
+       // SDL_Rect possibleCandidates{850,300,250,40};
+        if(event.button.x>850 && event.button.x<1150 &&event.button.y>300 && event.button.y<340){
+            mpossibleCandidates=true;
+        } 
+
 
     }
 
