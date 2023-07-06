@@ -7,15 +7,11 @@ class Solver{
 private:
     Model* mModel;
     static Solver* sInstance;
-    
-    //std::map<int,std::vector<int>>rows;
-    std::map<int,std::vector<int>>cols;
     std::map<int,std::vector<int>>ranks;
     std::map<int,std::vector<int>>stacks;
-
-
+    std::map<int,std::map<int,int>>mblocks; //block, {pos,value} 
 public:
-std::map<int,std::map<int,int>>mblocks; //block, {pos,value} 
+
 
 private:
  Solver();
@@ -25,11 +21,9 @@ private:
 
 public:
 void generateBlocks();
-void clearBlocks();
-void clear();
 static Solver* getInstance();
 bool existsInMap(int value,std::map<int,int>mp);
-
+void setBlocksElement(std::map<int,int>mp,int el);
 void solve(); 
 void checkRepeatitionAcrossBlocks(std::map<int,std::map<int,int>>blocks,std::string scope,int scopeSpecifier);
 int positionInMap(int value,std::map<int,int>mp);
@@ -49,4 +43,5 @@ std::vector<int> valuesForPatternRecognitionC(int blockNum,int firstPosition);
  int thirdColumnOfSegment(std::vector<int>pos, int firstPosition);
  std::vector<int>candidatesFromBlockandCol(int block,int row,int value);
  void candidatesFromValues(std::vector<int>pos, int firstPosition,int blockNum);
+ void candidatesFromValuesC(std::vector<int>pos, int firstPosition, int blockNum);
 };

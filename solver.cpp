@@ -4,8 +4,6 @@ Solver* Solver::sInstance = nullptr;
 
 Solver::Solver(){
    mModel= Model::getInstance();
-   //std::map<int,std::map<int,int>>mblocks; 
-
 }
 
 Solver::~Solver(){
@@ -20,6 +18,10 @@ Solver* Solver::getInstance(){
 
 void Solver::solve(){
   generateBlocks();
+}
+
+void Solver::setBlocksElement(std::map<int,int>mp,int el){
+ mblocks[el]=mp;
 }
 
 void Solver::generateBlocks(){
@@ -40,17 +42,19 @@ void Solver::generateBlocks(){
             }
          }
    b[m]=(block);
+ 
    }
    //assign b to mblocks
 
    std::cout<<"blocks successfully generated"<<std::endl;
    //PENCIL MARKING CANDIDATES
-   checkRepeatition(b);
-    std::cout<<"Repetiton successfully checked-round 1"<<std::endl;
+   //checkRepeatition(b);
+   //pencilToPenMarking();
+    std::cout<<"Repetiton successfully checked-round one"<<std::endl;
    //PATTERN RECOGNITION USING GHOST/PHANTOM NUMBERS
    patternRecognition(b);
-   pencilToPenMarking();
-   // checkRepeatition(b);
+   //pencilToPenMarking();
+   //checkRepeatition(b);
 
 }
    
@@ -132,10 +136,7 @@ if (scope=="Rank"){
             existingValues.erase(pair.first);  
          }
       }
-      // std::cout<<std::endl<<"Revised Values\n";
-      // logMapofMapsV(existingValues);
       figureSpecificPositionS(existingValues);
-      // std::cout<<"no more\n";
 
    }
 }
@@ -416,43 +417,61 @@ for(int i=0;i<9;i++){ //loop through each block
       std::vector<int>pos;
       auto firstPosition =blocks[i].begin()->first; 
       if(blocks[i][firstPosition]!=0 &&blocks[i][firstPosition+1]!=0 && blocks[i][firstPosition+2]!=0 ){
-         // std::cout<<"Found a segment: ["<<blocks[i][firstPosition]<<", "<<blocks[i][firstPosition+1]<<", "<<blocks[i][firstPosition+2]<<"]"<<std::endl;
+         std::cout<<"Found a segment: ["<<blocks[i][firstPosition]<<", "<<blocks[i][firstPosition+1]<<", "<<blocks[i][firstPosition+2]<<"]"<<std::endl;
          pos=valuesForPatternRecognition(i,blocks[i].begin()->first);
          candidatesFromValues(pos,firstPosition,i);
+
+         std::cout<<"List of positions identified for first row of block-"<<i<<" are: ";
+         for(int i=0;i<pos.size();i++){
+            std::cout<<pos[i]<<", ";
+         }
+         std::cout<<std::endl;
+
          //figure out the row for the candidates for each pos above
          //fill in if position is empty
-
       }
 
       if(blocks[i][firstPosition+9]!=0 &&blocks[i][firstPosition+10]!=0 && blocks[i][firstPosition+11]!=0 ){
-         // std::cout<<"Found a segment: ["<<blocks[i][firstPosition+9]<<", "<<blocks[i][firstPosition+10]<<", "<<blocks[i][firstPosition+11]<<"]"<<std::endl;
+         std::cout<<"Found a segment: ["<<blocks[i][firstPosition+9]<<", "<<blocks[i][firstPosition+10]<<", "<<blocks[i][firstPosition+11]<<"]"<<std::endl;
          pos = valuesForPatternRecognition(i,blocks[i].begin()->first+9);
          candidatesFromValues(pos,firstPosition,i);
+
+         std::cout<<"List of positions identified for second row of block-"<<i<<" are: ";
+         for(int i=0;i<pos.size();i++){
+            std::cout<<pos[i]<<", ";
+         }
+         std::cout<<std::endl;
          
       }
        if(blocks[i][firstPosition+18]!=0 &&blocks[i][firstPosition+19]!=0 && blocks[i][firstPosition+20]!=0 ){
-         // std::cout<<"Found a segment: ["<<blocks[i][firstPosition+18]<<", "<<blocks[i][firstPosition+19]<<", "<<blocks[i][firstPosition+20]<<"]"<<std::endl;
+         std::cout<<"Found a segment: ["<<blocks[i][firstPosition+18]<<", "<<blocks[i][firstPosition+19]<<", "<<blocks[i][firstPosition+20]<<"]"<<std::endl;
          pos=valuesForPatternRecognition(i,blocks[i].begin()->first+18);
          candidatesFromValues(pos,firstPosition,i);
+
+          std::cout<<"List of positions identified for third row of block-"<<i<<" are: ";
+         for(int i=0;i<pos.size();i++){
+            std::cout<<pos[i]<<", ";
+         }
+         std::cout<<std::endl;
       }
 
       //column completed segment
 
       if(blocks[i][firstPosition]!=0 &&blocks[i+9][firstPosition+9]!=0 && blocks[i+18][firstPosition+18]!=0 ){
-         // std::cout<<"Found a col segment: ["<<blocks[i][firstPosition]<<", "<<blocks[i][firstPosition+9]<<", "<<blocks[i][firstPosition+18]<<"]"<<std::endl;
+         std::cout<<"Found a col segment: ["<<blocks[i][firstPosition]<<", "<<blocks[i][firstPosition+9]<<", "<<blocks[i][firstPosition+18]<<"]"<<std::endl;
          pos=valuesForPatternRecognitionC(i,blocks[i].begin()->first);
-         candidatesFromValues(pos,firstPosition,i);
+         candidatesFromValuesC(pos,firstPosition,i);
       }
 
       if(blocks[i][firstPosition+1]!=0 &&blocks[i][firstPosition+10]!=0 && blocks[i][firstPosition+19]!=0 ){
-         // std::cout<<"Found a col segment: ["<<blocks[i][firstPosition+1]<<", "<<blocks[i][firstPosition+10]<<", "<<blocks[i][firstPosition+19]<<"]"<<std::endl;
+         std::cout<<"Found a col segment: ["<<blocks[i][firstPosition+1]<<", "<<blocks[i][firstPosition+10]<<", "<<blocks[i][firstPosition+19]<<"]"<<std::endl;
          pos=valuesForPatternRecognitionC(i,blocks[i].begin()->first+1);
-         candidatesFromValues(pos,firstPosition,i);
+         candidatesFromValuesC(pos,firstPosition,i);
       }
        if(blocks[i][firstPosition+2]!=0 &&blocks[i][firstPosition+11]!=0 && blocks[i][firstPosition+20]!=0 ){
-         // std::cout<<"Found a  col segment: ["<<blocks[i][firstPosition+2]<<", "<<blocks[i][firstPosition+11]<<", "<<blocks[i][firstPosition+20]<<"]"<<std::endl;
+          std::cout<<"Found a  col segment: ["<<blocks[i][firstPosition+2]<<", "<<blocks[i][firstPosition+11]<<", "<<blocks[i][firstPosition+20]<<"]"<<std::endl;
           pos=valuesForPatternRecognitionC(i,blocks[i].begin()->first+2);
-          candidatesFromValues(pos,firstPosition,i);
+          candidatesFromValuesC(pos,firstPosition,i);
       } 
   }
   std::cout<<"Pattern recognition successfully run!"<<std::endl;
@@ -549,11 +568,47 @@ void Solver::candidatesFromValues(std::vector<int>pos, int firstPosition, int bl
          }
          //block of the candidates
          int block= thirdBlockOfRank(Block(pos[i]),blockNum);
-         // std::cout<<"The candidate row for "<<pos[i]<<" is: "<<rowCandidates<<" @block"<<block<<std::endl;
+          std::cout<<"The candidate row for "<<pos[i]<<" is: "<<rowCandidates<<" @block"<<block<<" for a value position of: "<<firstPosition<<std::endl;
          //The three potential candidate positons
          int value=Model::getInstance()->getValueAtPosition(pos[i]);
          // std::cout<<"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<std::endl;
          std::vector<int>cands=candidatesFromBlockandRow(block,rowCandidates,value);
+         // std::cout<<"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<std::endl;
+      }  
+}
+
+void Solver::candidatesFromValuesC(std::vector<int>pos, int firstPosition, int blockNum){
+      //figure out the col for candidates
+      for(int i=0;i<pos.size();i++){
+         int colSegment= firstPosition%9;
+         int colValue= pos[i]%9;
+         int colCandidates;
+         if(abs(colSegment-colValue)==2){
+               colCandidates=(colSegment+colValue)/2;
+         }else{
+            if(colSegment>colValue){
+               if(colValue%3==0){
+                  colCandidates=colSegment+1;
+               }else{
+                  colCandidates=colValue-1;
+               }
+            }else{
+               if(colSegment%3==0){
+                  colCandidates=colValue+1;
+               }else{
+                  colCandidates=colSegment-1;
+               }
+
+            }
+
+         }
+         //block of the candidates
+         int block= thirdBlockOfRank(Block(pos[i]),blockNum);
+          std::cout<<"The candidate col for "<<pos[i]<<" is: "<<colCandidates<<" @block"<<block<<" for a value position of: "<<firstPosition<<std::endl;
+         //The three potential candidate positons
+         int value=Model::getInstance()->getValueAtPosition(pos[i]);
+         // std::cout<<"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<std::endl;
+         std::vector<int>cands=candidatesFromBlockandCol(block,colCandidates,value);
          // std::cout<<"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<std::endl;
       }  
 }
@@ -646,7 +701,7 @@ std::vector<int> Solver::valuesForPatternRecognitionC(int blockNum,int firstPosi
          }
          //block of the candidates
          int block= thirdBlockOfRank(Block(pos[i]),blockNum);
-         // std::cout<<"The candidate col for "<<pos[i]<<" is: "<<colCandidates<<" @block"<<block<<std::endl;
+         std::cout<<"The candidate col for "<<pos[i]<<" is: "<<colCandidates<<" @block"<<block<<std::endl;
          //The three potential candidate positons
          int value=Model::getInstance()->getValueAtPosition(pos[i]);
          // std::cout<<"********************************************************************"<<std::endl;

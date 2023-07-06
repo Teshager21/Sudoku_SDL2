@@ -38,16 +38,11 @@ void Model::setCandidateVector(int position,std::vector<int> vec){
 //sets candidate value at a position
 void Model::setCandidateValue( int position,int value){
     if (!checkSelectedPosition(position)) { 
-        std::cout<<"the position: "<<position<<" is not fixed!"<<std::endl;
+        //std::cout<<"the position: "<<position<<" is not fixed!"<<std::endl;
             if (!isItRepeatedValue(position,value)) {   
-                std::cout<<"the value: "<<value<<" is not repeated"<<std::endl;
-                std::cout<<"The candidate count of position: "<<position<<" is: "<<mCandidatePositions.count(position)<<std::endl;
+                //std::cout<<"the value: "<<value<<" is not repeated"<<std::endl;
+               // std::cout<<"The candidate count of position: "<<position<<" is: "<<mCandidatePositions.count(position)<<std::endl;
                 if(mCandidatePositions.count(position)){
-                    std::cout<<"The size of the candidate vector is: "<<mCandidatePositions[position].size()<<std::endl;
-                    for(int i=0;i<mCandidatePositions[position].size();i++){
-                        std::cout<<mCandidatePositions[position][i];
-                    }
-                    std::cout<<std::endl;
                     if(mCandidatePositions[position].size()==8 && value==9){
                         mCandidatePositions[position].push_back(value);
                     }
@@ -56,7 +51,6 @@ void Model::setCandidateValue( int position,int value){
                     
 
                     (mCandidatePositions)[position]={0,0,0,0,0,0,0,0,0};
-                    std::cout<<"All candiddate positions set to zero"<<std::endl;
                     (mCandidatePositions)[position].at(value-1)=value;
                 }
                  if(isPositionFilled(position)){
