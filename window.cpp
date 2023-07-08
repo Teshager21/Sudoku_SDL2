@@ -174,6 +174,13 @@ int Window:: drawGrid() {
     SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
     SDL_RenderFillRect(m_renderer, &nakedSingleRect);
 
+    //Matching Pair
+    SDL_Rect matchingPairRect{850,450,250,40};
+    SDL_RenderDrawRect(m_renderer,&matchingPairRect);
+    SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_RenderFillRect(m_renderer, &matchingPairRect);
+
+
     //Title
     Texture texture = Texture("SUDOKU", "Roboto-Bold.ttf", 20, { 255,255,255,255 });
     texture.SetSrcRect(20,5);
@@ -215,6 +222,13 @@ int Window:: drawGrid() {
     nakedSingle .SetSrcRect(870,410);
     nakedSingle .renderText();
     nakedSingle .Render();
+
+
+    //matching pair
+    Texture matchingPair = Texture("MATCHING PAIR", "Roboto-Bold.ttf", 20, { 30,70,81,255 });
+    matchingPair .SetSrcRect(870,460);
+    matchingPair .renderText();
+    matchingPair .Render();
 
     //new Game btn
     Texture newGamebtn = Texture("NEW GAME", "Roboto-Bold.ttf", 20, { 30,70,81,255 });
@@ -291,6 +305,10 @@ void Window::handleMouseClicks(SDL_Event& event) {
         } 
          if(event.button.x>850 && event.button.x<1450 &&event.button.y>400 && event.button.y<440){
             mNakedSingle=true;
+        } 
+
+        if(event.button.x>850 && event.button.x<1600 &&event.button.y>450 && event.button.y<490){
+            mMatchingPair=true;
         } 
 
 
