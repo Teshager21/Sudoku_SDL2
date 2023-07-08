@@ -153,6 +153,11 @@ void Controller::pollEvents() {
             mSolver->NakedSingles();
             mWindow->mNakedSingle=false;
         }
+
+        if(mWindow->mMatchingPair==true){
+            mSolver->MatchingPairs();
+            mWindow->mMatchingPair=false;
+        }
     }
     SDL_SetRenderDrawColor(&mWindow->getRenderer(), 255, 255, 255, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(&mWindow->getRenderer());
