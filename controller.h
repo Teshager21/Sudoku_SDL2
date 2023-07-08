@@ -31,6 +31,6 @@ public:
 	void displayVariablePositions();
 	void displayCandidates();
 	void displayAcandidate(int position,int candidateValue);
-
+	void displayCellCandidates(int position,std::vector<int>cands);
 
 }; 

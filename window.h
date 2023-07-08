@@ -23,6 +23,7 @@ public:
 	bool mpatternRecognition=false;
 	bool mpossibleCandidates=false;
 	bool mPentoPencil=false;
+	bool mNakedSingle=false;
 public:
 	
 	bool init();

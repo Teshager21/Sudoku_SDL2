@@ -148,6 +148,11 @@ void Controller::pollEvents() {
             mSolver->pencilToPenMarking();
             mWindow->mPentoPencil=false;
         }
+
+        if(mWindow->mNakedSingle==true){
+            mSolver->NakedSingles();
+            mWindow->mNakedSingle=false;
+        }
     }
     SDL_SetRenderDrawColor(&mWindow->getRenderer(), 255, 255, 255, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(&mWindow->getRenderer());
@@ -236,17 +241,13 @@ void Controller::displayVariablePositions() {
 void Controller::displayCandidates(){
 
 std::map<int,std::vector<int>> mapOfCandidates = *(mModel->getCandidates());
-
 int position;
-
 for( const auto cand : mapOfCandidates){
-    
+    //displayCellCandidates(cand.first,cand.second);  
     position=cand.first;
-
     for(const auto candidateValue :cand.second){
       displayAcandidate(position,candidateValue) ;
     }
-
 }
 
 }
@@ -265,6 +266,47 @@ void Controller::displayAcandidate(int position,int candidateValue){
         texture.renderText();
         SDL_RenderPresent(&mWindow->getRenderer());
     }
+
+
+}
+
+void Controller::displayCellCandidates(int position,std::vector<int>cands){
+
+    if(!cands.size()==0){
+
+        int col= position%9;
+        int row= position/9;
+
+        int x=mWindow->m_margin + col*mWindow->getCellSize() ;
+        int y=mWindow->m_margin+ row*mWindow->getCellSize();
+        std::string candStr=" ";
+
+        for(int i=0;i<9;i++){
+            if(cands[i]==0){
+            candStr.append("   ");    
+            }else
+                candStr.append(std::to_string(cands[i]));
+                candStr.append(" "); 
+
+        }
+        TTF_Font* font = AssetManager::GetInstance()->GetFont("Roboto-Regular.ttf", 20);
+        SDL_Surface* surfaceCellCands =TTF_RenderText_Blended_Wrapped(font,candStr.c_str(),{ 111,156,193,SDL_ALPHA_OPAQUE},65);
+        SDL_Texture* cellCands= SDL_CreateTextureFromSurface(&mWindow->getRenderer(),surfaceCellCands);
+        SDL_Rect candRect;
+        candRect.x=x;
+        candRect.y=y;
+        candRect.w=surfaceCellCands->w;
+        candRect.h=surfaceCellCands->h;
+
+        SDL_RenderCopy(&mWindow->getRenderer(),cellCands,NULL,&candRect);
+
+        //std::cout<<"----------------------------"<<candStr<<std::endl;
+        SDL_RenderPresent(&mWindow->getRenderer());
+
+    }
+  
+        
+    
 
 
 }
