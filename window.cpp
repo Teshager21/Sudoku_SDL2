@@ -133,7 +133,6 @@ int Window:: drawGrid() {
 
     //Title Background
     SDL_Rect backgroundTitle{ 0,0,SCREEN_WIDTH,50 };
-    //SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
     SDL_RenderDrawRect(m_renderer, &backgroundTitle);
     SDL_SetRenderDrawColor(m_renderer, 30, 70, 81, SDL_ALPHA_OPAQUE);
     SDL_RenderFillRect(m_renderer, &backgroundTitle);
@@ -168,6 +167,12 @@ int Window:: drawGrid() {
     SDL_RenderDrawRect(m_renderer,&pen2pencil);
     SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
     SDL_RenderFillRect(m_renderer, &pen2pencil);
+
+    //Naked Single
+    SDL_Rect nakedSingleRect{850,400,250,40};
+    SDL_RenderDrawRect(m_renderer,&nakedSingleRect);
+    SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_RenderFillRect(m_renderer, &nakedSingleRect);
 
     //Title
     Texture texture = Texture("SUDOKU", "Roboto-Bold.ttf", 20, { 255,255,255,255 });
@@ -204,6 +209,12 @@ int Window:: drawGrid() {
     pencilToPen.SetSrcRect(870,360);
     pencilToPen.renderText();
     pencilToPen.Render();
+
+    //naked single
+    Texture nakedSingle = Texture("NAKED SINGLE", "Roboto-Bold.ttf", 20, { 30,70,81,255 });
+    nakedSingle .SetSrcRect(870,410);
+    nakedSingle .renderText();
+    nakedSingle .Render();
 
     //new Game btn
     Texture newGamebtn = Texture("NEW GAME", "Roboto-Bold.ttf", 20, { 30,70,81,255 });
@@ -271,13 +282,15 @@ void Window::handleMouseClicks(SDL_Event& event) {
             mpatternRecognition=true;
         } 
         //populate all possible candidates
-       // SDL_Rect possibleCandidates{850,300,250,40};
         if(event.button.x>850 && event.button.x<1150 &&event.button.y>300 && event.button.y<340){
             mpossibleCandidates=true;
         } 
-     //{850,350,250,40};
-     if(event.button.x>850 && event.button.x<1300 &&event.button.y>350 && event.button.y<390){
+
+         if(event.button.x>850 && event.button.x<1300 &&event.button.y>350 && event.button.y<390){
             mPentoPencil=true;
+        } 
+         if(event.button.x>850 && event.button.x<1450 &&event.button.y>400 && event.button.y<440){
+            mNakedSingle=true;
         } 
 
 
