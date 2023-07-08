@@ -49,11 +49,11 @@ void Solver::generateBlocks(){
    std::cout<<"blocks successfully generated"<<std::endl;
    //PENCIL MARKING CANDIDATES
    checkRepeatition(b);
-   pencilToPenMarking();
+   //pencilToPenMarking();
     std::cout<<"Repetiton successfully checked-round one"<<std::endl;
    //PATTERN RECOGNITION USING GHOST/PHANTOM NUMBERS
    patternRecognition(b);
-   pencilToPenMarking();
+   //pencilToPenMarking();
    checkRepeatition(b);
    //fillAllPossibleCandidateValues();
 
@@ -833,17 +833,92 @@ std::vector<int> Solver::candidatesFromBlockandCol(int block,int col,int value){
 
 //fills all the possible candidate values
 void Solver:: fillAllPossibleCandidateValues(){
-std::cout<<"Filling possible candidates......"<<std::endl;
-std::map<int,std::vector<int>> mCandPositions;
+// std::cout<<"Filling possible candidates......"<<std::endl;
 for(int pos=0;pos<81;pos++){
    for( int value=1;value<=9;value++){
-      if(!Model::getInstance()->isPositionFilled(pos)){
-        std::cout<<"Value: "<<value<<" pos: "<<pos<<std::endl;
-        Model::getInstance()->setCandidateValue(pos,value);
-      }
-     
+        Model::getInstance()->setCandidateValue(pos,value);    
    }
   
 }
 
+}
+//capitalize on mathcing pairs
+void Solver::MatchingPairs(){
+//identify matching pair
+//loop through cands of all positions
+//check if the count of candidates at a position are 2
+//store them in another map
+//loop through the map and check if there are matching pairs
+//store the matching pairs in a new map
+//log them
+
+}
+//capitalize on naked singles
+void Solver::NakedSingles(){
+//loop through cand values and count the values
+   for(int pos=0;pos<81;pos++){
+      for( int value=1;value<=9;value++){
+         std::vector<int> values=Model::getInstance()->getCandidatesAtPosition(pos);
+         if(values.size()==9){
+            int counter=0;
+            int v;
+            for(int i=0;i<9;i++){
+               
+               if(values[i]>0){
+                  counter=counter+1;
+                  v=values[i];
+               }
+            }
+            if(counter==1){
+               std::cout<<"Found a naked single "<<v<<" @ "<<pos<<std::endl;
+               Model::getInstance()->setCandidateVector(pos,{0,0,0,0,0,0,0,0,0});
+               Model::getInstance()->receiveInput(pos,v);
+               //remove the value from other candidates of the unit(block,row/col)
+               //remove the value from the candidates of the row
+               int nakedRow= pos/9;
+               singleOutCandidateValue("row",nakedRow,pos,v);
+               //remove the value from the candidates of the row
+               int nakedCol= pos%9;
+               singleOutCandidateValue("col",nakedCol,pos,v);
+               //remove the value from the candidates of the block
+               int nakedBlock = (pos /9)+ (pos % 9)/3;
+               singleOutCandidateValue("block",nakedBlock,pos,v);
+            }  
+         }
+            
+      }
+   
+   }
+
+}
+//deletes all similar candidate values in a unit
+void Solver::singleOutCandidateValue(std::string scope,int scopeSpecifier,int position,int value){
+//loop through all candidate values
+for(int pos=0;pos<81;pos++){
+   for( int val=1;val<=9;val++){
+//check if its in the same unit
+std::vector<int> cVec;
+   cVec=Model::getInstance()->getCandidatesAtPosition(pos);
+//row  
+   if(scope=="row" &&!Model::getInstance()->isPositionFilled(pos) && pos/9==scopeSpecifier && pos!=position && val==value && cVec[val-1]!=0){
+      std::cout<<"Found a pair to naked value: "<<val<<" in the row:"<<scopeSpecifier<<" postion: "<<pos<<std::endl;
+      cVec[val-1]=0;
+      Model::getInstance()->setCandidateVector(pos,cVec);
+   }
+//col
+if(scope=="col" &&!Model::getInstance()->isPositionFilled(pos) && pos%9==scopeSpecifier && pos!=position && val==value && cVec[val-1]!=0){
+      std::cout<<"Found a pair to naked value: "<<val<<" in the col:"<<scopeSpecifier<<" postion: "<<pos<<std::endl;
+      cVec[val-1]=0;
+      Model::getInstance()->setCandidateVector(pos,cVec);
+
+   }
+//block
+if(scope=="block" &&!Model::getInstance()->isPositionFilled(pos) && (pos /9)+ (pos % 9)/3==scopeSpecifier && pos!=position && val==value && cVec[val-1]!=0){
+      std::cout<<"Found a pair to naked value: "<<val<<" in block:"<<scopeSpecifier<<" postion: "<<pos<<std::endl;
+      cVec[val-1]=0;
+      Model::getInstance()->setCandidateVector(pos,cVec);
+
+   }
+}
+}
 }

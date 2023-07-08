@@ -24,6 +24,7 @@ public:
 	std::map<int,std::vector<int>>* getCandidates();
 	void setCandidateVector(int position,std::vector<int> vec);
 	void setCandidateValue( int position,int value);
+	std::vector<int> getCandidatesAtPosition(int pos);
 	bool isItRepeatedValue(int position,int value);
 	bool isPositionFilled(int position);
 
