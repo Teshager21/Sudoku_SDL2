@@ -844,13 +844,49 @@ for(int pos=0;pos<81;pos++){
 }
 //capitalize on mathcing pairs
 void Solver::MatchingPairs(){
-//identify matching pair
-//loop through cands of all positions
-//check if the count of candidates at a position are 2
-//store them in another map
-//loop through the map and check if there are matching pairs
-//store the matching pairs in a new map
+//identify matching pair,loop through cands of all positions,check if the count of candidates at a position are 2,store them in another map
+ std::vector<int>twoElCells;
+for(int pos=0;pos<81;pos++){
+      for( int value=1;value<=9;value++){
+         std::vector<int> values=Model::getInstance()->getCandidatesAtPosition(pos);
+         //std::map<int,std::vector<int>> twoElCells;
+         if(values.size()==9){
+            int counter=0;
+            int v;
+            for(int i=0;i<9;i++){
+               
+               if(values[i]>0){
+                  counter=counter+1;
+                  v=values[i];
+               }
+            }
+            if(counter==2){
+            //   std::cout<<"Found a two element cell "<<v<<" @ "<<pos<<std::endl;
+               twoElCells.push_back(pos);
+            }
+         }
+      }
+}
+std::vector<std::vector<int>>matchingPositions;
+//loop through the map and check if there are matching pairs,store the matching pairs in a new map
+for( int i=0;i<twoElCells.size();i++){
+
+   for(int j=i+1;j<twoElCells.size();j++){
+      int pos1=twoElCells[i];
+      if(Model::getInstance()->getCandidatesAtPosition(twoElCells[i])==Model::getInstance()->getCandidatesAtPosition(twoElCells[j])&&twoElCells[i]!=twoElCells[j]){
+         std::vector<int>vec={twoElCells[i],twoElCells[j]};
+         matchingPositions.push_back(vec);
+      }   
+   }
+}
+//remove duplicates
+std::sort(matchingPositions.begin(),matchingPositions.end());
+matchingPositions.erase(std::unique(matchingPositions.begin(),matchingPositions.end()),matchingPositions.end());
 //log them
+std::cout<<"size of matching positions: "<<matchingPositions.size()<<std::endl;
+for(int i=0;i<matchingPositions.size();i++){
+     std::cout<<"Matching positions: "<<matchingPositions[i][0]<<" , "<<matchingPositions[i][1]<<std::endl;
+}
 
 }
 //capitalize on naked singles
@@ -910,14 +946,12 @@ if(scope=="col" &&!Model::getInstance()->isPositionFilled(pos) && pos%9==scopeSp
       std::cout<<"Found a pair to naked value: "<<val<<" in the col:"<<scopeSpecifier<<" postion: "<<pos<<std::endl;
       cVec[val-1]=0;
       Model::getInstance()->setCandidateVector(pos,cVec);
-
    }
 //block
 if(scope=="block" &&!Model::getInstance()->isPositionFilled(pos) && (pos /9)+ (pos % 9)/3==scopeSpecifier && pos!=position && val==value && cVec[val-1]!=0){
       std::cout<<"Found a pair to naked value: "<<val<<" in block:"<<scopeSpecifier<<" postion: "<<pos<<std::endl;
       cVec[val-1]=0;
       Model::getInstance()->setCandidateVector(pos,cVec);
-
    }
 }
 }

@@ -24,6 +24,7 @@ public:
 	bool mpossibleCandidates=false;
 	bool mPentoPencil=false;
 	bool mNakedSingle=false;
+	bool mMatchingPair=false;
 public:
 	
 	bool init();
