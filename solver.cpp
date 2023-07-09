@@ -275,7 +275,7 @@ void Solver::figureSpecificPosition(std::map<int, std::map<int,std::vector<int>>
          } 
       }
       //CHANGE PENCIL MARKINGS INTO PEN-MARKINGS
-      pencilToPenMarking();
+      //pencilToPenMarking();
 
 }
  //CHANGE PENCIL MARKINGS INTO PEN-MARKINGS
@@ -292,7 +292,7 @@ void Solver::pencilToPenMarking(){
             for(int i=1;i<=9;i++){
                //loop through the candidate values at the position and count them
                   for(int j=0;j<9;j++){
-                     if (pair.second[j]==i){
+                     if (pair.second[j]==i){ 
                         candpos[i]=candpos[i]+1;
                      }
                   }
@@ -406,7 +406,7 @@ void Solver::figureSpecificPositionS(std::map<int, std::map<int,std::vector<int>
          } 
       }
       //CHANGE PENCIL MARKINGS INTO PEN-MARKINGS
-      pencilToPenMarking();
+      //pencilToPenMarking();
     
 }
 
@@ -833,7 +833,6 @@ std::vector<int> Solver::candidatesFromBlockandCol(int block,int col,int value){
 
 //fills all the possible candidate values
 void Solver:: fillAllPossibleCandidateValues(){
-// std::cout<<"Filling possible candidates......"<<std::endl;
 for(int pos=0;pos<81;pos++){
    for( int value=1;value<=9;value++){
         Model::getInstance()->setCandidateValue(pos,value);    
@@ -849,7 +848,6 @@ void Solver::MatchingPairs(){
 for(int pos=0;pos<81;pos++){
       for( int value=1;value<=9;value++){
          std::vector<int> values=Model::getInstance()->getCandidatesAtPosition(pos);
-         //std::map<int,std::vector<int>> twoElCells;
          if(values.size()==9){
             int counter=0;
             int v;
@@ -861,7 +859,6 @@ for(int pos=0;pos<81;pos++){
                }
             }
             if(counter==2){
-            //   std::cout<<"Found a two element cell "<<v<<" @ "<<pos<<std::endl;
                twoElCells.push_back(pos);
             }
          }
@@ -888,8 +885,33 @@ for(int i=0;i<matchingPositions.size();i++){
      std::cout<<"Matching positions: "<<matchingPositions[i][0]<<" , "<<matchingPositions[i][1]<<std::endl;
 }
 
-}
+
 //capitalize on naked singles
+for(int i=0;i<matchingPositions.size();i++){
+   std::vector<int> cVec=Model::getInstance()->getCandidatesAtPosition(matchingPositions[i][0]);
+   for(int j=0;j<9;j++){
+      if(cVec[j]!=0){
+         std::cout<<"single out at : "<<matchingPositions[i][0]<<" and "<<matchingPositions[i][1]<<std::endl;
+   //pairs in the same row
+   if(matchingPositions[i][0]/9==matchingPositions[i][1]/9){
+        singleOutCandidateValues("row",matchingPositions[i][0]/9,matchingPositions[i],cVec[j]) ;
+   }
+   //pairs in the same col
+   if(matchingPositions[i][0]%9==matchingPositions[i][1]%9){
+      std::cout<<"matching pair in col "<<matchingPositions[i][0]%9<<std::endl;
+        singleOutCandidateValues("col",matchingPositions[i][0]%9,matchingPositions[i],cVec[j]) ;
+   }
+   //pairs in the same block
+   if(matchingPositions[i][0]/9 +(matchingPositions[i][0]%9)/3 ==matchingPositions[i][1]/9 +(matchingPositions[i][1]%9)/3){
+      std::cout<<"matching pair in block: "<<matchingPositions[i][0]/9 +(matchingPositions[i][0]%9)/3<<std::endl;
+        singleOutCandidateValues("block",matchingPositions[i][0]%9,matchingPositions[i],cVec[j]) ;
+   }
+      }
+   }
+   matchingPositions[i];
+}
+}
+
 void Solver::NakedSingles(){
 //loop through cand values and count the values
    for(int pos=0;pos<81;pos++){
@@ -927,13 +949,15 @@ void Solver::NakedSingles(){
    }
 
 }
+
+
 //deletes all similar candidate values in a unit
 void Solver::singleOutCandidateValue(std::string scope,int scopeSpecifier,int position,int value){
 //loop through all candidate values
 for(int pos=0;pos<81;pos++){
    for( int val=1;val<=9;val++){
 //check if its in the same unit
-std::vector<int> cVec;
+   std::vector<int> cVec;
    cVec=Model::getInstance()->getCandidatesAtPosition(pos);
 //row  
    if(scope=="row" &&!Model::getInstance()->isPositionFilled(pos) && pos/9==scopeSpecifier && pos!=position && val==value && cVec[val-1]!=0){
@@ -951,6 +975,36 @@ if(scope=="col" &&!Model::getInstance()->isPositionFilled(pos) && pos%9==scopeSp
 if(scope=="block" &&!Model::getInstance()->isPositionFilled(pos) && (pos /9)+ (pos % 9)/3==scopeSpecifier && pos!=position && val==value && cVec[val-1]!=0){
       std::cout<<"Found a pair to naked value: "<<val<<" in block:"<<scopeSpecifier<<" postion: "<<pos<<std::endl;
       cVec[val-1]=0;
+      Model::getInstance()->setCandidateVector(pos,cVec);
+   }
+}
+}
+}
+
+//deletes all similar candidate values in a unit
+void Solver::singleOutCandidateValues(std::string scope,int scopeSpecifier,std::vector<int> positions,int value){
+//loop through all candidate values
+for(int pos=0;pos<81;pos++){
+   for( int val=1;val<=9;val++){
+//check if its in the same unit
+   std::vector<int> cVec;
+   cVec=Model::getInstance()->getCandidatesAtPosition(pos);
+//row 
+   if(scope=="row" &&!Model::getInstance()->isPositionFilled(pos) && pos/9==scopeSpecifier && (std::find(positions.begin(),positions.end(),pos) ==positions.end())&& val==value&& cVec[val-1]!=0){
+      cVec[val-1]=0;
+      std::cout<<val<<" @ "<<pos<<" deleted "<<std::endl;
+      Model::getInstance()->setCandidateVector(pos,cVec);
+   }
+//col
+if(scope=="col" &&!Model::getInstance()->isPositionFilled(pos) && pos%9==scopeSpecifier && (find(positions.begin(),positions.end(),pos) ==positions.end())&& val==value && cVec[val-1]!=0){
+      cVec[val-1]=0;
+       std::cout<<val<<" @ "<<pos<<" deleted "<<std::endl;
+      Model::getInstance()->setCandidateVector(pos,cVec);
+   }
+//block
+if(scope=="block" &&!Model::getInstance()->isPositionFilled(pos) && (pos /9)+ (pos % 9)/3==scopeSpecifier && (find(positions.begin(),positions.end(),pos) ==positions.end()) && val==value && cVec[val-1]!=0){
+      cVec[val-1]=0;
+       std::cout<<val<<" @ "<<pos<<" deleted "<<std::endl;
       Model::getInstance()->setCandidateVector(pos,cVec);
    }
 }

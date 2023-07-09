@@ -48,4 +48,5 @@ std::vector<int> valuesForPatternRecognitionC(int blockNum,int firstPosition);
  void MatchingPairs();
  void NakedSingles();
  void singleOutCandidateValue(std::string scope,int scopeSpecifier,int position,int value);
+ void singleOutCandidateValues(std::string scope,int scopeSpecifier,std::vector<int> positions,int value);
 };
