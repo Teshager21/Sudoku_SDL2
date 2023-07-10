@@ -82,6 +82,7 @@ void Model::setMessages(std::string message) { messages = message; }
 int Model::GetFilledCells(){ return filledCells; }
 
 void Model:: generateFilledPositions() {
+if(mCachedGame==false){
     srand(time(NULL));
     for (int i = 0; i < filledCells; i++) {
 
@@ -92,6 +93,13 @@ void Model:: generateFilledPositions() {
         }
         filledPositions[i] = randPos;
     }
+
+}else{
+    for (int i = 0; i < filledCells; i++) {
+    filledPositions[i]=cachedFilledPositions[i];
+    }
+}
+    
 }
 
 bool Model::isElementofArray(int(&arr)[30], int value) {
@@ -103,7 +111,9 @@ bool Model::isElementofArray(int(&arr)[30], int value) {
     return false;
 }
 
+//generates random values for fixed positions based on filledPositions array
 void Model::populateInitialCells( ) {
+    if(mCachedGame==false){
     srand(time(NULL));
    
     int col = 0, row = 0,block=0,fill=0;
@@ -117,8 +127,18 @@ void Model::populateInitialCells( ) {
         while(isItRepeated("row", row, fill) || isItRepeated("col", col, fill) || isItRepeated("block", block, fill));
                 mBoard[row][col] = fill; 
     }
+    }else{
+        for(int i=0;i<9;i++){
+            for(int j=0;j<9;j++){
+                mBoard[i][j]=mCachedBoard[i][j];
+            }
+        }
+       
+    }
+    
 }
 
+//return true if the value already exists in the unit
 bool Model::isItRepeated(std::string scope, int scopeSpecifier, double value) {
     std::string rowElem;
     if (scope == "row") {
